@@ -1,0 +1,209 @@
+<!--
+ *                        _oo0oo_
+ *                       o8888888o
+ *                       88" . "88
+ *                       (| -_- |)
+ *                       0\  =  /0
+ *                     ___/`---'\___
+ *                   .' \\|     |// '.
+ *                  / \\|||  :  |||// \
+ *                 / _||||| -:- |||||- \
+ *                |   | \\\  - /// |   |
+ *                | \_|  ''\---/''  |_/ |
+ *                \  .-\__  '-'  ___/-. /
+ *              ___'. .'  /--.--\  `. .'___
+ *           ."" '<  `.___\_<|>_/___.' >' "".
+ *          | | :  `- \`.;`\ _ /`;.`/ - ` : | |
+ *          \  \ `_.   \_ __\ /__ _/   .-` /  /
+ *      =====`-.____`.___ \_____/___.-`___.-'=====
+ *                        `=---='
+ * 
+ * 
+ *      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * 
+ *            佛祖保佑     永不宕机     永无BUG
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://d3js.org/d3-queue.v3.min.js"></script>
+    <title>Document</title>
+    <style lang="css">
+        body {
+            margin: 0px;
+        }
+
+        #container {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .alternative_div {
+            width: calc(100%);
+            height: 40%;
+            margin: 20px;
+            padding: 30px;
+            border: 1px solid #999;
+            border-radius: 10px;
+            /* background-color: aliceblue; */
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <div class="alternative_div" id="aaa">
+            <svg id="alter_0" width="100%" height="100%"></svg>
+        </div>
+        <div class="alternative_div">
+            <svg id="alter_1" width="100%" height="100%"></svg>
+
+        </div>
+        <div class="alternative_div">
+            <svg id="alter_2" width="100%" height="100%">
+                <path d="M0 10L100 10" fill="none" stroke="black"></path>
+            </svg>
+
+        </div>
+        <div class="alternative_div">
+            <svg id="alter_3" width="100%" height="100%"></svg>
+
+        </div>
+        <div class="alternative_div">
+            <svg id="alter_4" width="100%" height="100%"></svg>
+
+        </div>
+        <div class="alternative_div">
+            <svg id="alter_5" width="100%" height="100%"></svg>
+
+        </div>
+    </div>
+    <script type="module">
+        import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+        const dd0 = await d3.csv('data/rawdata_skip1_0.8.csv');
+        const dd1 = await d3.csv('data/rawdata_skip3_0.8.csv');
+        const dd2 = await d3.csv('data/rawdata_skip6_0.8.csv');
+        const dd3 = await d3.csv('data/rawdata_skip13_0.8.csv');
+        const dd4 = await d3.csv('data/rolling3_skip1_0.8.csv');
+        const dd5 = await d3.csv('data/rolling3_skip3_0.8.csv');
+        const dd6 = await d3.csv('data/rolling3_skip6_0.8.csv');
+        const dd7 = await d3.csv('data/rolling3_skip13_0.8.csv');
+        let data = [dd0, dd1, dd2, dd3, dd4, dd5, dd6, dd7];
+        let elHeight = document.getElementById('aaa').offsetHeight - 60;
+        let elWidth = document.getElementById('aaa').offsetWidth - 60;
+        // console.log(elHeight)
+        function drawBorder (id, height, width, pos) {
+            d3.select('#' + id)
+            .append('g')
+            .attr('transform', `translate(${pos.x}, ${pos.y})`)
+            .append('rect')
+            .attr('width', width)
+            .attr('height', height)
+            .attr('fill', 'none')
+            .attr('stroke', 'black')
+            .attr('stroke-width', 1)
+            .attr('x', 0)
+            .attr('y', 0);
+        }
+        function drawHeat (data, col_name, id, height, width, pos, color_type) {
+            let xRange = [0, data.length];
+            let vRange = d3.extent(data, d => parseFloat(d[col_name]));
+            let xScale = d3.scaleLinear(xRange, [0, width]);
+            let vScale = d3.scaleLinear(vRange, [0, 1]);
+            // if (color_type == 1)
+            let color = d3.interpolateYlOrRd;
+            if (color_type == 1) {
+                color = d3.interpolateYlGnBu
+            }
+            d3.select('#' + id)
+            .append('g')
+            .attr('transform', `translate(${pos.x}, ${pos.y})`)
+            .selectAll('#HeatRect')
+            .attr('id', 'HeatRect')
+            .data(data)
+            .enter()
+            .append('rect')
+            .attr('width', xScale(1) - xScale(0))
+            .attr('height', height)
+            .attr('fill', d => color(vScale(parseFloat(d[col_name]))))
+            .attr('stroke', 'none')
+            .attr('x', (d, i) => xScale(i))
+            .attr('y', 0);
+        }
+
+        function drawDivide (id, width, pos, color) {
+            d3.select('#' + id)
+            .append('g')
+            .attr('transform', `translate(${pos.x}, ${pos.y})`)
+            .append('path')
+            .attr('d', `M0 0L${width} 0`)
+            .attr('stroke', '#666')
+            .attr('stroke-opacity', 0.7)
+            .attr('stroke-width',1)
+            .attr('stroke-dasharray', 5.5)
+            .attr('fill', 'none');
+        }
+        function drawLine (data, col_name, id, height, width, pos, color) {
+            let xRange = [0, data.length - 1];
+            let yRange = d3.extent(data, d => parseFloat(d[col_name]));
+            let xScale = d3.scaleLinear(xRange, [0, width]);
+            let yScale = d3.scaleLinear(yRange, [0, height]);
+            let lineGenerator = d3.line().x((d, i) => xScale(i)).y(d => yScale(parseFloat(d[col_name])));
+            d3.select('#' + id)
+            .append('g')
+            .attr('transform', `translate(${pos.x}, ${pos.y})`)
+            .append('path')
+            .attr('d', lineGenerator(data))
+            .attr('stroke', color)
+            .attr('stroke-width',1.4)
+            .attr('fill', 'none');
+        }
+
+        
+        // alternative design 1
+        for (let i in data) {
+            drawHeat(data[i], 'rmse', 'alter_0', 20, 1395, { x: elWidth * 0.1, y: i * (20 + 3) + 5}, 'black');
+            drawLine(data[i], 'result_corr', 'alter_0', 20, 1395, { x: elWidth * 0.1, y: i * (20 + 3) + 5}, 'black');
+            drawBorder('alter_0', 20, 1395, { x: elWidth * 0.1, y: i * (20 + 3) + 5})
+        }
+
+        // alternative design 2
+        for (let i in data) {
+            drawLine(data[i], 'rmse', 'alter_1', 20, 1395, { x: elWidth * 0.1, y: i * (20 + 3) + 5}, 'red');
+            drawLine(data[i], 'result_corr', 'alter_1', 20, 1395, { x: elWidth * 0.1, y: i * (20 + 3) + 5}, 'blue');
+            drawBorder('alter_1', 20, 1395, { x: elWidth * 0.1, y: i * (20 + 3) + 5})
+        }
+
+        // alternative design 3
+        for (let i in data) {
+            drawLine(data[i], 'rmse', 'alter_2', 10, 1395, { x: elWidth * 0.1, y: i * (20 + 3) + 5}, 'red');
+            drawLine(data[i], 'result_corr', 'alter_2', 10, 1395, { x: elWidth * 0.1, y: i * (20 + 3) + 15 + 0}, 'blue');
+            drawBorder('alter_2', 20, 1395, { x: elWidth * 0.1, y: i * (20 + 3) + 5})
+            drawDivide('alter_2', 1395, { x: elWidth * 0.1, y: i * (20 + 3) + 15})
+        }
+
+        // alternative design 4
+        for (let i in data) {
+            drawHeat(data[i], 'rmse', 'alter_3', 10, 1395, { x: elWidth * 0.1, y: i * (20 + 3) + 5}, 'red');
+            drawHeat(data[i], 'result_corr', 'alter_3', 10, 1395, { x: elWidth * 0.1, y: i * (20+ 3) + 15 + 0}, 'blue');
+            drawBorder('alter_3', 20, 1395, { x: elWidth * 0.1, y: i * (20 + 3) + 5})
+        }
+
+        // alternative design 5
+        for (let i in data) {
+            drawHeat(data[i], 'rmse', 'alter_4', 20, 1395, { x: elWidth * 0.1, y: i * (40 + 3) + 5}, 'red');
+            drawHeat(data[i], 'result_corr', 'alter_4', 20, 1395, { x: elWidth * 0.1, y: i * (40 + 3) + 25 + 0}, 1);
+            drawBorder('alter_4', 40, 1395, { x: elWidth * 0.1, y: i * (40 + 3) + 5} , 'black')
+        }
+
+    </script>
+</body>
+
+</html>
