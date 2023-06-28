@@ -17,45 +17,8 @@
     </div>
     <div class="frameworkBody">
         <div ref="DistributionView" style="height: 100%; width: 100%;">
-            <!-- <img src="../assets/img/a.png" alt="" style="height: 100%;"> -->
 
             <svg id="distributionSVG" height="100%" width="100%">
-                <!-- <g>
-                                    <g v-for="(item, i) in sparkBoxData" :key="'box' + i">
-                                        <rect x="10" y="10" fill="red"></rect>
-                                        <rect :x="item.rect1.x" :y="item.rect1.y" :width="item.rect1.w" :height="item.rect1.h"
-                                            fill="#f2f5fa">
-                                        </rect>
-                                        <rect :x="item.rect2.x" :y="item.rect2.y" :width="item.rect2.w" :height="item.rect2.h"
-                                            fill="#dce3f3">
-                                        </rect>
-                                        <path :d="'M ' + item.line.x1 + ' ' + item.line.y + ' L ' + item.line.x2 + ' ' + item.line.y"
-                                            :fill="'none'" :stroke="'#6d70b6'" stroke-width="3"></path>
-                                    </g>
-                                <g>
-                                    <path :d="linePath" stroke="steelblue" fill="none"></path>
-                                </g>
-                            </g> -->
-
-                <!-- <g>
-                                <g>
-                                        <text v-for="(o, i) in SS_name" :key="'F_leg' + i" :x="0" :y="0" text-anchor="end"
-                                            :transform="translate(40, 50 + i * (elHeight - 30) / S_name.length, -65)">{{
-                                                (o).charAt(0).toUpperCase() + (o).slice(1) }}</text>
-                                    </g>
-                                    <g>
-                                        <text v-for="(o, i) in SS_name" :key="'F_leg' + i" :x="0" :y="0"
-                                            :transform="translate(50 + (elWidth - 50) / S_name.length / 2 + (elWidth - 50) / S_name.length * i, (elHeight - 30) + 20, 0)"
-                                            font-weight="100" text-anchor="middle">{{ (o).charAt(0).toUpperCase() + (o).slice(1) }}</text>
-                                    </g>
-                                    <g v-for="(o, i) in F_sparkBoxData" :key="'fsb' + i" :transform="translate(o.tx, o.ty, 0)">
-                                        <g :transform="translate(50, 15, 0)">
-                                            <rect v-for="(oo, r_i) in o.boxData" :key="'fsbr' + r_i" :x="oo.x" :y="oo.y" :width="oo.w"
-                                                :height="oo.h" :fill="oo.fillColor" :opacity="oo.fill" stroke="white"></rect>
-                                        </g>
-                                        <rect :x="o.rx" :y="o.ry" :width="o.w" :height="o.h" fill="none" stroke="black"></rect>
-                                    </g>
-                                    </g> -->
                 <g>
                     <g>
                         <text v-for="(o, i) in show_name" :key="'F_leg' + i" :x="0" :y="0" text-anchor="end" :font-size="14"
@@ -118,15 +81,12 @@ export default {
         return {
             elHeight: 0,
             elWidth: 0,
-            sparkBoxData: [],
             F_sparkBoxData: [],
-            linePath: null,
             F_name: ['pm25', 'temp', 'rh', 'psfc', 'wnd_dir', 'wnd_spd'],
             S_name: ['raw', 'rolling3', 'rolling6', 'rolling13', 'weighted3', 'weighted6', 'weighted13'],
 
             SS_name: ['RAW', 'MA-3', 'MA-6', 'MA-13', 'WMA-3', 'WMA-6', 'WMA-13'],
             show_name: [],
-            tfData: [],
             dataName: '',
             valueRange: [],
             selectRect: [],
@@ -157,12 +117,10 @@ export default {
         }
     },
     methods: {
-
         translate (x, y, deg) {
             return `translate(${x}, ${y}) rotate(${deg})`;
         },
         mouseoverFeature (data, nameX, nameY, nameXr, nameYr, num) {
-            // console.log(data);
             selectAll('.unitRect').attr('stroke-width', 1);
             select('#unit' + num).attr('stroke-width', 3);
             this.selectTag = 1;
@@ -197,77 +155,7 @@ export default {
             dataStore.rowSelectTag = 1;
             dataStore.selectSmooth = [nameXr, nameYr];
         },
-        calcSparkBox (data, height, width) {
-            let margin = ({ top: 10, right: 30, bottom: 20, left: 30 });
-            // let height = 440;
-            // let width = 1000;
-            let focusHeight = 0;
-
-            let y = scaleLinear()
-                .domain([0, max(data, d => parseFloat(d.value))])
-                .range([height - margin.bottom, height - margin.bottom - (width - margin.left - margin.right)]);
-            let y2 = scaleLinear()
-                .domain([0, max(data, d => parseFloat(d.value))])
-                .range([focusHeight, margin.top])
-            let x = scaleLinear()
-                .domain([0, max(data, d => (parseInt(d.id)))])
-                .range([margin.left, width - margin.right])
-            let sparkBoxData = [];
-            let lineData = [];
-            let timeData = [];
-            let lenData = [];
-            for (let i = 0; i < data.length; ++i) {
-                lineData.push({
-                    id: parseInt(data[i].id),
-                    v: parseFloat(data[i].value)
-                });
-                if (i == 0 || i == data.length - 1 || i % Math.floor(data.length / 10) === 0) {
-                    lenData.push(x(parseInt(data[i].id)));
-                    timeData.push(parseInt(data[i].timestamp));
-                }
-            }
-            let timeScale = scaleOrdinal(timeData, lenData);
-            let lineGenerate = line().x(d => x(d.id)).y(d => y(d.v));
-            // console.log(timeData);
-            select('#distributionSVG').append('g').call(axisBottom(timeScale)).attr('transform', `translate(${0}, ${this.elHeight - margin.bottom})`);
-            select('#distributionSVG').append('g').call(axisLeft(y)).attr('transform', `translate(${margin.left}, ${0})`);
-
-            for (let i = 0; i < data.length; i += Math.round(data.length / 20)) {
-                // let tempValue = Array.from(new Set(data.slice(i, i + 10).map(d => parseFloat(d.value)).sort((a, b) => a - b)));
-                let tempValue = data.slice(i, i + Math.round(data.length / 20)).map(d => parseFloat(d.value)).sort((a, b) => a - b)
-                let sumData = sum(tempValue);
-
-                // console.log(sumData)
-
-                // console.log(tempValue[tempValue.length /2 - 1], tempValue.length /2 - 1);
-                sparkBoxData.push({
-                    rect1: {
-                        x: x(parseInt(data[i].id)),
-                        y: y(tempValue[tempValue.length - 1]),
-                        w: Math.abs(x(parseInt(data[i + ((i + Math.round(data.length / 20) < data.length) ? Math.round(data.length / 20) : (data.length - 1 - i))].id)) - x(parseInt(data[i].id))),
-                        h: Math.abs(y(tempValue[0]) - y(tempValue[tempValue.length - 1]))
-                    },
-                    rect2: {
-                        x: x(parseInt(data[i].id)),
-                        y: y(tempValue[parseInt(tempValue.length * 3 / 4) - 1]),
-                        w: Math.abs(x(parseInt(data[i + ((i + Math.round(data.length / 20) < data.length) ? Math.round(data.length / 20) : (data.length - 1 - i))].id)) - x(parseInt(data[i].id))),
-                        h: Math.abs(y(tempValue[parseInt(tempValue.length * 3 / 4) - 1]) - y(tempValue[parseInt(tempValue.length / 4) - 1]))
-                    },
-                    line: {
-                        x1: x(parseInt(data[i].id)),
-                        // y: y(tempValue[parseInt(tempValue.length /2) - 1]),
-                        // y: y((tempValue[0] + tempValue[parseInt(tempValue.length - 1)]) / 2),
-                        y: y(sumData / tempValue.length),
-                        x2: Math.abs(x(parseInt(data[i + ((i + Math.round(data.length / 20) < data.length) ? Math.round(data.length / 20) : (data.length - 1 - i))].id)) - x(parseInt(data[i].id))) + x(parseInt(data[i].id))
-                    }
-                })
-            }
-            // console.log(sparkBoxData)
-            return [sparkBoxData, lineGenerate(lineData)];
-        },
-
         calcDisSparkBox (data, height, width, box_num, F1_name, F2_name, Val_name) {
-            // console.log(Val_name, F1_name, F2_name)
             let margin = ({ top: 0, right: 0, bottom: 0, left: 0 });
 
             let y = scaleLinear()
@@ -285,12 +173,10 @@ export default {
             let timeG = (x.domain()[1] - x.domain()[0]) / (box_num);
             let valG = (y.domain()[1] - y.domain()[0]) / (box_num);
             for (let i = 0; i < data.length; ++i) {
-                // console.log(data[i], data[i][F1_name], data[i][F2_name])
                 let tx = Math.floor((data[i][F1_name] - x.domain()[0]) / timeG);
                 if (tx == box_num) tx--;
                 let ty = Math.floor((data[i][F2_name] - y.domain()[0]) / valG);
                 if (ty == box_num) ty--;
-                // console.log(tx, ty)
                 if (typeof timeGap[tx] === 'undefined') {
                     timeGap[tx] = {};
                 }
@@ -301,11 +187,8 @@ export default {
             }
             let maxV = -999999;
             let minV = 999999;
-            // console.log(timeGap);
             for (let i in timeGap) {
-                // console.log(i, timeGap[i])
                 for (let j in timeGap[i]) {
-                    // console.log(timeGap[i][j]);
                     let vSumData = sum(timeGap[i][j], d => parseFloat(d[Val_name]));
 
                     let xMax = max(timeGap[i][j], d => parseFloat(d[F1_name]));
@@ -348,13 +231,8 @@ export default {
         mainData (data, file_name, val_name) {
             let F_sparkBoxData = []
             let margin = { top: 2, left: 40, right: 5, bottom: 20 }
-            // if (dataStore.dataSelect == 'sunspots') {
-            // console.log(rolling13, weight13, SN_raw_data);
-            // console.log(file_name, data)
             for (let i = 0; i < file_name.length; ++i) {
                 for (let j = 0; j < i + 1; ++j) {
-                    // console.log(this.S_name[i], this.S_name[j]);
-                    // console.log(i, j)
                     F_sparkBoxData.push({
                         x: j,
                         y: i,
@@ -372,18 +250,14 @@ export default {
                     })
                 }
             }
-            // this.show_name = this.SS_name;
             let show_name = [];
             for (let i in file_name) {
                 show_name.push(file_name[i]);
             }
-            // this.dataName = 'Sunspot number'
             let dateName = 'Sunspot number';
             if (this.dataSelect != 'sunspots') {
                 dateName = 'PM 2.5'
             }
-            // console.log(show_name)
-            // console.log(F_sparkBoxData, show_name, dateName)
             return [F_sparkBoxData, show_name, dateName];
         }
     },
@@ -391,33 +265,6 @@ export default {
     mounted () {
         this.elHeight = this.$refs.DistributionView.offsetHeight;
         this.elWidth = this.$refs.DistributionView.offsetWidth;
-        // [this.sparkBoxData, this.linePath] = this.calcSparkBox(SN_raw_data, this.elHeight, this.elWidth);
-        // const dataStore = useDataStore();
-        //     let margin = { top: 15, left: 50, right: 5, bottom: 30 }
-
-        // dataStore.$subscribe((mutations, state) => {
-        // console.log(222);
-        // let F_sparkBoxData = []
-        // } else if (dataStore.dataSelect == 'pm') {
-        // for (let i = 0; i < this.F_name.length; ++i) {
-        //     for (let j = 0; j < i + 1; ++j) {
-        //         F_sparkBoxData.push({
-        //             x: j,
-        //             y: i,
-        //             tx: (this.elWidth - margin.left - margin.right) / this.F_name.length * j,
-        //             rx: margin.left,
-        //             w: (this.elWidth - margin.left - margin.right) / this.F_name.length,
-        //             ty: (this.elHeight - margin.bottom - margin.top) / this.F_name.length * i,
-        //             ry: margin.top,
-        //             h: (this.elHeight - margin.bottom - margin.top) / this.F_name.length,
-        //             boxData: this.calcDisSparkBox(multi_data, (this.elHeight - margin.bottom - margin.top) / this.F_name.length, (this.elWidth - margin.left - margin.right) / this.F_name.length, 8, this.F_name[i], this.F_name[j], 'pm25')
-        //         })
-        //     }
-        // }
-        // this.show_name = this.F_name;
-        // this.F_sparkBoxData = F_sparkBoxData;
-        // this.dataName = 'PM 2.5'
-        // }
         const dataStore = useDataStore();
         dataStore.$subscribe((mutations, state) => {
             console.log(mutations)
@@ -427,7 +274,6 @@ export default {
 
                     this.dataSelect = 'sunspots';
                     this.smoothSelect = dataStore.smooth;
-                    // console.log(this.smoothSelect)
                     let s_name_select = [];
                     for (let i in this.S_name) {
                         if (this.smoothSelect[this.SS_name[i]] == 1)
@@ -441,18 +287,6 @@ export default {
                 }
             }
         })
-        // this.dataSelect = 'sunspots';
-        // [this.F_sparkBoxData, this.show_name, this.dataName] = this.mainData(uni_data, this.S_name, 'raw');
-        // console.log(this.F_sparkBoxData, this.show_name, this.dataName)
-        // })
-
-
-        // console.log(SN_raw_data);
-
-
-
-
-        // console.log(F_sparkBoxData);
     },
 }
 </script>

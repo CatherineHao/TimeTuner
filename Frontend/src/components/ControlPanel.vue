@@ -8,28 +8,28 @@
     <div class="frameworkTitle">
         <div class="title">Profile View</div>
         <p class="titleTriangle"></p>
-    
+
         <div style="float: right; margin-top: 3px; padding-right: 10px;">
-    
+
             <el-button style="height: 30px;" @click="run()" v-loading.fullscreen.lock="fullscreenLoading">
-    
-                <!-- <svg t="1680060651492" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2903" width="20" height="20"><path d="M810.666667 273.706667L750.293333 213.333333 512 451.626667 273.706667 213.333333 213.333333 273.706667 451.626667 512 213.333333 750.293333 273.706667 810.666667 512 572.373333 750.293333 810.666667 810.666667 750.293333 572.373333 512z" p-id="2904" fill="#606266"></path></svg> -->
-                <svg t="1686890641424" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1477" width="20" height="20">
-                        <path
-                            d="M264.3 141.6l275.4 179.3 284 184.8c1 0.6 3.6 2.4 3.6 6.7 0 4.3-2.6 6.1-3.6 6.7L539.8 704 264.3 883.3c-0.2-1-0.3-2.1-0.3-3.5V145.1c0-1.3 0.2-2.5 0.3-3.5M262 66.2c-36.5 0-70 32.9-70 78.9v734.6c0 46 33.5 78.9 70 78.9 11.6 0 23.6-3.3 34.8-10.7L579 764.2l284-184.8c48.5-31.6 48.5-102.5 0-134.1L579 260.5 296.9 76.9c-11.3-7.3-23.2-10.7-34.9-10.7z"
-                            fill="#606266" p-id="1478"></path>
-                    </svg>
+                <svg t="1686890641424" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                    p-id="1477" width="20" height="20">
+                    <path
+                        d="M264.3 141.6l275.4 179.3 284 184.8c1 0.6 3.6 2.4 3.6 6.7 0 4.3-2.6 6.1-3.6 6.7L539.8 704 264.3 883.3c-0.2-1-0.3-2.1-0.3-3.5V145.1c0-1.3 0.2-2.5 0.3-3.5M262 66.2c-36.5 0-70 32.9-70 78.9v734.6c0 46 33.5 78.9 70 78.9 11.6 0 23.6-3.3 34.8-10.7L579 764.2l284-184.8c48.5-31.6 48.5-102.5 0-134.1L579 260.5 296.9 76.9c-11.3-7.3-23.2-10.7-34.9-10.7z"
+                        fill="#606266" p-id="1478"></path>
+                </svg>
             </el-button>
         </div>
     </div>
     <div class="frameworkBody">
-        <div ref="ControlPanel" style="height: calc(45% - 10px); width: calc(100%); float: left; border: 0px solid blue; font-size: 16px; font-weight: 600; z-index: 5;">
+        <div ref="ControlPanel"
+            style="height: calc(45% - 10px); width: calc(100%); float: left; border: 0px solid blue; font-size: 16px; font-weight: 600; z-index: 5;">
             <div style="height: calc(12.5% -  3px);">
                 <span style="float: left; font-weight: 600; margin-top: 0px;">
-                        DataSet:
-                    </span>
+                    DataSet:
+                </span>
                 <span style="width: calc(65% - 3px); float: right;" class="dataSetClass">
-                        <!-- <el-select v-model="fileValue" class="m-2" placeholder="Please select" size="large" style="font-weight: 600; text-align: center; width: 100%;">
+                    <!-- <el-select v-model="fileValue" class="m-2" placeholder="Please select" size="large" style="font-weight: 600; text-align: center; width: 100%;">
                                                             <el-option v-for="item in fileOptions" :key="item.value" :label="item.label" :value="item.value" style="text-align: center;">
                                                             <span v-if="item.value == 'up'" style="padding-right: 10px;">
                                                                 <svg t="1686906698926" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4874" width="15" height="15"><path d="M670.293333 183.04l-128-128a42.666667 42.666667 0 0 0-14.08-8.96 42.666667 42.666667 0 0 0-32.426666 0 42.666667 42.666667 0 0 0-14.08 8.96l-128 128a42.666667 42.666667 0 0 0 60.586666 60.586667L469.333333 188.16V725.333333a42.666667 42.666667 0 0 0 85.333334 0V188.16l55.04 55.466667a42.666667 42.666667 0 0 0 60.586666 0 42.666667 42.666667 0 0 0 0-60.586667z" p-id="4875" fill="#515151"></path><path d="M896 981.333333H128a128 128 0 0 1-128-128v-256a42.666667 42.666667 0 0 1 85.333333 0v256a42.666667 42.666667 0 0 0 42.666667 42.666667h768a42.666667 42.666667 0 0 0 42.666667-42.666667v-256a42.666667 42.666667 0 0 1 85.333333 0v256a128 128 0 0 1-128 128z" p-id="4876" fill="#515151"></path></svg>
@@ -37,91 +37,65 @@
                 <span>{{ item.label }}</span>
                 </el-option>
                 </el-select> -->
-                <el-upload style="transform: translate(44%, -5px); height: 30px;" v-model:file-list="fileList" class="upload-demo" :on-success="handleChange" action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15" accept=".csv">
-                    <el-button style="height: 30px;">
-    
-                        <svg t="1687343622106" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2390" width="20" height="20">
-                                    <path
-                                        d="M512 832c-176.448 0-320-143.552-320-320S335.552 192 512 192s320 143.552 320 320-143.552 320-320 320m0-704C300.256 128 128 300.256 128 512s172.256 384 384 384 384-172.256 384-384S723.744 128 512 128"
-                                        fill="#3E3A39" p-id="2391"></path>
-                                    <path
-                                        d="M683.936 470.944H544v-139.968a32 32 0 1 0-64 0v139.968h-139.936a32 32 0 0 0 0 64H480v139.968a32 32 0 0 0 64 0v-139.968h139.968a32 32 0 0 0 0-64"
-                                        fill="#3E3A39" p-id="2392"></path>
-                                </svg>
-                    </el-button>
-    
-                </el-upload>
+                    <el-upload style="transform: translate(44%, -5px); height: 30px;" v-model:file-list="fileList"
+                        class="upload-demo" :on-success="handleChange"
+                        action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15" accept=".csv">
+                        <el-button style="height: 30px;">
+
+                            <svg t="1687343622106" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                                xmlns="http://www.w3.org/2000/svg" p-id="2390" width="20" height="20">
+                                <path
+                                    d="M512 832c-176.448 0-320-143.552-320-320S335.552 192 512 192s320 143.552 320 320-143.552 320-320 320m0-704C300.256 128 128 300.256 128 512s172.256 384 384 384 384-172.256 384-384S723.744 128 512 128"
+                                    fill="#3E3A39" p-id="2391"></path>
+                                <path
+                                    d="M683.936 470.944H544v-139.968a32 32 0 1 0-64 0v139.968h-139.936a32 32 0 0 0 0 64H480v139.968a32 32 0 0 0 64 0v-139.968h139.968a32 32 0 0 0 0-64"
+                                    fill="#3E3A39" p-id="2392"></path>
+                            </svg>
+                        </el-button>
+
+                    </el-upload>
                 </span>
             </div>
             <div style="height: calc(12.5% -  3px); margin-top: 0px;">
                 <span style="float: left; font-weight: 600; margin-top: 0px;">
-                        <svg height="30" width="30" style="position: absolute;top: -2px;"><path d="M10 14 L20 14" fill="none" stroke="black"></path><path d="M10 0 L 10 30" fill="none" stroke="black"></path></svg>&nbsp;&nbsp;
-                            &nbsp;&nbsp;&nbsp;Variable Num:
-                    </span>
-                <span v-if="fileValue != ''" style="width: 60%; float: right; margin-top: 2px; text-align: end; margin-right: 10px;">
-                        <!-- <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
-                                                            <el-option v-for="item in modelOptions" :key="item.value" :label="item.label" :value="item.value" />
-                                                        </el-select> -->
-    
-                        {{ variables_sel[fileValue] }}
-                    </span>
-            </div>
-            <div style="height: calc(12.5% -  3px); margin-top: 0px;">
-                <span style="float: left; font-weight: 600; margin-top: 0px;">
-                        <svg height="30" width="30" style="position: absolute;top: -3px;"><path d="M10 15 L20 15" fill="none" stroke="black"></path><path d="M10 0 L 10 30" fill="none" stroke="black"></path></svg>&nbsp;&nbsp;
-                        &nbsp;&nbsp;&nbsp;Stationary:
-                    </span>
-                <!-- <span style="width: 60%; float: right; font-weight: normal; margin-top: 6px; text-align: left;">
-                                                        {{ fileValue == null ? '' : (basicData[fileValue].stationary['bool'] + ' (' +
-                                                            basicData[fileValue].stationary['p-value'] + ')') }}
-                                                    </span> -->
-    
-                <span v-if="fileValue != ''" style="width: 60%; float: right; margin-top: 2px; text-align: end; margin-right: 10px;">
-                        <!-- <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
-                                                            <el-option v-for="item in modelOptions" :key="item.value" :label="item.label" :value="item.value" />
-                                                        </el-select> -->
-                        Yes (p-value &lt;&lt; 0.01)
-                    </span>
-            </div>
-            <div style="height: calc(12.5% -  3px); margin-top: 0px;">
-                <span style="float: left; font-weight: 600; margin-top: 0px;">
-                        <svg height="30" width="30" style="position: absolute; top: -4px;"><path d="M10 0 L 10 16" fill="none" stroke="black"></path><path d="M10 16 L20 16" fill="none" stroke="black"></path></svg>&nbsp;&nbsp;
-                        &nbsp;&nbsp;&nbsp;Periodicity:
-    
-                    </span>
-                <span v-if="fileValue != ''" style="width: 60%; float: right; margin-top: 2px; text-align: end; margin-right: 10px;">
-                        <!-- <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
-                                                            <el-option v-for="item in modelOptions" :key="item.value" :label="item.label" :value="item.value" />
-                                                        </el-select> -->
-                        {{ periodicity_sel[fileValue] }}
-                    </span>
-                <!-- <span style="width: 60%; float: right; font-weight: normal; margin-top: 6px; text-align: left;">
-                                                        {{ fileValue == null ? '' : ((basicData[fileValue].periodicity['recommend_lag']) + ' (' +
-                                                            (Math.round(basicData[fileValue].periodicity['fft acf'] * 10000) / 10000) + ')') }}
-                                                </span> -->
-    
-                <!-- <span style="width: 30%; float: right; margin-top: -2px; text-align: end; margin-right: 10px;">
-                                                        <!~~ <el-select v-model="modelValue" class="m-2" placeholder="Select" size="large">
-                                                            <el-option v-for="item in modelOptions" :key="item.value" :label="item.label" :value="item.value" />
-                                                        </el-select> ~~>
-                                                        <!~~ 1, 3, 6, 13 ~~>
-                                                        <!~~ <span>Add: </span> ~~>
-                            <el-input v-model="periodInput" placeholder="Please input" class="input-with-select">
-                                <!~~ <template #prepend>
-                                                    <el-select v-model="select" placeholder="Select" style="width: 115px">
-                                                    <el-option label="Restaurant" value="1" />
-                                                    <el-option label="Order No." value="2" />
-                                                    <el-option label="Tel" value="3" />
-                                                    </el-select>
-</template>~~>
+                    <svg height="30" width="30" style="position: absolute;top: -2px;">
+                        <path d="M10 14 L20 14" fill="none" stroke="black"></path>
+                        <path d="M10 0 L 10 30" fill="none" stroke="black"></path>
+                    </svg>&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;Variable Num:
+                </span>
+                <span v-if="fileValue != ''"
+                    style="width: 60%; float: right; margin-top: 2px; text-align: end; margin-right: 10px;">
 
-<template #append>
-    <el-button style="height: 30px;">
-        <svg t="1679668190464" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1926" width="18" height="18"><path d="M512 832a32 32 0 0 0 32-32v-256h256a32 32 0 0 0 0-64h-256V224a32 32 0 0 0-64 0v256H224a32 32 0 0 0 0 64h256v256a32 32 0 0 0 32 32" fill="#3E3A39" p-id="1927"></path></svg>
-    </el-button>
-</template>
-                            </el-input>
-                                </span>-->
+                    {{ variables_sel[fileValue] }}
+                </span>
+            </div>
+            <div style="height: calc(12.5% -  3px); margin-top: 0px;">
+                <span style="float: left; font-weight: 600; margin-top: 0px;">
+                    <svg height="30" width="30" style="position: absolute;top: -3px;">
+                        <path d="M10 15 L20 15" fill="none" stroke="black"></path>
+                        <path d="M10 0 L 10 30" fill="none" stroke="black"></path>
+                    </svg>&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;Stationary:
+                </span>
+                <span v-if="fileValue != ''"
+                    style="width: 60%; float: right; margin-top: 2px; text-align: end; margin-right: 10px;">
+                    Yes (p-value &lt;&lt; 0.01)
+                </span>
+            </div>
+            <div style="height: calc(12.5% -  3px); margin-top: 0px;">
+                <span style="float: left; font-weight: 600; margin-top: 0px;">
+                    <svg height="30" width="30" style="position: absolute; top: -4px;">
+                        <path d="M10 0 L 10 16" fill="none" stroke="black"></path>
+                        <path d="M10 16 L20 16" fill="none" stroke="black"></path>
+                    </svg>&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;Periodicity:
+
+                </span>
+                <span v-if="fileValue != ''"
+                    style="width: 60%; float: right; margin-top: 2px; text-align: end; margin-right: 10px;">
+                    {{ periodicity_sel[fileValue] }}
+                </span>
             </div>
             <hr>
             <div style="height: calc(12.5% -  3px); margin-top: 5px; margin-bottom: 5px;">
@@ -145,9 +119,6 @@
 
                 </span>
                 <span style="width: calc(65% - 3px); float: right;" class="dataSetClass">
-                    <!-- <el-select v-model="fileValue" class="m-2" placeholder="Select" size="large" style="font-weight: 600;">
-                                    <el-option v-for="item in fileOptions" :key="item.value" :label="item.label" :value="item.value" />
-                                </el-select> -->
                     <el-select v-model="methodSelect" class="m-2" placeholder="Please select" size="large"
                         style="font-weight: 600; width: 100%" multiple collapse-tags collapse-tags-tooltip
                         :max-collapse-tags="2">
@@ -160,7 +131,11 @@
             <div v-show="smoothTag == 1" style="height: calc(12.5% -  3px); margin-top: 3px;">
 
                 <span style="float: left; font-weight: 600; margin-top: 0px;">
-                    <svg height="30" width="30" style="position: absolute; top: -4px;"><path d="M10 0 L 10 16" fill="none" stroke="black"></path><path d="M10 16 L 10 30" v-if="skipTag == 1" fill="none" stroke="black"></path><path d="M10 16 L20 16" fill="none" stroke="black"></path></svg>&nbsp;&nbsp;
+                    <svg height="30" width="30" style="position: absolute; top: -4px;">
+                        <path d="M10 0 L 10 16" fill="none" stroke="black"></path>
+                        <path d="M10 16 L 10 30" v-if="skipTag == 1" fill="none" stroke="black"></path>
+                        <path d="M10 16 L20 16" fill="none" stroke="black"></path>
+                    </svg>&nbsp;&nbsp;
                     &nbsp;&nbsp;&nbsp;Smoothing:
 
                 </span>
@@ -182,7 +157,10 @@
             <div v-show="skipTag == 1" style="height: calc(12.5% -  3px); margin-top: 3px;">
 
                 <span style="float: left; font-weight: 600; margin-top: 0px;">
-                    <svg height="30" width="30" style="position: absolute; top: -8px;"><path d="M10 0 L 10 20" fill="none" stroke="black"></path><path d="M10 20 L20 20" fill="none" stroke="black"></path></svg>&nbsp;&nbsp;
+                    <svg height="30" width="30" style="position: absolute; top: -8px;">
+                        <path d="M10 0 L 10 20" fill="none" stroke="black"></path>
+                        <path d="M10 20 L20 20" fill="none" stroke="black"></path>
+                    </svg>&nbsp;&nbsp;
                     &nbsp;&nbsp;&nbsp;Sampling:
 
                 </span>
@@ -193,33 +171,8 @@
                         <el-option v-for="item in skipOptions[fileValue]" :key="item" :label="item" :value="item"
                             style="text-align: center;" />
                     </el-select>
-                    <!-- <el-select-v2 v-model="skipValue" :options="skipOptions" placeholder="Please select" style="width: 100%" multiple collapse-tags collapse-tags-tooltip :max-collapse-tags="0"/> -->
                 </span>
             </div>
-            <!-- <div style="height: calc(12.5% -  3px); margin-top: 5px;">
-
-                    <span style="float: left; font-weight: 600; margin-top: 0px;">
-                                                    Padding:
-                                                
-                                                </span>
-                    <span style="width: calc(65% - 3px); float: right;" class="dataSetClass">
-                                                    <el-select v-model="padValue" class="m-2" placeholder="Please select" size="large" style="font-weight: 600; width: 100%"     collapse-tags collapse-tags-tooltip :max-collapse-tags="3">
-                                                        <el-option v-for="item in padOptions" :key="item.value" :label="item.label" :value="item.value" style="text-align: center;" :disabled="item.dis" />
-                                                    </el-select>
-                                                </span>
-                </div>
-                <div style="height: calc(12.5% -  3px); margin-top: 5px;">
-
-                    <span style="float: left; font-weight: 600; margin-top: 0px;">
-                                                    Reshaping:
-                                                
-                                                </span>
-                    <span style="width: calc(65% - 3px); float: right;" class="dataSetClass">
-                                                    <el-select v-model="reshapeValue" class="m-2" placeholder="Please select" size="large" style="font-weight: 600; width: 100%"  collapse-tags collapse-tags-tooltip :max-collapse-tags="3">
-                                                        <el-option v-for="item in reshapeOptions" :key="item.value" :label="item.label" :value="item.value" style="text-align: center;" />
-                                                    </el-select>
-                                                </span>
-                </div> -->
         </div>
         <div ref="resTable"
             style="height: calc(55% + 10px); width: calc(100%); float: right; overflow:auto; font-size: 18px; margin-top: 5px;">
@@ -230,35 +183,34 @@
                 <el-table-column prop="smooth" label="Smooth" width="82" />
                 <el-table-column prop="skip" label="Skip" width="62" />
                 <el-table-column label="Train" :width="(elWidth - 142) / 3" sortable :sort-by="'train'">
-<template #default="scope">
-    <svg width="100%" height="18">
-                                <rect :x="0" :y="3" :width="scope.row.train_bar.w" :height="15" :fill="'orange'"
-                                    :fill-opacity="1" :stroke="'rgba(200, 200, 200, 0)'"> </rect>
-                                <text x="2" y="15" font-size="12">{{ scope.row.train_bar.v }}</text>
-                            </svg>
-</template>
+                    <template #default="scope">
+                        <svg width="100%" height="18">
+                            <rect :x="0" :y="3" :width="scope.row.train_bar.w" :height="15" :fill="'orange'"
+                                :fill-opacity="1" :stroke="'rgba(200, 200, 200, 0)'"> </rect>
+                            <text x="2" y="15" font-size="12">{{ scope.row.train_bar.v }}</text>
+                        </svg>
+                    </template>
                 </el-table-column>
 
                 <el-table-column label="Val." :width="(elWidth - 142) / 3" sortable :sort-by="'test'">
-<template #default="scope">
-    <svg width="100%" height="18">
-                                <rect :x="0" :y="3" :width="scope.row.test_bar.w" :height="15" :fill="'orange'"
-                                    :stroke="'rgba(200, 200, 200, 0)'" :fill-opacity="1"></rect>
-                                <text x="2" y="15" font-size="12">{{ scope.row.test_bar.v }}</text>
-                            </svg>
-</template>
+                    <template #default="scope">
+                        <svg width="100%" height="18">
+                            <rect :x="0" :y="3" :width="scope.row.test_bar.w" :height="15" :fill="'orange'"
+                                :stroke="'rgba(200, 200, 200, 0)'" :fill-opacity="1"></rect>
+                            <text x="2" y="15" font-size="12">{{ scope.row.test_bar.v }}</text>
+                        </svg>
+                    </template>
                 </el-table-column>
 
                 <el-table-column label="ACF" :width="(elWidth - 142) / 3" sortable :sort-by="'acf'">
-<template #default="scope">
-    <svg width="100%" height="18">
-                                <rect :x="0" :y="3" :width="scope.row.acf_bar.w" :height="15" :fill="'orange'"
-                                    :stroke="'rgba(200, 200, 200, 0)'" :fill-opacity="1"></rect>
-                                <text x="2" y="15" font-size="12">{{ scope.row.acf_bar.v }}</text>
-                            </svg>
-</template>
+                    <template #default="scope">
+                        <svg width="100%" height="18">
+                            <rect :x="0" :y="3" :width="scope.row.acf_bar.w" :height="15" :fill="'orange'"
+                                :stroke="'rgba(200, 200, 200, 0)'" :fill-opacity="1"></rect>
+                            <text x="2" y="15" font-size="12">{{ scope.row.acf_bar.v }}</text>
+                        </svg>
+                    </template>
                 </el-table-column>
-                <!-- <el-table-column prop="address" label="Address" :formatter="formatter" /> -->
             </el-table>
         </div>
     </div>
@@ -414,18 +366,18 @@ export default {
             fileValue: '',
             tableData: [],
             fileOptions: [{
-                    value: 'sunspots',
-                    label: 'Sunspots',
-                },
+                value: 'sunspots',
+                label: 'Sunspots',
+            },
 
-                {
-                    value: 'pm',
-                    label: 'PM 2.5',
-                },
-                {
-                    value: 'up',
-                    label: 'Upload a new File',
-                }
+            {
+                value: 'pm',
+                label: 'PM 2.5',
+            },
+            {
+                value: 'up',
+                label: 'Upload a new File',
+            }
             ],
             modelValue: null,
             modelOptions: [{
@@ -445,9 +397,6 @@ export default {
         }
     },
     methods: {
-        // sortACF(a, b) {
-        //     return 
-        // },
         handleChange(res, upload) {
             console.log(res, upload);
             if (upload.name[0] == "S")
@@ -463,35 +412,35 @@ export default {
             })
             setTimeout(() => {
                 loading.close()
-            let skip = {};
-            let smooth = {};
-            for (let i in this.smoothValue) {
-                smooth[this.smoothValue[i]] = 1;
-            }
-            for (let i in this.skipValue) {
-                skip[this.skipValue[i]] = 1;
-            }
-            // console.log(skip, smooth);
-            // this.fullscreenLoading = true
-            // setTimeout(() => {
-            //     this.fullscreenLoading = false
-            // }, 2000)
+                let skip = {};
+                let smooth = {};
+                for (let i in this.smoothValue) {
+                    smooth[this.smoothValue[i]] = 1;
+                }
+                for (let i in this.skipValue) {
+                    skip[this.skipValue[i]] = 1;
+                }
+                // console.log(skip, smooth);
+                // this.fullscreenLoading = true
+                // setTimeout(() => {
+                //     this.fullscreenLoading = false
+                // }, 2000)
 
-            const dataStore = useDataStore();
-            dataStore.smooth = smooth;
-            dataStore.skip = skip;
-            dataStore.dataSelect = this.fileValue;
-            this.smoothSelect = smooth;
-            this.skipSelect = skip;
-            console.log(dataStore);
-            // dataStore.changeTag = 'DataSet';
-            // console.log(this.smoothValue, this.skipValue);
-            this.tableTag = 1;
-            if (this.fileValue == 'sunspots') {
-                this.tableData = this.calcTable(uni_res_data);
-            } else if (this.fileValue == 'pm') {
-                this.tableData = this.calcTable(multi_res_data);
-            }
+                const dataStore = useDataStore();
+                dataStore.smooth = smooth;
+                dataStore.skip = skip;
+                dataStore.dataSelect = this.fileValue;
+                this.smoothSelect = smooth;
+                this.skipSelect = skip;
+                console.log(dataStore);
+                // dataStore.changeTag = 'DataSet';
+                // console.log(this.smoothValue, this.skipValue);
+                this.tableTag = 1;
+                if (this.fileValue == 'sunspots') {
+                    this.tableData = this.calcTable(uni_res_data);
+                } else if (this.fileValue == 'pm') {
+                    this.tableData = this.calcTable(multi_res_data);
+                }
             }, 5000)
         },
         cellClassName({ row, column, rowIndex, columnIndex }) {
@@ -723,16 +672,6 @@ export default {
             console.log(this.fileList);
         },
         fileValue() {
-            // // this.tableData = this.basicData[this.fileValue]['slice'];
-            // const dataStore = useDataStore();
-            // dataStore.dataSelect = this.fileValue;
-            // console.log(dataStore.dataSelect);
-            // // dataStore.changeTag = 'DataSet';
-            // if (this.fileValue == 'sunspots') {
-            //     this.tableData = this.calcTable(uni_res_data);
-            // } else if (this.fileValue == 'pm') {
-            //     this.tableData = this.calcTable(multi_res_data);
-            // }
             this.padValue = 4;
         },
         modelValue() {
@@ -740,9 +679,6 @@ export default {
             dataStore.model = this.modelValue;
         },
         methodSelect() {
-            let skt = 0,
-                smt = 0;
-            // console.log(this.methodSelect)
             for (let i in this.methodSelect) {
                 if (this.methodSelect[i] == 'Smoothing') {
                     smt = 1;
@@ -755,16 +691,10 @@ export default {
             }
         }
     },
-    created() {},
+    created() { },
     mounted() {
         this.elHeight = this.$refs.ControlPanel.offsetHeight;
         this.elWidth = this.$refs.ControlPanel.offsetWidth;
-        // this.tableData = this.calcTable(uni_res_data);
-        // console.log(this.basicData)
-
-        // this.tableData = this.calcTable(uni_res_data);
-
-        // console.log(this.tableData);
         const dataStore = useDataStore()
         dataStore.$subscribe((mutations, state) => {
             console.log(mutations, state)
@@ -778,19 +708,13 @@ export default {
 </script>
 
 <style>
-/* *,
-*::before,
-*::after {
-    font-weight: bold;
-} */
-
-/* .skipClass ÷ß */
 .el-loading-spinner {
-  font-size: 80px;
-  font-weight: normal;
+    font-size: 80px;
+    font-weight: normal;
 }
+
 .el-loading-mask .el-loading-spinner .el-loading-text {
-  font-size: 25px;
+    font-size: 25px;
 }
 
 
@@ -819,26 +743,7 @@ export default {
     background-color: #ebebeb;
 }
 
-/* .el-table tr {
-    height: 50px;
-    font-size: 16px;
-} */
-
-/* .el-table__cell {
-    height: 15px;
-} */
-
 .el-table .cell {
-    /* padding: 0px; */
     text-align: left;
 }
-
-/* td {
-    height: 25%;
-} */
-
-/* .el-table .cell {
-    padding-left: 3px;
-    padding-right: 3px;
-} */
 </style>
