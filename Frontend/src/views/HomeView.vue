@@ -29,13 +29,10 @@ export default {
   },
   computed: {
     initSign() {
-      // return this.msgH == null;
       return 1;
     },
     loadingText() {
       return "Loading"
-      // return "Loading:    " + 'Route: \n' +
-      //     !!this.route + '   Station: \n'+ !!this.station + '   Alldata: \n'+ !!this.alldata
     }
   },
   mounted() {

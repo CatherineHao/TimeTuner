@@ -36,7 +36,6 @@
 </template>
 <script>
 import { dataService } from '@/service'
-// import CorrelationView from './CorrelationView.vue';
 import ModelExplainer from './ModelExplainer.vue';
 import DataTransformation from './DataTransformation.vue';
 import ControlPanel from './ControlPanel.vue';

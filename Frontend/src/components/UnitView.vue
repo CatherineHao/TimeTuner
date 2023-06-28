@@ -457,8 +457,5 @@ export default {
 }
 </script>
 
-<style scoped>/* *,
-*::before,
-*::after {
-    font-weight: bold;
-} */</style>
+<style scoped>
+</style>
