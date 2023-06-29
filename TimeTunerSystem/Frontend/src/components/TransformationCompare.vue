@@ -25,6 +25,32 @@
  -->
 
 <!--
+ *                        _oo0oo_
+ *                       o8888888o
+ *                       88" . "88
+ *                       (| -_- |)
+ *                       0\  =  /0
+ *                     ___/`---'\___
+ *                   .' \\|     |// '.
+ *                  / \\|||  :  |||// \
+ *                 / _||||| -:- |||||- \
+ *                |   | \\\  - /// |   |
+ *                | \_|  ''\---/''  |_/ |
+ *                \  .-\__  '-'  ___/-. /
+ *              ___'. .'  /--.--\  `. .'___
+ *           ."" '<  `.___\_<|>_/___.' >' "".
+ *          | | :  `- \`.;`\ _ /`;.`/ - ` : | |
+ *          \  \ `_.   \_ __\ /__ _/   .-` /  /
+ *      =====`-.____`.___ \_____/___.-`___.-'=====
+ *                        `=---='
+ * 
+ * 
+ *      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * 
+ *            佛祖保佑     永不宕机     永无BUG
+ -->
+
+<!--
  * @Author: Qing Shi
  * @LastEditTime: 2023-06-16 13:21:44
 -->
@@ -76,6 +102,8 @@
             <svg :height="(stripNum * (elHeight - 5) / 28)" width="100%" transform="translate(0, 0)">
                 <g v-for="(item, i) in heatRectData" cursor="pointer" :key="'heat_g' + i"
                     :transform="translateF(0, item.h * i)" :class="'heat_g' + item.class_name">
+
+                
                     <rect v-for="(item_h, item_i) in item['heat']" :key="'heat_' + item_i" :x="item_h.x" :y="0"
                         :stroke="item_h.colorMap[heatTag]" :width="item_h.w" :height="item_h.h"
                         :fill="item_h.colorMap[heatTag]" :id="'representation_' + item_h.uid"
@@ -98,7 +126,9 @@
                     <rect :id="'rst' + i" class="rst" :x="item.x" :y="0" :width="item.w" :height="item.h"
                         :fill="item.colorMap[heatTag]" stroke="none" stroke-width="0"></rect>
                 </g>
+
             </svg>
+
         </div>
         <div ref="RepresentationTimeAxis" style="height: 3%; width: 100%; transform: translate(0px, 0px);">
             <svg width="100%" height="100%">
@@ -109,12 +139,20 @@
 </template>
 
 <script>
-import { scaleLinear } from 'd3-scale';
-import { interpolateYlOrRd } from 'd3-scale-chromatic';
-import { useDataStore } from "../stores/counter";
-import { select, selectAll } from 'd3-selection';
-import * as vsup from 'vsup';
+// import res_data from '../assets/model_skip_results.json';
 
+import { scaleUtc, scaleLinear, scaleOrdinal } from 'd3-scale';
+import { axisLeft, axisBottom } from 'd3-axis';
+import { interpolateRdBu, interpolateYlOrRd, schemeYlOrRd } from 'd3-scale-chromatic';
+import { useDataStore } from "../stores/counter";
+// import SN_raw_data from "../assets/SN_m_tot_V2.0.csv";
+import { select, selectAll } from 'd3-selection';
+import { extent, max, min, sum } from 'd3-array';
+import { brushX } from 'd3-brush';
+import * as vsup from 'vsup';
+import { drag } from 'd3-drag';
+
+import d_all from '../assets/allData/univariate_data/used_all_single_data.csv';
 
 import d0 from '../assets/allData/univariate_data/single27/rawdata_skip1_0.8.csv';
 import d1 from '../assets/allData/univariate_data/single27/rawdata_skip3_0.8.csv';
@@ -145,7 +183,6 @@ import d25 from '../assets/allData/univariate_data/single27/weighted13_skip3_0.8
 import d26 from '../assets/allData/univariate_data/single27/weighted13_skip6_0.8.csv';
 import d27 from '../assets/allData/univariate_data/single27/weighted13_skip13_0.8.csv';
 
-
 // multivariate
 import m0 from '../assets/allData/multivariate_data/new_res_data/rawdata_skip1.csv';
 import m1 from '../assets/allData/multivariate_data/new_res_data/rawdata_skip6.csv';
@@ -175,16 +212,18 @@ import m24 from '../assets/allData/multivariate_data/new_res_data/weighted24_ski
 import m25 from '../assets/allData/multivariate_data/new_res_data/weighted24_skip6.csv';
 import m26 from '../assets/allData/multivariate_data/new_res_data/weighted24_skip12.csv';
 import m27 from '../assets/allData/multivariate_data/new_res_data/weighted24_skip24.csv';
-import { drag } from 'd3-drag';
 
 
 export default {
     name: 'DataTransformationView',
     props: ['timeData', 'sliceData'],
-    data() {
+    data () {
         return {
             elHeight: 1000,
             elWidth: 1000,
+            tlHeight: 100,
+            tlWidth: 100,
+            heatHeight: 0,
             heatTag: 3,
             clickFileTag: 0,
             heatOptions: [{ label: 'RMSE + CORR.', value: 3 }, { label: 'RMSE', value: 4 }, { label: 'CORR.', value: 5 }],
@@ -253,6 +292,39 @@ export default {
                 { smooth: 'WMA-24', skip: '24' }
                 ]
             },
+            fileIndex: {
+                'sunspots': {
+                'raw_1': 0,
+                'raw_3': 1,
+                'raw_6': 2,
+                'raw_13': 3,
+                'rolling3_1': 4,
+                'rolling3_3': 5,
+                'rolling3_6': 6,
+                'rolling3_13': 7,
+                'rolling6_1': 8,
+                'rolling6_3': 9,
+                'rolling6_6': 10,
+                'rolling6_13': 11,
+                'rolling13_1': 12,
+                'rolling13_3': 13,
+                'rolling13_6': 14,
+                'rolling13_13': 15,
+                
+                'weighted3_1': 16,
+                'weighted3_3': 17,
+                'weighted3_6': 18,
+                'weighted3_13': 19,
+                'weighted6_1': 20,
+                'weighted6_3': 21,
+                'weighted6_6': 22,
+                'weighted6_13': 23,
+                'weighted13_1': 24,
+                'weighted13_3': 25,
+                'weighted13_6': 26,
+                'weighted13_13': 27,
+                
+            }},
             coverRect: [],
             dataSelect: 'pm',
             allTimeScale: {
@@ -280,7 +352,7 @@ export default {
         }
     },
     methods: {
-        refresh() {
+        refresh () {
             this.selectRepresentationRow = {
                 'sunspots': {
                     tag: 0,
@@ -293,7 +365,6 @@ export default {
             };
             this.coverRect = [];
             const dataStore = useDataStore();
-
             dataStore.selectRowClass = 1;
 
             selectAll('.corr_cir_out').remove();
@@ -312,22 +383,25 @@ export default {
                 return 2;
             }
         },
-        selectFile(class_name) {
+        selectFile (class_name) {
             if (this.clickFileTag) return;
             select('#' + class_name).attr('stroke-width', 3)
             selectAll('.p_x').attr('opacity', (d, i) => {
                 return d.id == num ? 1 : 0;
             })
         },
-        clickFile(num, class_name) {
+        clickFile (num, class_name) {
             let tdata = []
             this.clickFileTag = 1;
+            // console.log(class_name );
             selectAll('.' + 'black_select_row').attr('stroke-width', 0)
             this.selectRepresentationRow[this.dataSelect].status[num] = 1;
             this.selectRepresentationRow[this.dataSelect].tag = 1;
             selectAll('.corr_cir').attr('opacity', (d, i) => {
+
                 if (d.class_name == class_name) {
                     tdata.push(d);
+                    // return 0.5;
                 }
                 return d.isShow ? 0 : 0.3;
             }).attr('fill', (d, i) => {
@@ -352,10 +426,10 @@ export default {
                 .attr('stroke-width', 0.5)
                 .attr('fill', d => d.fill)
                 .on('click', (e, d) => {
-                    console.log(d)
                     let select_dot = {};
                     select_dot[d.uid] = 1;
                     selectAll('.representationSkipRect').attr('opacity', 0.15).attr('stroke-width', 0);
+
                     for (let i in select_dot) {
                         select("#representation_" + i).attr('opacity', 1);
                     }
@@ -383,45 +457,45 @@ export default {
                         .attr('fill', dd => dd.fill)
                 })
         },
-        legendStatus() {
+        legendStatus () {
             if (this.legendTag == 0) {
                 this.legendTag = 1;
             } else if (this.legendTag == 1) {
                 this.legendTag = 0;
             }
         },
-        cancelFile(class_name) {
+        cancelFile (class_name) {
             if (this.clickFileTag) return;
             selectAll('.' + 'black_select_row').attr('stroke-width', 0)
-            selectAll('.p_x').attr('opacity', 1)
+            selectAll('.p_x').attr('opacity', 1);
         },
-        translate(x, y, deg) {
+        translate (x, y, deg) {
             return `translate(${x}, ${y}) rotate(${deg})`;
         },
-        translateF(x, y) {
+        translateF (x, y) {
             return `translate(${x}, ${y})`;
         },
-        setupDrag() {
+        setupDrag () {
             let _this = this;
             for (let i in this.cid_index) {
                 let drag_func = drag().on('start', dragS).on('drag', dragged).on('end', dragE);
 
-                function dragS() {
-
-                    console.log('222')
+                function dragS () {
                 }
 
-                function dragE(event) {
+                function dragE (event) {
                     let nt = Math.floor(event.y / _this.cid_index[i].h);
                     select('.heat_g' + i).attr('transform', _this.translateF(0, (nt) * _this.cid_index[i].h))
                     if (nt != _this.cid_index[i].cnt) {
                         for (let j in _this.cid_index) {
                             if (_this.cid_index[i].cnt < nt && _this.cid_index[j].cnt == nt) {
+
                                 select('.heat_g' + j).attr('transform', _this.translateF(0, (_this.cid_index[j].cnt - 1) * _this.cid_index[j].h))
                                 _this.cid_index[j].cnt = _this.cid_index[j].cnt - 1;
                                 _this.cid_index[i].cnt = nt;
                             }
                             if (_this.cid_index[i].cnt > nt && _this.cid_index[j].cnt == nt) {
+
                                 select('.heat_g' + j).attr('transform', _this.translateF(0, (_this.cid_index[j].cnt + 1) * _this.cid_index[j].h))
                                 _this.cid_index[j].cnt = _this.cid_index[j].cnt + 1;
                                 _this.cid_index[i].cnt = nt;
@@ -431,7 +505,7 @@ export default {
                     }
                 }
 
-                function dragged(event, d) {
+                function dragged (event, d) {
                     select('.heat_g' + i).attr('transform', _this.translateF(0, event.y))
                     let nt = Math.floor(event.y / _this.cid_index[i].h);
                     if (nt != _this.cid_index[i].cnt) {
@@ -453,16 +527,14 @@ export default {
                 select('.heat_g' + i).call(drag_func);
             }
         },
-        calcRMSEHeatMultiVariable(data, width, height) {
+        calcRMSEHeatMultiVariable (data, width, height) {
             let margin = ({ top: 20, right: 10, bottom: 30, left: 50 });
-            
             let line_height = height / 28;
             let maxRmse = -999999;
             let minRmse = 999999;
             let maxTime = -999999;
             let maxCorr = -999999;
             let minCorr = 999999;
-
             let lineData = [];
             let cnt_id_cnt = 0;
             for (let i in data) {
@@ -501,7 +573,6 @@ export default {
 
             let heatColor = interpolateYlOrRd
             let heatScale2 = vsup.scale().quantize(quantization2).range(heatColor);
-
             var legend = vsup.legend.arcmapLegend();
 
             legend
@@ -541,21 +612,59 @@ export default {
                     h: line_height
                 };
             }
-            console.log(this.cid_index)
             return res_data;
         },
+        paintTimeScale: function (timestamp) {
+            let margin = ({ top: 20, right: 10, bottom: 30, left: 50 });
+            let timeData = [];
+            timeData = [new Date(timestamp.start), new Date(timestamp.end)]
+            let timeScale = scaleUtc(timeData, [margin.left, this.tlWidth - margin.right]);
+            selectAll('#representationTime_g').remove();
+            select('#representationTime').append('g').attr('id', 'representationTime_g').attr('transform', 'translate(0, 1)')
+                .call(axisBottom(timeScale).ticks((this.tlWidth - margin.left - margin.right) / 80).tickSizeOuter(0))
+        },
+        dataDivide (data) {
+            let res_data = {};
+            let max_index = -1;
+            for (let i in data) {
+                let index_name = data[i].smooth + '_' + data[i].skip;
+                if (typeof this.fileIndex[this.dataSelect][index_name] == 'undefined')
+                    continue;
+                if (typeof res_data[this.fileIndex[this.dataSelect][index_name]] == "undefined") {
+                    res_data[this.fileIndex[this.dataSelect][index_name]] = [];
+                }
+                console.log(this.fileIndex[this.dataSelect][index_name], index_name, max_index)
+                max_index = Math.max(max_index, this.fileIndex[this.dataSelect][index_name]);
+                res_data[this.fileIndex[this.dataSelect][index_name]].push(data[i]);
+            }
+            let result = [];
+            for (let i = 0; i <= max_index; ++i) {
+                result.push(res_data[i]);
+            }
+            return result;
+        }
     },
-    created() { },
-    mounted() {
+    created () { },
+    mounted () {
         this.elHeight = this.$refs.DataTransformation.offsetHeight - 5;
         this.elWidth = this.$refs.DataTransformation.offsetWidth;
+        this.tlHeight = this.$refs.RepresentationTimeAxis.offsetHeight;
+        this.tlWidth = this.$refs.RepresentationTimeAxis.offsetWidth;
 
         const dataStore = useDataStore();
-        let _this = this;
         let dataSet = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d27];
         this.stripNum = dataSet.length;
 
         let dataSet2 = [m0, m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, m20, m21, m22, m23, m24, m25, m26, m27];
+
+        this.dataSelect= 'sunspots';
+        let all_data = this.dataDivide(d_all);
+        console.log(all_data);
+        let selectDataSet = all_data;
+        this.paintTimeScale(this.allTimeScale[this.dataSelect])
+
+this.heatRectData = this.calcRMSEHeatMultiVariable(selectDataSet, this.elWidth, this.elHeight);
+
 
         dataStore.$subscribe((mutations, state) => {
             if (mutations.events.key == 'dataSelect') {
@@ -578,6 +687,7 @@ export default {
                     this.heatRectData = this.calcRMSEHeatMultiVariable(selectDataSet, this.elWidth, this.elHeight);
 
                 } else {
+                    // console.log(111111)
                     this.dataSelect = 'pm'
                     this.smoothSelect = dataStore.smooth;
                     this.skipSelect = dataStore.skip;
@@ -603,11 +713,6 @@ export default {
 </script>
 
 <style>
-/* *,
-*::before,
-*::after {
-    font-weight: normal;
-} */
 
 .el-input__inner {
     font-family: Avenir, Helvetica, Arial, sans-serif;

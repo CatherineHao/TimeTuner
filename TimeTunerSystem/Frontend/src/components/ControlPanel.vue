@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-06-27 22:09:30
+ * @LastEditTime: 2023-06-29 10:19:04
 -->
 <template>
     <div class="frameworkTitle">
@@ -681,11 +681,9 @@ export default {
         methodSelect() {
             for (let i in this.methodSelect) {
                 if (this.methodSelect[i] == 'Smoothing') {
-                    smt = 1;
                     this.smoothTag = 1;
                 }
                 if (this.methodSelect[i] == "Sampling") {
-                    skt = 1;
                     this.skipTag = 1;
                 }
             }
