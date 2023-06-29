@@ -13,34 +13,34 @@
     <div style="height: calc(96vh - 0px); width: calc(100% - 0px);">
         <div class="framework" id="controlPanel"
             style="position: absolute; left: calc(5px); top: calc(5px); height: calc(27vw); width: calc(15vw + 10px);">
-            <ControlPanel :basicData="basicData"/>
+            <ProfileView :basicData="basicData"/>
         </div>
 
         <div class="framework" id="DistributionView"
             style="position: absolute; left: calc(15vw - 5px + 30px);  top: calc(5px); height: calc(27vw); width: calc(27vw - 30px);">
-            <UnitView/>
+            <VariableInspectorView/>
         </div>
         <div class="framework" id="DataTransformation"
             style="position: absolute; right: 5px; top: calc(5px); height: calc((96vh - 10px) * .45 - 10px); width: calc(58vw - 10px);">
-            <DataTransformation :timeData="timeData" :sliceData="sliceData"/>
+            <TemporalView :timeData="timeData" :sliceData="sliceData"/>
         </div>
         <div class="framework" id="DataTransformation"
             style="position: absolute; right: 5px; top: calc((96vh - 10px) * .45 + 5px); height: calc((96vh - 10px) * .55 - 0px); width: calc(58vw - 10px);">
-            <TransformationCompare :timeData="timeData" :sliceData="sliceData"/>
+            <RepresentationView :timeData="timeData" :sliceData="sliceData"/>
         </div>
         <div class="framework" id="ModelExplainer"
             style="position: absolute; left: calc(5px); top: calc(27vw + 15px); height: calc(96vh - 27vw - 20px); width: calc(42vw - 10px);">
-            <ModelExplainer :sliceData="sliceData"/>
+            <PredictionComparatorView :sliceData="sliceData"/>
         </div>
     </div>
 </template>
 <script>
 import { dataService } from '@/service'
-import ModelExplainer from './ModelExplainer.vue';
-import DataTransformation from './DataTransformation.vue';
-import ControlPanel from './ControlPanel.vue';
-import UnitView from './UnitView.vue';
-import TransformationCompare from './TransformationCompare.vue';
+import PredictionComparatorView from './PredictionComparatorView.vue';
+import TemporalView from './TemporalView.vue';
+import ProfileView from './ProfileView.vue';
+import VariableInspectorView from './VariableInspectorView.vue';
+import RepresentationView from './RepresentationView.vue';
 // import logo from '';
 export default {
     name: "APP",
@@ -55,7 +55,7 @@ export default {
     },
     mounted() {
     },
-    components: { ModelExplainer, DataTransformation, ControlPanel, UnitView, TransformationCompare }
+    components: { PredictionComparatorView, TemporalView, ProfileView, VariableInspectorView, RepresentationView }
 }
 </script>
 <style>

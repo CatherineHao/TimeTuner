@@ -1,0 +1,94 @@
+{
+    "Sunspots": {
+        "file_name": "sunspots", 
+        "variable_num": "1",
+        "stationary": "Yes (p-value << 1)",
+        "periodicity": "1, 3, 6, 13",
+        "smooth": [{
+            "value": "RAW",
+            "label": "RAW",
+            "options": [{
+                "value": "RAW",
+                "label": "RAW"
+            }]
+        }, {
+            "value": "MA",
+            "label": "MA",
+            "options": [{
+                "value": "MA-3",
+                "label": "MA-3"
+            }, {
+                "value": "MA-6",
+                "label": "MA-6"
+            }, {
+                "value": "MA-9",
+                "label": "MA-9"
+            }, {
+                "value": "MA-13",
+                "label": "MA-13"
+            }]
+        }, {
+            "value": "WMA",
+            "label": "WMA",
+            "options": [{
+                "value": "WMA-3",
+                "label": "WMA-3"
+            }, {
+                "value": "WMA-6",
+                "label": "WMA-6"
+            }, {
+                "value": "WMA-9",
+                "label": "WMA-9"
+            }, {
+                "value": "WMA-13",
+                "label": "WMA-13"
+            }]
+        }],
+        "sample": [1, 3, 6, 13],
+        "pad": -1,
+        "reshape": -1
+    },
+    "Pm": {
+        "file_name": "pm", 
+        "variable_num": "1",
+        "stationary": "Yes (p-value << 1)",
+        "periodicity": "1, 3, 6, 13",
+        "smooth": [{
+            "value": "RAW",
+            "label": "RAW",
+            "options": [{
+                "value": "RAW",
+                "label": "RAW"
+            }]
+        }, {
+            "value": "MA",
+            "label": "MA",
+            "options": [{
+                "value": "MA-6",
+                "label": "MA-6"
+            }, {
+                "value": "MA-12",
+                "label": "MA-12"
+            }, {
+                "value": "MA-24",
+                "label": "MA-24"
+            }]
+        }, {
+            "value": "WMA",
+            "label": "WMA",
+            "options": [{
+                "value": "WMA-6",
+                "label": "WMA-6"
+            }, {
+                "value": "WMA-12",
+                "label": "WMA-12"
+            }, {
+                "value": "WMA-24",
+                "label": "WMA-24"
+            }]
+        }],
+        "sample": [1, 3, 6, 13],
+        "pad": -1,
+        "reshape": -1
+    }
+}

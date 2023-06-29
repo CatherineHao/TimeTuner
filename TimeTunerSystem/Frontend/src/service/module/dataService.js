@@ -19,3 +19,13 @@ export function fetchHello(param, callback) {
             console.log(errResponse)
         })
 }
+
+export function uploadData(param, callback) {
+    const url = `${TEST_URL_PREFIX}/upload/`;
+    axios.post(url, param)
+    .then(response => {
+        callback(response.data);
+    }, errResponse => {
+        console.log(errResponse);
+    })
+}
