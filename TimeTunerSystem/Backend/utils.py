@@ -62,6 +62,24 @@ def dataset_information(input_dataset_path):
 
 #################################################
 
-## smoothed_data, input:
+## smoothed_data, input:raw_dataset, according to the smooth_para_list, output the all smoothed files (concat)
 def return_all_smoothed(raw_dataset_path, smooth_para_list):
+    data = pd.read_csv(raw_dataset_path)
+    smoothed_data = data.copy()
+    for window_size in smooth_para_list:
+        # moving average
+        MA = smoothed_data.rolling(window=window_size,min_periods=1).mean()
+        MA.columns = [f'MA- ({window_size})']
+        smoothed_data = pd.concat([smoothed_data, MA], axis = 1)
+        
+        # WMA
+        weights = pd.Series(range(1, window_size + 1))
+        WMA = smoothed_data.rolling(window=window_size).apply(lambda x : (x * weights).sum() / weights.sum(), raw=True)
+        WMA.columns = [f'WMA- ({window_size})']
+        smooth_data = pd.concat([smooth_data, WMA], axis = 1)
+    smooth_data.to_csv('./all_smoothed_data.csv', index = False)
     
+##################################################
+
+## return the the overview model performance for univariate dataset
+# def overview_performance(
