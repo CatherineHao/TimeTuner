@@ -22,9 +22,6 @@ export default {
   data() {
     return {
       msgH: null,
-      timeData: null,
-      sliceData: null,
-      basicData: null
     };
   },
   computed: {
@@ -36,12 +33,6 @@ export default {
     }
   },
   mounted() {
-    // const dataStore = useDataStore();
-    // dataStore.tag = 1;
-    
-    // const dataStore = useDataStore();
-    // dataStore.fetchHello();
-    // this.msgH = dataStore.msg;
     this.msgH = 1;
   },
   methods: {

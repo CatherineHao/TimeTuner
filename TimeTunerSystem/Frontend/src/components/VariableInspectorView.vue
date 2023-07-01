@@ -50,11 +50,9 @@
 
                         <rect :x="0" :y="0" :width="elWidth / 3 + 20" :height="elWidth / 3 + 20" :fill="'none'"
                             stroke="black"></rect>
-                        <text font-size="14" :x="(elWidth / 3 + 20) / 2" :y="elWidth / 3 + 20 + 40"
-                            text-anchor="middle">{{ selectRect.nameX }}</text>
+                        <text font-size="14" :x="(elWidth / 3 + 20) / 2" :y="elWidth / 3 + 20 + 40" text-anchor="middle">{{ selectRect.nameX }}</text>
 
-                        <text font-size="14" :transform="translate(-20, (elWidth / 3 + 20) / 2, -60)"
-                            text-anchor="end">{{ selectRect.nameY }}</text>
+                        <text font-size="14" :transform="translate(-20, (elWidth / 3 + 20) / 2, -60)" text-anchor="end">{{ selectRect.nameY }}</text>
                     </g>
                 </g>
             </svg>
@@ -65,36 +63,25 @@
 <script>
 import { max, min, sum } from "d3-array";
 import { axisBottom, axisLeft } from "d3-axis";
-import { scaleLinear, scaleOrdinal } from "d3-scale";
+import { scaleLinear } from "d3-scale";
 import { select, selectAll } from "d3-selection";
-import { line } from "d3-shape";
-import uni_data from "../assets/allData/univariate_data/all_smooth_value.csv";
-import multi_data from "../assets/allData/multivariate_data/all_smooth_multi15.csv";
 import { interpolateYlGnBu } from "d3-scale-chromatic";
 import { useDataStore } from "../stores/counter";
 export default {
-    name: 'UnitView',
+    name: 'VIV',
     props: [],
     data () {
         return {
             elHeight: 0,
             elWidth: 0,
             F_sparkBoxData: [],
-            F_name: ['raw_pm25', 'raw_temp', 'raw_rh', 'raw_psfc', 'raw_wnd_dir', 'raw_wnd_spd'],
-            S_name: ['raw', 'rolling3', 'rolling6', 'rolling13', 'weighted3', 'weighted6', 'weighted13'],
-
-            SS_name: ['RAW', 'MA-3', 'MA-6', 'MA-13', 'WMA-3', 'WMA-6', 'WMA-13'],
             show_name: [],
             dataName: '',
             valueRange: [],
             selectRect: [],
             selectTag: 0,
             dataSelect: 'pm',
-            smoothSelect: {
-                "RAW": 1,
-                'MA-6': 1,
-                'WMA-6': 1
-            },
+            smoothSelect: {},
         }
     },
     methods: {
@@ -145,9 +132,6 @@ export default {
             let x = scaleLinear()
                 .domain([min(data, d => parseFloat(d[F1_name])), max(data, d => parseFloat(d[F1_name]))])
                 .range([margin.left, width - margin.right])
-            let xx = scaleLinear()
-                .domain([0, box_num])
-                .range([margin.left, width - margin.right])
 
             let sparkBoxData = [];
             let timeGap = {};
@@ -190,9 +174,6 @@ export default {
                         yDomain: y.domain()
                     })
                 }
-            }
-            if (F1_name == 'wnd_spd' && F2_name == 'wnd_spd') {
-                console.log(sparkBoxData);
             }
             let v = scaleLinear()
                 .domain([minV, maxV])
@@ -262,7 +243,6 @@ export default {
                 for (let j in featureSet) {
                     tp[featureSet[j]] = data[featureSet[j]][i];
                 }
-                // console.log(tp);
                 res_data.push(tp);
             }
             return res_data;
@@ -274,38 +254,15 @@ export default {
         this.elWidth = this.$refs.DistributionView.offsetWidth;
         const dataStore = useDataStore();
 
-        // this.dataSelect = 'pm';
-        // [this.F_sparkBoxData, this.show_name, this.dataName] = this.mainData(multi_data, 'pm25', 6);
-        // console.log(uni_data);
         dataStore.$subscribe((mutations, state) => {
-            // console.log(mutations)
             if (mutations.events.key == 'system_data') {
                 this.smoothSelect = dataStore.smooth;
                 this.dataSelect = dataStore.system_data.file_name;
                 let variable_num = parseInt(dataStore.profileData.variable_num);
                 let temporal_data = JSON.parse(dataStore.system_data.temporal_data);
-                // console.log(temporal_data)
                 let res_data = this.dataConvert(temporal_data);
                 console.log(this.dataSelect);
                 [this.F_sparkBoxData, this.show_name, this.dataName] = this.mainData(res_data, dataStore.system_data.select_attr, variable_num);
-            }
-            if (mutations.events.key == 'dataSelect') {
-
-                if (dataStore.dataSelect == 'sunspots') {
-
-                    this.dataSelect = 'sunspots';
-                    this.smoothSelect = dataStore.smooth;
-                    let s_name_select = [];
-                    for (let i in this.S_name) {
-                        if (this.smoothSelect[this.SS_name[i]] == 1)
-                        s_name_select.push(this.S_name[i]);
-                    }
-                    [this.F_sparkBoxData, this.show_name, this.dataName] = this.mainData(uni_data, s_name_select, 'raw');
-                } else {
-
-                    this.dataSelect = 'pm';
-                    [this.F_sparkBoxData, this.show_name, this.dataName] = this.mainData(multi_data, this.F_name, 'raw_pm25');
-                }
             }
         })
     },

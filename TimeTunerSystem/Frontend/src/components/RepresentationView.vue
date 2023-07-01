@@ -49,13 +49,8 @@
  * 
  *            佛祖保佑     永不宕机     永无BUG
  -->
-
 <!--
- * @Author: Qing Shi
- * @LastEditTime: 2023-06-16 13:21:44
--->
-<!--
- * @Description: 
+ * @Description: Representation View
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
  * @LastEditTime: 2023-03-13 11:47:05
@@ -65,100 +60,88 @@
         <div class="title">Representation View</div>
         <p class="titleTriangle"></p>
         <div style="float: right; margin-top: 3px;">
-
+    
             <span style="font-size: 15px;">Metric: </span>
             <el-select v-model="heatTag" class="m-2" placeholder="Select" style="width: 150px; margin-right: 10px;">
                 <el-option v-for="(item, i) in heatOptions" :key="item" :label="item.label" :value="item.value" />
             </el-select>
             <span style="margin-right: 0px; margin-top: 0px;">
-                <el-button style="height: 30px; margin-right: 0px;" @click="legendStatus">
-
-                    <img src="../assets/img/colorLegend.png" alt="" width="20" height="20">
-                </el-button>
-                <el-button style="height: 30px; margin-right: 0px;" @click="setupDrag">
-                    <svg t="1680200979207" class="icon" viewBox="0 0 1024 1024" version="1.1"
-                        xmlns="http://www.w3.org/2000/svg" p-id="5498" width="20" height="20">
-                        <path d="M0 0h1024v1024H0z" fill="#515151" fill-opacity="0" p-id="5499"></path>
-                        <path
-                            d="M484.124444 561.664a35.043556 35.043556 0 0 1 53.703112 34.702222v309.361778l113.891555-116.963556a33.792 33.792 0 0 1 48.810667-0.284444 36.067556 36.067556 0 0 1 0 50.119111l-165.262222 169.585778a33.223111 33.223111 0 0 1-15.303112 8.760889 32.824889 32.824889 0 0 1-16.896 5.290666h-1.137777a35.043556 35.043556 0 0 1-26.282667-10.524444l-170.552889-175.217778a37.205333 37.205333 0 0 1 0-51.768889 35.043556 35.043556 0 0 1 50.460445 0l112.981333 116.053334v-304.469334a35.043556 35.043556 0 0 1 15.644444-34.702222zM504.263111 1.536c6.257778 0.113778 12.288 1.991111 17.521778 5.461333 5.12 1.592889 9.841778 4.437333 13.653333 8.192l-0.568889 0.284445 165.262223 169.585778a36.181333 36.181333 0 0 1 0 50.062222 33.905778 33.905778 0 0 1-48.924445 0L538.396444 119.409778v308.280889a35.043556 35.043556 0 0 1-34.588444 35.043555 35.043556 35.043556 0 0 1-34.531556-35.498666v-305.493334l-113.834666 117.191111a35.043556 35.043556 0 0 1-50.574222 0 37.489778 37.489778 0 0 1 0-51.768889L475.591111 11.832889a35.043556 35.043556 0 0 1 26.908445-10.353778z"
-                            fill="#515151" p-id="5500"></path>
-                    </svg>
-                </el-button>
-                <el-button style="height: 30px;" @click="refresh()">
-
-                    <svg t="1680060651492" class="icon" viewBox="0 0 1024 1024" version="1.1"
-                        xmlns="http://www.w3.org/2000/svg" p-id="2903" width="20" height="20">
-                        <path
-                            d="M810.666667 273.706667L750.293333 213.333333 512 451.626667 273.706667 213.333333 213.333333 273.706667 451.626667 512 213.333333 750.293333 273.706667 810.666667 512 572.373333 750.293333 810.666667 810.666667 750.293333 572.373333 512z"
-                            p-id="2904" fill="#606266"></path>
-                    </svg>
-                </el-button>
-            </span>
+                    <el-button style="height: 30px; margin-right: 0px;" @click="legendStatus">
+    
+                        <img src="../assets/img/colorLegend.png" alt="" width="20" height="20">
+                    </el-button>
+                    <el-button style="height: 30px; margin-right: 0px;" @click="setupDrag">
+                        <svg t="1680200979207" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg" p-id="5498" width="20" height="20">
+                            <path d="M0 0h1024v1024H0z" fill="#515151" fill-opacity="0" p-id="5499"></path>
+                            <path
+                                d="M484.124444 561.664a35.043556 35.043556 0 0 1 53.703112 34.702222v309.361778l113.891555-116.963556a33.792 33.792 0 0 1 48.810667-0.284444 36.067556 36.067556 0 0 1 0 50.119111l-165.262222 169.585778a33.223111 33.223111 0 0 1-15.303112 8.760889 32.824889 32.824889 0 0 1-16.896 5.290666h-1.137777a35.043556 35.043556 0 0 1-26.282667-10.524444l-170.552889-175.217778a37.205333 37.205333 0 0 1 0-51.768889 35.043556 35.043556 0 0 1 50.460445 0l112.981333 116.053334v-304.469334a35.043556 35.043556 0 0 1 15.644444-34.702222zM504.263111 1.536c6.257778 0.113778 12.288 1.991111 17.521778 5.461333 5.12 1.592889 9.841778 4.437333 13.653333 8.192l-0.568889 0.284445 165.262223 169.585778a36.181333 36.181333 0 0 1 0 50.062222 33.905778 33.905778 0 0 1-48.924445 0L538.396444 119.409778v308.280889a35.043556 35.043556 0 0 1-34.588444 35.043555 35.043556 35.043556 0 0 1-34.531556-35.498666v-305.493334l-113.834666 117.191111a35.043556 35.043556 0 0 1-50.574222 0 37.489778 37.489778 0 0 1 0-51.768889L475.591111 11.832889a35.043556 35.043556 0 0 1 26.908445-10.353778z"
+                                fill="#515151" p-id="5500"></path>
+                        </svg>
+                    </el-button>
+                    <el-button style="height: 30px;" @click="refresh()">
+    
+                        <svg t="1680060651492" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg" p-id="2903" width="20" height="20">
+                            <path
+                                d="M810.666667 273.706667L750.293333 213.333333 512 451.626667 273.706667 213.333333 213.333333 273.706667 451.626667 512 213.333333 750.293333 273.706667 810.666667 512 572.373333 750.293333 810.666667 810.666667 750.293333 572.373333 512z"
+                                p-id="2904" fill="#606266"></path>
+                        </svg>
+                    </el-button>
+                </span>
         </div>
     </div>
     <div class="frameworkBody">
-        <div ref="DataTransformation"
-            style="height: calc(97% + 0px); width: 100%; margin-top: 0px; overflow-y: auto; overflow-x: hidden;">
+        <div ref="DataTransformation" style="height: calc(97% + 0px); width: 100%; margin-top: 0px; overflow-y: auto; overflow-x: hidden;">
             <svg :height="(stripeNum * (elHeight - 5) / 28)" width="100%" transform="translate(0, 0)">
-                <g v-for="(item, i) in heatRectData" cursor="pointer" :key="'heat_g' + i"
-                    :transform="translateF(0, item.h * i)" :class="'heat_g' + item.class_name">
-
-
-                    <rect v-for="(item_h, item_i) in item['heat']" :key="'heat_' + item_i" :x="item_h.x" :y="0"
-                        :stroke="item_h.colorMap[heatTag]" :width="item_h.w" :height="item_h.h"
-                        :fill="item_h.colorMap[heatTag]" :id="'representation_' + item_h.uid"
-                        :class="'representationSkipRect'" :fill-opacity="1">
-                    </rect>
-                    <rect :id="item.class_name" class="black_select_row" :x="item['heat'][0].x" :y="0"
-                        :width="elWidth - 10 - item['heat'][0].x" :height="item['heat'][0].h"
-                        :fill="checkSelectStatus(i) == 2 ? 'none' : 'none'" stroke="black" stroke-dasharray="4, 4"
-                        :stroke-width="checkSelectStatus(i) == 1 ? 3 : 0" :fill-opacity="checkSelectStatus(i) == 2 ? 0 : 0">
-                    </rect>
-
-                    <text font-size="14" text-anchor="start" dx="0em" dy="1em" cursor="pointer"
-                        @mouseenter="selectFile(item.class_name)" @mouseout="cancelFile(item.class_name)"
-                        @click="clickFile(i, item.class_name)">
-                        {{ item.rawName }}
-                    </text>
-                </g>
-                <g id="legend_g" :opacity="legendTag == 1 ? 1 : 0"></g>
-                <g v-for="(item, i) in coverRect" :key="'heat_g' + i" :transform="translate(0, item.realH, 0)">
-                    <rect :id="'rst' + i" class="rst" :x="item.x" :y="0" :width="item.w" :height="item.h"
-                        :fill="item.colorMap[heatTag]" stroke="none" stroke-width="0"></rect>
-                </g>
-
-            </svg>
-
+                    <g v-for="(item, i) in heatRectData" cursor="pointer" :key="'heat_g' + i"
+                        :transform="translateF(0, item.h * i)" :class="'heat_g' + item.class_name">
+                        <rect v-for="(item_h, item_i) in item['heat']" :key="'heat_' + item_i" :x="item_h.x" :y="0"
+                            :stroke="item_h.colorMap[heatTag]" :width="item_h.w" :height="item_h.h"
+                            :fill="item_h.colorMap[heatTag]" :id="'representation_' + item_h.uid"
+                            :class="'representationSkipRect'" :fill-opacity="1">
+                        </rect>
+                        <rect :id="item.class_name" class="black_select_row" :x="item['heat'][0].x" :y="0"
+                            :width="elWidth - 10 - item['heat'][0].x" :height="item['heat'][0].h"
+                            :fill="checkSelectStatus(i) == 2 ? 'none' : 'none'" stroke="black" stroke-dasharray="4, 4"
+                            :stroke-width="checkSelectStatus(i) == 1 ? 3 : 0" :fill-opacity="checkSelectStatus(i) == 2 ? 0 : 0">
+                        </rect>
+    
+                        <text font-size="14" text-anchor="start" dx="0em" dy="1em" cursor="pointer"
+                            @mouseenter="selectFile(item.class_name)" @mouseout="cancelFile(item.class_name)"
+                            @click="clickFile(i, item.class_name)">
+                            {{ item.rawName }}
+                        </text>
+                    </g>
+                    <g id="legend_g" :opacity="legendTag == 1 ? 1 : 0"></g>
+                    <g v-for="(item, i) in coverRect" :key="'heat_g' + i" :transform="translate(0, item.realH, 0)">
+                        <rect :id="'rst' + i" class="rst" :x="item.x" :y="0" :width="item.w" :height="item.h"
+                            :fill="item.colorMap[heatTag]" stroke="none" stroke-width="0"></rect>
+                    </g>
+    
+                </svg>
+    
         </div>
         <div ref="RepresentationTimeAxis" style="height: 3%; width: 100%; transform: translate(0px, 0px);">
             <svg width="100%" height="100%">
-                <g id="representationTime"></g>
-            </svg>
+                    <g id="representationTime"></g>
+                </svg>
         </div>
     </div>
 </template>
 
 <script>
-// import res_data from '../assets/model_skip_results.json';
-
-import { scaleUtc, scaleLinear, scaleOrdinal } from 'd3-scale';
-import { axisLeft, axisBottom } from 'd3-axis';
-import { interpolateRdBu, interpolateYlOrRd, schemeYlOrRd } from 'd3-scale-chromatic';
+import { scaleUtc, scaleLinear } from 'd3-scale';
+import { axisBottom } from 'd3-axis';
+import { interpolateYlOrRd } from 'd3-scale-chromatic';
 import { useDataStore } from "../stores/counter";
-// import SN_raw_data from "../assets/SN_m_tot_V2.0.csv";
 import { select, selectAll } from 'd3-selection';
-import { extent, max, min, sum } from 'd3-array';
-import { brushX } from 'd3-brush';
 import * as vsup from 'vsup';
 import { drag } from 'd3-drag';
-
-import d_all from '../assets/allData/univariate_data/used_all_single_data.csv';
-import m_all from '../assets/allData/multivariate_data/used_all_multi_data.csv';
-
 export default {
-    name: 'DataTransformationView',
-    props: ['timeData', 'sliceData'],
-    data () {
+    name: 'RV',
+    props: [],
+    data() {
         return {
             elHeight: 1000,
             elWidth: 1000,
@@ -175,62 +158,62 @@ export default {
             selectFileName: [],
             filename: {
                 'sunspots': [{ smooth: 'RAW', skip: '1' },
-                { smooth: 'RAW', skip: '3' },
-                { smooth: 'RAW', skip: '6' },
-                { smooth: 'RAW', skip: '13' },
-                { smooth: 'MA-3', skip: '1' },
-                { smooth: 'MA-3', skip: '3' },
-                { smooth: 'MA-3', skip: '6' },
-                { smooth: 'MA-3', skip: '13' },
-                { smooth: 'MA-6', skip: '1' },
-                { smooth: 'MA-6', skip: '3' },
-                { smooth: 'MA-6', skip: '6' },
-                { smooth: 'MA-6', skip: '13' },
-                { smooth: 'MA-13', skip: '1' },
-                { smooth: 'MA-13', skip: '3' },
-                { smooth: 'MA-13', skip: '6' },
-                { smooth: 'MA-13', skip: '13' },
-                { smooth: 'WMA-3', skip: '1' },
-                { smooth: 'WMA-3', skip: '3' },
-                { smooth: 'WMA-3', skip: '6' },
-                { smooth: 'WMA-3', skip: '13' },
-                { smooth: 'WMA-6', skip: '1' },
-                { smooth: 'WMA-6', skip: '3' },
-                { smooth: 'WMA-6', skip: '6' },
-                { smooth: 'WMA-6', skip: '13' },
-                { smooth: 'WMA-13', skip: '1' },
-                { smooth: 'WMA-13', skip: '3' },
-                { smooth: 'WMA-13', skip: '6' },
-                { smooth: 'WMA-13', skip: '13' }
+                    { smooth: 'RAW', skip: '3' },
+                    { smooth: 'RAW', skip: '6' },
+                    { smooth: 'RAW', skip: '13' },
+                    { smooth: 'MA-3', skip: '1' },
+                    { smooth: 'MA-3', skip: '3' },
+                    { smooth: 'MA-3', skip: '6' },
+                    { smooth: 'MA-3', skip: '13' },
+                    { smooth: 'MA-6', skip: '1' },
+                    { smooth: 'MA-6', skip: '3' },
+                    { smooth: 'MA-6', skip: '6' },
+                    { smooth: 'MA-6', skip: '13' },
+                    { smooth: 'MA-13', skip: '1' },
+                    { smooth: 'MA-13', skip: '3' },
+                    { smooth: 'MA-13', skip: '6' },
+                    { smooth: 'MA-13', skip: '13' },
+                    { smooth: 'WMA-3', skip: '1' },
+                    { smooth: 'WMA-3', skip: '3' },
+                    { smooth: 'WMA-3', skip: '6' },
+                    { smooth: 'WMA-3', skip: '13' },
+                    { smooth: 'WMA-6', skip: '1' },
+                    { smooth: 'WMA-6', skip: '3' },
+                    { smooth: 'WMA-6', skip: '6' },
+                    { smooth: 'WMA-6', skip: '13' },
+                    { smooth: 'WMA-13', skip: '1' },
+                    { smooth: 'WMA-13', skip: '3' },
+                    { smooth: 'WMA-13', skip: '6' },
+                    { smooth: 'WMA-13', skip: '13' }
                 ],
                 'pm': [{ smooth: 'RAW', skip: '1' },
-                { smooth: 'RAW', skip: '6' },
-                { smooth: 'RAW', skip: '12' },
-                { smooth: 'RAW', skip: '24' },
-                { smooth: 'MA-6', skip: '1' },
-                { smooth: 'MA-6', skip: '6' },
-                { smooth: 'MA-6', skip: '12' },
-                { smooth: 'MA-6', skip: '24' },
-                { smooth: 'MA-12', skip: '1' },
-                { smooth: 'MA-12', skip: '6' },
-                { smooth: 'MA-12', skip: '12' },
-                { smooth: 'MA-12', skip: '24' },
-                { smooth: 'MA-24', skip: '1' },
-                { smooth: 'MA-24', skip: '6' },
-                { smooth: 'MA-24', skip: '12' },
-                { smooth: 'MA-24', skip: '24' },
-                { smooth: 'WMA-6', skip: '1' },
-                { smooth: 'WMA-6', skip: '6' },
-                { smooth: 'WMA-6', skip: '12' },
-                { smooth: 'WMA-6', skip: '24' },
-                { smooth: 'WMA-12', skip: '1' },
-                { smooth: 'WMA-12', skip: '6' },
-                { smooth: 'WMA-12', skip: '12' },
-                { smooth: 'WMA-12', skip: '24' },
-                { smooth: 'WMA-24', skip: '1' },
-                { smooth: 'WMA-24', skip: '6' },
-                { smooth: 'WMA-24', skip: '12' },
-                { smooth: 'WMA-24', skip: '24' }
+                    { smooth: 'RAW', skip: '6' },
+                    { smooth: 'RAW', skip: '12' },
+                    { smooth: 'RAW', skip: '24' },
+                    { smooth: 'MA-6', skip: '1' },
+                    { smooth: 'MA-6', skip: '6' },
+                    { smooth: 'MA-6', skip: '12' },
+                    { smooth: 'MA-6', skip: '24' },
+                    { smooth: 'MA-12', skip: '1' },
+                    { smooth: 'MA-12', skip: '6' },
+                    { smooth: 'MA-12', skip: '12' },
+                    { smooth: 'MA-12', skip: '24' },
+                    { smooth: 'MA-24', skip: '1' },
+                    { smooth: 'MA-24', skip: '6' },
+                    { smooth: 'MA-24', skip: '12' },
+                    { smooth: 'MA-24', skip: '24' },
+                    { smooth: 'WMA-6', skip: '1' },
+                    { smooth: 'WMA-6', skip: '6' },
+                    { smooth: 'WMA-6', skip: '12' },
+                    { smooth: 'WMA-6', skip: '24' },
+                    { smooth: 'WMA-12', skip: '1' },
+                    { smooth: 'WMA-12', skip: '6' },
+                    { smooth: 'WMA-12', skip: '12' },
+                    { smooth: 'WMA-12', skip: '24' },
+                    { smooth: 'WMA-24', skip: '1' },
+                    { smooth: 'WMA-24', skip: '6' },
+                    { smooth: 'WMA-24', skip: '12' },
+                    { smooth: 'WMA-24', skip: '24' }
                 ]
             },
             coverRect: [],
@@ -255,7 +238,7 @@ export default {
         }
     },
     methods: {
-        refresh () {
+        refresh() {
             this.selectRepresentationRow = {
                 tag: 0,
                 status: new Array(this.stripeNum).fill(0)
@@ -263,7 +246,6 @@ export default {
             this.coverRect = [];
             const dataStore = useDataStore();
             dataStore.selectRowClass = 1;
-
             selectAll('.corr_cir_out').remove();
             selectAll('.corr_cir').attr('opacity', (d, i) => {
                 return d.isShow ? 0 : 1;
@@ -271,7 +253,7 @@ export default {
                 return d.fill;
             })
         },
-        checkSelectStatus: function (num) {
+        checkSelectStatus: function(num) {
             if (this.selectRepresentationRow.tag == 0)
                 return 0;
             if (this.selectRepresentationRow.status[num]) {
@@ -280,14 +262,14 @@ export default {
                 return 2;
             }
         },
-        selectFile (class_name) {
+        selectFile(class_name) {
             if (this.clickFileTag) return;
             select('#' + class_name).attr('stroke-width', 3)
             selectAll('.p_x').attr('opacity', (d, i) => {
                 return d.id == num ? 1 : 0;
             })
         },
-        clickFile (num, class_name) {
+        clickFile(num, class_name) {
             let tdata = []
             this.clickFileTag = 1;
             // console.log(class_name );
@@ -354,33 +336,32 @@ export default {
                         .attr('fill', dd => dd.fill)
                 })
         },
-        legendStatus () {
+        legendStatus() {
             if (this.legendTag == 0) {
                 this.legendTag = 1;
             } else if (this.legendTag == 1) {
                 this.legendTag = 0;
             }
         },
-        cancelFile (class_name) {
+        cancelFile(class_name) {
             if (this.clickFileTag) return;
             selectAll('.' + 'black_select_row').attr('stroke-width', 0)
             selectAll('.p_x').attr('opacity', 1);
         },
-        translate (x, y, deg) {
+        translate(x, y, deg) {
             return `translate(${x}, ${y}) rotate(${deg})`;
         },
-        translateF (x, y) {
+        translateF(x, y) {
             return `translate(${x}, ${y})`;
         },
-        setupDrag () {
+        setupDrag() {
             let _this = this;
             for (let i in this.cid_index) {
                 let drag_func = drag().on('start', dragS).on('drag', dragged).on('end', dragE);
 
-                function dragS () {
-                }
+                function dragS() {}
 
-                function dragE (event) {
+                function dragE(event) {
                     let nt = Math.floor(event.y / _this.cid_index[i].h);
                     select('.heat_g' + i).attr('transform', _this.translateF(0, (nt) * _this.cid_index[i].h))
                     if (nt != _this.cid_index[i].cnt) {
@@ -402,7 +383,7 @@ export default {
                     }
                 }
 
-                function dragged (event, d) {
+                function dragged(event, d) {
                     select('.heat_g' + i).attr('transform', _this.translateF(0, event.y))
                     let nt = Math.floor(event.y / _this.cid_index[i].h);
                     if (nt != _this.cid_index[i].cnt) {
@@ -417,14 +398,13 @@ export default {
                                 _this.cid_index[j].cnt = _this.cid_index[j].cnt + 1;
                                 _this.cid_index[i].cnt = nt;
                             }
-
                         }
                     }
                 }
                 select('.heat_g' + i).call(drag_func);
             }
         },
-        calcRMSEHeatMultiVariable (data, width, height) {
+        calcRMSEHeatMultiVariable(data, width, height) {
             let margin = ({ top: 20, right: 10, bottom: 30, left: 50 });
             let line_height = height / 28;
             let maxRmse = -999999;
@@ -460,19 +440,13 @@ export default {
                 lineData.push(tp);
             }
             let HeatSumData = lineData;
-            // for (let i = 0; i < lineData.length; ++i) {
-            //     HeatSumData.push(lineData[i]);
-            // }
-
             let rmseScale = scaleLinear([minRmse, maxRmse], [0, 1]);
             let corrScale = scaleLinear([minCorr, maxCorr], [0, 1]);
             let timeScale = scaleLinear([0, maxTime], [margin.left, width - margin.right]);
             let quantization2 = vsup.quantization().branching(2).layers(4).valueDomain([minRmse, maxRmse]).uncertaintyDomain([(maxCorr), minCorr]);
-
             let heatColor = interpolateYlOrRd
             let heatScale2 = vsup.scale().quantize(quantization2).range(heatColor);
             var legend = vsup.legend.arcmapLegend();
-
             legend
                 .scale(heatScale2)
                 .size(160)
@@ -513,24 +487,21 @@ export default {
             }
             return res_data;
         },
-        paintTimeScale: function (timestamp) {
+        paintTimeScale: function(timestamp) {
             let margin = ({ top: 20, right: 10, bottom: 30, left: 50 });
             let timeData = [];
             timeData = [new Date(timestamp.start), new Date(timestamp.end)]
             let timeScale = scaleUtc(timeData, [margin.left, this.tlWidth - margin.right]);
             selectAll('#representationTime_g').remove();
-            select('#representationTime').append('g').attr('id', 'representationTime_g').attr('transform', 'translate(0, 1)')
-                .call(axisBottom(timeScale).ticks((this.tlWidth - margin.left - margin.right) / 80).tickSizeOuter(0))
+            select('#representationTime').append('g').attr('id', 'representationTime_g').attr('transform', 'translate(0, 1)').call(axisBottom(timeScale).ticks((this.tlWidth - margin.left - margin.right) / 80).tickSizeOuter(0))
         },
-        dataDivide (data) {
+        dataDivide(data) {
             let res_data = {};
             for (let i in data) {
                 if (typeof res_data[parseInt(data[i].rank)] == 'undefined')
                     res_data[parseInt(data[i].rank)] = [];
                 res_data[parseInt(data[i].rank)].push(data[i]);
-
             }
-            // console.log(res_data)
             let result = [];
             for (let i in res_data) {
                 result.push({
@@ -541,26 +512,24 @@ export default {
             }
             return result;
         },
-        dataConvert (data) {
+        dataConvert(data) {
             let featureSet = [];
             for (let i in data) {
                 featureSet.push(i);
             }
-            // console.log(data[featureSet[0]]);
             let res_data = [];
             for (let i in data[featureSet[0]]) {
                 let tp = {};
                 for (let j in featureSet) {
                     tp[featureSet[j]] = data[featureSet[j]][i];
                 }
-                // console.log(tp);
                 res_data.push(tp);
             }
             return res_data;
         }
     },
-    created () { },
-    mounted () {
+    created() {},
+    mounted() {
         this.elHeight = this.$refs.DataTransformation.offsetHeight - 5;
         this.elWidth = this.$refs.DataTransformation.offsetWidth;
         this.tlHeight = this.$refs.RepresentationTimeAxis.offsetHeight;
@@ -568,82 +537,23 @@ export default {
 
         const dataStore = useDataStore();
 
-        // this.dataSelect = 'pm';
-        // let all_data = this.dataDivide(m_all);
-        // // console.log(d_all);
-        // let selectDataSet = [];
-        // for (let i in all_data) {
-        //     selectDataSet.push(all_data[i].data)
-        // }
-        // this.stripeNum = selectDataSet.length;
-        // this.selectRepresentationRow.status =  new Array(this.stripeNum).fill(0);
-        // // console.log(all_data);
-        // this.paintTimeScale(this.allTimeScale[this.dataSelect])
-
-        // this.heatRectData = this.calcRMSEHeatMultiVariable(selectDataSet, this.elWidth, this.elHeight);
-
-
         dataStore.$subscribe((mutations, state) => {
             if (mutations.events.key == 'system_data') {
                 this.smoothSelect = dataStore.smooth;
                 this.skipSelect = dataStore.skip;
                 this.dataSelect = dataStore.system_data.file_name;
-                // let variable_num = parseInt(dataStore.profileData.variable_num);
-                // console.log(111111);
                 let result_data = JSON.parse(dataStore.system_data.result_data);
-                // console.log(temporal_data)
                 let res_data = this.dataDivide(this.dataConvert(result_data));
                 let selectDataSet = [];
                 for (let i in res_data) {
-
                     if (this.smoothSelect[res_data[i].smooth] == 1 && this.skipSelect[res_data[i].skip] == 1) {
                         selectDataSet.push(res_data[i].data);
                     }
                 }
-                // console.log(selectDataSet);
                 this.stripeNum = selectDataSet.length;
                 this.paintTimeScale(this.allTimeScale[this.dataSelect])
 
                 this.heatRectData = this.calcRMSEHeatMultiVariable(selectDataSet, this.elWidth, this.elHeight);
-            }
-            if (mutations.events.key == 'dataSelect') {
-
-                if (dataStore.dataSelect == 'sunspots') {
-                    this.dataSelect = 'sunspots'
-                    this.smoothSelect = dataStore.smooth;
-                    this.skipSelect = dataStore.skip;
-                    let selectDataSet = [];
-                    this.selectFileName = [];
-                    for (let i in dataSet) {
-                        if (this.smoothSelect[this.filename[this.dataSelect][i].smooth] == 1 && this.skipSelect[this.filename[this.dataSelect][i].skip] == 1) {
-                            selectDataSet.push(dataSet[i]);
-                            this.selectFileName.push(this.filename[this.dataSelect][i]);
-                        }
-                    }
-
-                    this.paintTimeScale(this.allTimeScale[this.dataSelect])
-
-                    this.heatRectData = this.calcRMSEHeatMultiVariable(selectDataSet, this.elWidth, this.elHeight);
-
-                } else {
-                    // console.log(111111)
-                    this.dataSelect = 'pm'
-                    this.smoothSelect = dataStore.smooth;
-                    this.skipSelect = dataStore.skip;
-                    let selectDataSet = [];
-                    this.selectFileName = [];
-                    for (let i in dataSet2) {
-                        if (this.smoothSelect[this.filename[this.dataSelect][i].smooth] == 1 && this.skipSelect[this.filename[this.dataSelect][i].skip] == 1) {
-                            selectDataSet.push(dataSet2[i]);
-                            this.selectFileName.push(this.filename[this.dataSelect][i]);
-                            console.log(this.filename[this.dataSelect][i].smooth, this.filename[this.dataSelect][i].skip)
-                        }
-                    }
-
-                    this.paintTimeScale(this.allTimeScale[this.dataSelect])
-
-                    this.heatRectData = this.calcRMSEHeatMultiVariable(selectDataSet, this.elWidth, this.elHeight);
-                }
             }
         })
 
@@ -658,7 +568,6 @@ export default {
 
 #DataTransformation {
     font-size: 20px;
-    /* font-family: Roboto; */
 }
 
 .el-table .el-table__cell {

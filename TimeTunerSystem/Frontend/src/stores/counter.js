@@ -76,8 +76,6 @@ export const useDataStore = defineStore("dataStore", {
             fetchAllData(param, resp => {
                 this.system_data = resp.data;
                 console.log("Fetch Data: ", new Date() - st);
-                // console.log(resp);
-                // console.log(JSON.parse(resp.data.result_data));
             });
         }
     }
