@@ -35,16 +35,14 @@
     </div>
 </template>
 <script>
-import { dataService } from '@/service'
 import PredictionComparatorView from './PredictionComparatorView.vue';
 import TemporalView from './TemporalView.vue';
 import ProfileView from './ProfileView.vue';
 import VariableInspectorView from './VariableInspectorView.vue';
 import RepresentationView from './RepresentationView.vue';
-// import logo from '';
 export default {
     name: "APP",
-    props: ["msgH", 'timeData', 'sliceData', 'basicData'],
+    props: ["msgH"],
     data() {
         return {
             msg1: "Hello, main!"
