@@ -2,7 +2,7 @@
     "Sunspots": {
         "file_name": "sunspots", 
         "variable_num": "1",
-        "stationary": "Yes (p-value << 1)",
+        "stationary": "Yes (p-value << 0.01)",
         "periodicity": "1, 3, 6, 13",
         "smooth": [{
             "value": "RAW",
@@ -20,10 +20,7 @@
             }, {
                 "value": "MA-6",
                 "label": "MA-6"
-            }, {
-                "value": "MA-9",
-                "label": "MA-9"
-            }, {
+            },{
                 "value": "MA-13",
                 "label": "MA-13"
             }]
@@ -37,22 +34,53 @@
                 "value": "WMA-6",
                 "label": "WMA-6"
             }, {
-                "value": "WMA-9",
-                "label": "WMA-9"
-            }, {
                 "value": "WMA-13",
                 "label": "WMA-13"
             }]
         }],
         "sample": [1, 3, 6, 13],
-        "pad": -1,
-        "reshape": -1
+        "pad": [{
+            "value": 0,
+            "label": "0",
+            "dis": true
+        }, {
+            "value": 1,
+            "label": "mean",
+            "dis": true
+        }, {
+            "value": 2,
+            "label": "middle",
+            "dis": true
+        }, {
+            "value": 3,
+            "label": "minimum",
+            "dis": true
+        }, {
+            "value": 4,
+            "label": "none",
+            "dis": true
+        }],
+        "padTag": -1,
+        "reshape": [{
+            "value": 0,
+            "label": "[min, max]"
+        }, {
+            "value": 1,
+            "label": "[-1, 1]"
+        }, {
+            "value": 2,
+            "label": "[0, 1]"
+        }, {
+            "value": 3,
+            "label": "[0, max]"
+        }],
+        "reshapeTag": -1
     },
-    "Pm": {
+    "Pm2.5": {
         "file_name": "pm", 
-        "variable_num": "1",
-        "stationary": "Yes (p-value << 1)",
-        "periodicity": "1, 3, 6, 13",
+        "variable_num": "6",
+        "stationary": "Yes (p-value << 0.01)",
+        "periodicity": "1, 6, 12, 24",
         "smooth": [{
             "value": "RAW",
             "label": "RAW",
@@ -87,8 +115,42 @@
                 "label": "WMA-24"
             }]
         }],
-        "sample": [1, 3, 6, 13],
-        "pad": -1,
-        "reshape": -1
+        "sample": [1, 6, 12, 24],
+        "pad": [{
+            "value": 0,
+            "label": "0",
+            "dis": true
+        }, {
+            "value": 1,
+            "label": "mean",
+            "dis": true
+        }, {
+            "value": 2,
+            "label": "middle",
+            "dis": true
+        }, {
+            "value": 3,
+            "label": "minimum",
+            "dis": true
+        }, {
+            "value": 4,
+            "label": "none",
+            "dis": true
+        }],
+        "padTag": -1,
+        "reshape": [{
+            "value": 0,
+            "label": "[min, max]"
+        }, {
+            "value": 1,
+            "label": "[-1, 1]"
+        }, {
+            "value": 2,
+            "label": "[0, 1]"
+        }, {
+            "value": 3,
+            "label": "[0, max]"
+        }],
+        "reshapeTag": -1
     }
 }

@@ -13,7 +13,7 @@
     <div style="height: calc(96vh - 0px); width: calc(100% - 0px);">
         <div class="framework" id="controlPanel"
             style="position: absolute; left: calc(5px); top: calc(5px); height: calc(27vw); width: calc(15vw + 10px);">
-            <ProfileView :basicData="basicData"/>
+            <ProfileView />
         </div>
 
         <div class="framework" id="DistributionView"
@@ -22,15 +22,15 @@
         </div>
         <div class="framework" id="DataTransformation"
             style="position: absolute; right: 5px; top: calc(5px); height: calc((96vh - 10px) * .45 - 10px); width: calc(58vw - 10px);">
-            <TemporalView :timeData="timeData" :sliceData="sliceData"/>
+            <TemporalView/>
         </div>
         <div class="framework" id="DataTransformation"
             style="position: absolute; right: 5px; top: calc((96vh - 10px) * .45 + 5px); height: calc((96vh - 10px) * .55 - 0px); width: calc(58vw - 10px);">
-            <RepresentationView :timeData="timeData" :sliceData="sliceData"/>
+            <RepresentationView />
         </div>
         <div class="framework" id="ModelExplainer"
             style="position: absolute; left: calc(5px); top: calc(27vw + 15px); height: calc(96vh - 27vw - 20px); width: calc(42vw - 10px);">
-            <PredictionComparatorView :sliceData="sliceData"/>
+            <PredictionComparatorView/>
         </div>
     </div>
 </template>

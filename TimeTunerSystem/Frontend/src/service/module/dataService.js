@@ -29,3 +29,13 @@ export function uploadData(param, callback) {
         console.log(errResponse);
     })
 }
+
+export function fetchAllData(param, callback) {
+    const url = `${TEST_URL_PREFIX}/fetch/`;
+    axios.post(url, param)
+    .then(response => {
+        callback(response);
+    }, errResponse => {
+        console.log(errResponse);
+    })
+}

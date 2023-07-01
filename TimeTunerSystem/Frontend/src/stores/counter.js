@@ -5,6 +5,7 @@
  * @LastEditTime: 2023-02-02 15:02:39
  */
 import {
+    fetchAllData,
     fetchHello, uploadData
 } from "../service/module/dataService";
 import {
@@ -51,7 +52,8 @@ export const useDataStore = defineStore("dataStore", {
             rowSelectTag: 0,
             changeTag: '',
             skip: {},
-            smooth: {}
+            smooth: {},
+            system_data: {}
         }
     },
     actions: {
@@ -68,6 +70,15 @@ export const useDataStore = defineStore("dataStore", {
                 this.profileData = resp;
                 console.log("Uploading File: ", new Date() - st);
             })
+        },
+        fetchAllData(param) {
+            const st = new Date();
+            fetchAllData(param, resp => {
+                this.system_data = resp.data;
+                console.log("Fetch Data: ", new Date() - st);
+                // console.log(resp);
+                // console.log(JSON.parse(resp.data.result_data));
+            });
         }
     }
 })
