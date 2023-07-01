@@ -4,7 +4,7 @@ Author: Qing Shi
 Date: 2022-11-20 19:14:42
 LastEditTime: 2023-06-29 15:05:37
 '''
-from flask import Flask, request, jsonify, session
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 import json
 import os
@@ -29,13 +29,10 @@ def read_json(add):
 @app.route('/api/test/hello/', methods=['POST'])
 def hello_resp():
     params = request.json
-    # msg = int(params['msg'])
-    # print(msg)
     return "hello VUE"
 
 global gl_file_name
 
-# @app.route('/api/test/hello/', methods=['GET'])
 @app.route('/api/test/upload/', methods=['POST'])
 def upload():
     file_path = '{}/data/profile_data.json'.format(FILE_ABS_PATH)
@@ -45,18 +42,13 @@ def upload():
     if (params['filename'] != "Sunspots.csv"):
         file_name = 'Pm2.5'
     res_data = read_json(file_path)
-    # gl_file_name = file_name
     return jsonify(res_data[file_name])
 
 @app.route('/api/test/fetch/', methods=["POST"])
 def fetchData():
-    # print(session)
     params = request.json
     file_name = "Sunspots"
     file_select = 'sunspots'
-    # print(params)
-    # session["file_name"] = file_name
-    # print(session.get("file_name"))
     select_attr = 'RAW'
     if (params['filename'] != "Sunspots.csv"):
         file_name = 'Pm2.5'
