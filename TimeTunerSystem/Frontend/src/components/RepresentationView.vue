@@ -114,10 +114,6 @@
                         </text>
                     </g>
                     <g id="legend_g" :opacity="legendTag == 1 ? 1 : 0"></g>
-                    <g v-for="(item, i) in coverRect" :key="'heat_g' + i" :transform="translate(0, item.realH, 0)">
-                        <rect :id="'rst' + i" class="rst" :x="item.x" :y="0" :width="item.w" :height="item.h"
-                            :fill="item.colorMap[heatTag]" stroke="none" stroke-width="0"></rect>
-                    </g>
     
                 </svg>
     
@@ -155,68 +151,6 @@ export default {
             smoothSelect: {},
             skipSelect: {},
             stripeNum: 1,
-            selectFileName: [],
-            filename: {
-                'sunspots': [{ smooth: 'RAW', skip: '1' },
-                    { smooth: 'RAW', skip: '3' },
-                    { smooth: 'RAW', skip: '6' },
-                    { smooth: 'RAW', skip: '13' },
-                    { smooth: 'MA-3', skip: '1' },
-                    { smooth: 'MA-3', skip: '3' },
-                    { smooth: 'MA-3', skip: '6' },
-                    { smooth: 'MA-3', skip: '13' },
-                    { smooth: 'MA-6', skip: '1' },
-                    { smooth: 'MA-6', skip: '3' },
-                    { smooth: 'MA-6', skip: '6' },
-                    { smooth: 'MA-6', skip: '13' },
-                    { smooth: 'MA-13', skip: '1' },
-                    { smooth: 'MA-13', skip: '3' },
-                    { smooth: 'MA-13', skip: '6' },
-                    { smooth: 'MA-13', skip: '13' },
-                    { smooth: 'WMA-3', skip: '1' },
-                    { smooth: 'WMA-3', skip: '3' },
-                    { smooth: 'WMA-3', skip: '6' },
-                    { smooth: 'WMA-3', skip: '13' },
-                    { smooth: 'WMA-6', skip: '1' },
-                    { smooth: 'WMA-6', skip: '3' },
-                    { smooth: 'WMA-6', skip: '6' },
-                    { smooth: 'WMA-6', skip: '13' },
-                    { smooth: 'WMA-13', skip: '1' },
-                    { smooth: 'WMA-13', skip: '3' },
-                    { smooth: 'WMA-13', skip: '6' },
-                    { smooth: 'WMA-13', skip: '13' }
-                ],
-                'pm': [{ smooth: 'RAW', skip: '1' },
-                    { smooth: 'RAW', skip: '6' },
-                    { smooth: 'RAW', skip: '12' },
-                    { smooth: 'RAW', skip: '24' },
-                    { smooth: 'MA-6', skip: '1' },
-                    { smooth: 'MA-6', skip: '6' },
-                    { smooth: 'MA-6', skip: '12' },
-                    { smooth: 'MA-6', skip: '24' },
-                    { smooth: 'MA-12', skip: '1' },
-                    { smooth: 'MA-12', skip: '6' },
-                    { smooth: 'MA-12', skip: '12' },
-                    { smooth: 'MA-12', skip: '24' },
-                    { smooth: 'MA-24', skip: '1' },
-                    { smooth: 'MA-24', skip: '6' },
-                    { smooth: 'MA-24', skip: '12' },
-                    { smooth: 'MA-24', skip: '24' },
-                    { smooth: 'WMA-6', skip: '1' },
-                    { smooth: 'WMA-6', skip: '6' },
-                    { smooth: 'WMA-6', skip: '12' },
-                    { smooth: 'WMA-6', skip: '24' },
-                    { smooth: 'WMA-12', skip: '1' },
-                    { smooth: 'WMA-12', skip: '6' },
-                    { smooth: 'WMA-12', skip: '12' },
-                    { smooth: 'WMA-12', skip: '24' },
-                    { smooth: 'WMA-24', skip: '1' },
-                    { smooth: 'WMA-24', skip: '6' },
-                    { smooth: 'WMA-24', skip: '12' },
-                    { smooth: 'WMA-24', skip: '24' }
-                ]
-            },
-            coverRect: [],
             dataSelect: 'pm',
             allTimeScale: {
                 'sunspots': {
@@ -233,8 +167,7 @@ export default {
                 status: []
             },
             cid_index: {},
-            legendTag: 0,
-            dataSet: []
+            legendTag: 0
         }
     },
     methods: {
@@ -243,7 +176,6 @@ export default {
                 tag: 0,
                 status: new Array(this.stripeNum).fill(0)
             };
-            this.coverRect = [];
             const dataStore = useDataStore();
             dataStore.selectRowClass = 1;
             selectAll('.corr_cir_out').remove();
@@ -277,7 +209,6 @@ export default {
             this.selectRepresentationRow.status[num] = 1;
             this.selectRepresentationRow.tag = 1;
             selectAll('.corr_cir').attr('opacity', (d, i) => {
-
                 if (d.class_name == class_name) {
                     tdata.push(d);
                     // return 0.5;

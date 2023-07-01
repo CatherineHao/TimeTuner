@@ -29,7 +29,7 @@
                     DataSet:
                 </span>
                 <span style="width: calc(65% - 3px); float: right;" class="dataSetClass">
-                    <el-upload style="transform: translate(44%, -5px); height: 30px;" v-model:file-list="fileList"
+                    <el-upload style="transform: translate(44%, -5px); height: 30px;"
                         class="upload-demo" action="" :http-request="uploadFile" accept=".csv">
                         <el-button style="height: 30px;">
                             <svg t="1687343622106" class="icon" viewBox="0 0 1024 1024" version="1.1"
@@ -257,7 +257,6 @@ export default {
             padTag: 0,
             reshapeTag: 0,
             tableTag: 0,
-            fileList: [],
             fullscreenLoading: false,
             methodOptions: [{label: "Smoothing", status: 1}, {label: "Sampling", status: 1}, {label: "Padding", status: 1}, {label: "Reshaping", status: 1}],
             methodSelect: [],
@@ -495,16 +494,6 @@ export default {
         }
     },
     watch: {
-        fileList () {
-            console.log(this.fileList);
-        },
-        fileValue () {
-            this.padValue = 4;
-        },
-        modelValue () {
-            const dataStore = useDataStore();
-            dataStore.model = this.modelValue;
-        },
         methodSelect () {
             for (let i in this.methodSelect) {
                 if (this.methodSelect[i] == 'Smoothing') {

@@ -261,7 +261,6 @@ export default {
                 let variable_num = parseInt(dataStore.profileData.variable_num);
                 let temporal_data = JSON.parse(dataStore.system_data.temporal_data);
                 let res_data = this.dataConvert(temporal_data);
-                console.log(this.dataSelect);
                 [this.F_sparkBoxData, this.show_name, this.dataName] = this.mainData(res_data, dataStore.system_data.select_attr, variable_num);
             }
         })

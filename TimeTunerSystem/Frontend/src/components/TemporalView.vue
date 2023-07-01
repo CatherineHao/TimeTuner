@@ -155,51 +155,21 @@ export default {
             tlHeight: 1000,
             tlWidth: 300,
             featureSet: [],
-            showTag: '',
-            heatHeight: 0,
-            heatTag: 3,
             timeBrush: null,
             timeBrush_g: null,
             allTimeScale: null,
             d: [],
             startTime: 0,
             timeScale: null,
-            maeScale: null,
-            timeSliceData: [],
-            barData: [],
-            tableData: [],
-            rawTimeLineData: 'M 0 0',
-            brushTimeLineData: 'M 0 0',
-            smoothTimeLineData: 'M 0 0',
-            timeAxis: [],
-            brushTimeAxis: [],
-            sparkboxData: [],
-            heatRectData: [],
-            selectAverageLine: [],
-            scaleRange: {
-                raw: [99999, -999999],
-                error: [99999, -999999]
-            },
-            groupPath: [],
-            smoothData: [],
-            select_smooth_data: [],
-            select_time_step: [0, 2459],
             lineGenerateFunc: null,
             yScale: null,
             xScale: null,
             rxScale: null,
             lineData: [],
-            smoothLineData: [],
-            smoothTag: 0,
             timeLinePath: null,
-            linePathTag: 0,
-            coverRect: [],
-            predict_line: [],
-            predict_tag: 0,
             overview_line_data: [],
             horizon_color: ['#c7dbee', '#a1cadf', '#4892c3', '#0e4591'],
             dataSet: [],
-            sdData: '',
             timeScaleGlobal: null,
             brushMoveData: {
                 'sunspots': ['1900-01-01', '1930-01-01'],
@@ -214,7 +184,6 @@ export default {
             selectSmoothObj: {},
             timeMap: [],
             openFeature: 'pm25',
-            smoothFeature: 'raw',
             allData: [],
             allFeatureSet: []
         }
@@ -244,7 +213,6 @@ export default {
                 timeFormatRes = year + '-' + month + '-' + day;
             } else {
                 let [date, detail] = time.split(' ');
-                // console.log(date, detail);
                 let year = date.slice(0, 4);
                 let month = date.slice(4, 6);
                 let day = date.slice(-2);

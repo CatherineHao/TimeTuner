@@ -25,7 +25,7 @@
  -->
 
 <!--
- * @Description: 
+ * @Description: Prediction Comparator View
  * @Author: Qing Shi
  * @Date: 2023-01-10 21:20:01
  * @LastEditTime: 2023-03-30 18:52:30
@@ -187,7 +187,6 @@ export default {
             this.localRowClass = "";
 
             this.tableData = this.calcTableData(this.dataSet, 1);
-            console.log(this.tableData);
             selectAll(".corr_cir")
                 .attr("opacity", (d) => {
                     return d.isShow ? 0 : 1;
