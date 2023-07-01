@@ -38,7 +38,7 @@
                 </el-option>
                 </el-select> -->
                     <el-upload style="transform: translate(44%, -5px); height: 30px;" v-model:file-list="fileList"
-                        class="upload-demo" :on-success="handleChange" action="" :http-request="uploadFile" accept=".csv">
+                        class="upload-demo" action="" :http-request="uploadFile" accept=".csv">
                         <el-button style="height: 30px;">
 
                             <svg t="1687343622106" class="icon" viewBox="0 0 1024 1024" version="1.1"
@@ -121,8 +121,8 @@
                         style="font-weight: 600; width: 100%" multiple collapse-tags collapse-tags-tooltip
                         :max-collapse-tags="2">
 
-                        <el-option style="text-align: center;" v-for="item in methodOptions" :key="item" :label="item" :disabled="true"
-                            :value="item" />
+                        <el-option style="text-align: center;" v-for="item in methodOptions" :key="item.label" :label="item.label" :disabled="item.status == 0"
+                            :value="item.label" />
                     </el-select>
                 </span>
             </div>
@@ -167,7 +167,7 @@
                     <el-select v-model="skipValue" class="m-2" placeholder="Please select" size="large"
                         style="font-weight: 600; width: 100%" multiple collapse-tags collapse-tags-tooltip
                         :max-collapse-tags="3" popper-class="skipClass">
-                        <el-option v-for="item in skipOptions[fileValue]" :key="item" :label="item" :value="item"
+                        <el-option v-for="item in skipOptions" :key="item" :label="item" :value="item"
                             style="text-align: center;" />
                     </el-select>
                 </span>
@@ -261,7 +261,7 @@ import { useDataStore } from "../stores/counter";
 import { ElLoading } from 'element-plus'
 export default {
     name: 'ControlPanelView',
-    props: ['basicData'],
+    props: [],
     data () {
         return {
             elHeight: 0,
@@ -273,7 +273,7 @@ export default {
             tableTag: 0,
             fileList: [],
             fullscreenLoading: false,
-            methodOptions: ["Smoothing", "Sampling", "Padding", "Reshaping"],
+            methodOptions: [{label: "Smoothing", status: 1}, {label: "Sampling", status: 1}, {label: "Padding", status: 1}, {label: "Reshaping", status: 1}],
             methodSelect: [],
             smoothSelect: {},
             skipSelect: {},
@@ -282,48 +282,9 @@ export default {
             padValue: '',
             reshapeValue: '',
             normalizeValue: '',
-            padOptions: [{
-                value: 0,
-                label: '0',
-                dis: true
-            }, {
-                value: 1,
-                label: 'mean',
-                dis: true
-            }, {
-                value: 2,
-                label: 'middle',
-                dis: true
-            }, {
-                value: 3,
-                label: 'minimum',
-                dis: true
-            }, {
-                value: 4,
-                label: 'none',
-                dis: false
-            }],
-            reshapeOptions: [{
-                value: 0,
-                label: '[min, max]',
-            }, {
-                value: 1,
-                label: '[-1, 1]'
-            }, {
-                value: 2,
-                label: '[0, 1]'
-            }, {
-                value: 3,
-                label: '[0, max]'
-            }],
-            skipOptions: {
-                'sunspots': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-                'pm': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
-            },
-            normalizeOptions: [{
-                value: 0,
-                label: '[0, 1]'
-            }],
+            padOptions: [],
+            reshapeOptions: [],
+            skipOptions: [],
             smoothOptions: {},
             // smoothOptions: {
             //     "sunspots": [{
@@ -409,21 +370,9 @@ export default {
                 value: 'Long Short Term Memory',
                 label: 'Long Short Term Memory',
             }],
-            periodicity_sel: {
-                sunspots: '1, 3, 6, 13',
-                pm: '1, 6, 12, 24'
-            },
-            variables_sel: {
-                sunspots: "1",
-                pm: "6"
-            },
-            basic_data: {
-                variable_num: '',
-                stationary: '',
-                periodicity: ''
-            },
             tableData: [],
-            selectRowClass: ''
+            selectRowClass: '',
+            file_name: ''
         }
     },
     methods: {
@@ -432,20 +381,11 @@ export default {
             let fileObj = param.file
             let form = new FormData()
             form.append("fileToUpload", fileObj)
-            console.log(form) // output is: FormData {}; 需要使用 .get() 来读取
-            console.log(form.get("fileToUpload")) // output is exactly the fileObj
             const dataStore = useDataStore();
+            this.file_name = form.get("fileToUpload").name
             dataStore.uploadData({
                 filename: form.get("fileToUpload").name
             });
-            // dataStore.
-        },
-        handleChange (res, upload) {
-            console.log(res, upload);
-            if (upload.name[0] == "S")
-                this.fileValue = 'sunspots';
-            else
-                this.fileValue = 'pm';
         },
         run () {
             const loading = ElLoading.service({
@@ -463,23 +403,26 @@ export default {
                 for (let i in this.skipValue) {
                     skip[this.skipValue[i]] = 1;
                 }
+                this.smoothSelect = smooth;
+                this.skipSelect = skip;
 
                 const dataStore = useDataStore();
                 dataStore.smooth = smooth;
                 dataStore.skip = skip;
-                dataStore.dataSelect = this.fileValue;
-                this.smoothSelect = smooth;
-                this.skipSelect = skip;
-                console.log(dataStore);
-                // dataStore.changeTag = 'DataSet';
-                // console.log(this.smoothValue, this.skipValue);
-                this.tableTag = 1;
-                if (this.fileValue == 'sunspots') {
-                    this.tableData = this.calcTable(uni_res_data);
-                } else if (this.fileValue == 'pm') {
-                    this.tableData = this.calcTable(multi_res_data);
-                }
-            }, 5000)
+                dataStore.fetchAllData({
+                    filename: this.file_name
+                });
+                // dataStore.dataSelect = this.fileValue;
+                // console.log(dataStore);
+                // // dataStore.changeTag = 'DataSet';
+                // // console.log(this.smoothValue, this.skipValue);
+                // this.tableTag = 1;
+                // if (this.fileValue == 'sunspots') {
+                //     this.tableData = this.calcTable(uni_res_data);
+                // } else if (this.fileValue == 'pm') {
+                //     this.tableData = this.calcTable(multi_res_data);
+                // }
+            },  1000)
         },
         cellClassName ({ row, column, rowIndex, columnIndex }) {
             // console.log(columnIndex);
@@ -701,7 +644,7 @@ export default {
                     v: (tmpData[i]['acf'].toFixed(4)).toString().slice(1)
                 };
             }
-            // console.log(tmpData);
+            console.log(tmpData);
             return tmpData;
         }
     },
@@ -741,6 +684,11 @@ export default {
         const dataStore = useDataStore()
         dataStore.$subscribe((mutations, state) => {
             // console.log(mutations)
+            if (mutations.events.key == 'system_data') {
+                this.tableTag = 1;
+                this.tableData = this.calcTable(dataStore.system_data.model_result);
+                
+            }
             if (mutations.events.key == 'selectRowClass') {
                 this.selectRowClass = dataStore.selectRowClass;
                 console.log(this.selectRowClass);
@@ -748,8 +696,15 @@ export default {
             if (mutations.events.key == 'profileData') {
                 this.profileData = dataStore.profileData;
                 this.smoothOptions = this.profileData.smooth;
-                console.log(this.smoothOptions)
-                this.fileValue = 1;
+                this.skipOptions = this.profileData.sample;
+                this.padOptions = this.profileData.pad;
+                console.log(this.padOptions);
+                if (this.profileData.padTag == -1)
+                    this.methodOptions[2].status = 0;
+                this.reshapeOptions = this.profileData.reshape;
+                if (this.profileData.reshapeTag == -1)
+                    this.methodOptions[3].status = 0;
+                this.fileValue = this.profileData.file_name;
             }
         })
     },

@@ -99,11 +99,11 @@
     <div class="frameworkBody">
         <div ref="DataTransformation"
             style="height: calc(97% + 0px); width: 100%; margin-top: 0px; overflow-y: auto; overflow-x: hidden;">
-            <svg :height="(stripNum * (elHeight - 5) / 28)" width="100%" transform="translate(0, 0)">
+            <svg :height="(stripeNum * (elHeight - 5) / 28)" width="100%" transform="translate(0, 0)">
                 <g v-for="(item, i) in heatRectData" cursor="pointer" :key="'heat_g' + i"
                     :transform="translateF(0, item.h * i)" :class="'heat_g' + item.class_name">
 
-                
+
                     <rect v-for="(item_h, item_i) in item['heat']" :key="'heat_' + item_i" :x="item_h.x" :y="0"
                         :stroke="item_h.colorMap[heatTag]" :width="item_h.w" :height="item_h.h"
                         :fill="item_h.colorMap[heatTag]" :id="'representation_' + item_h.uid"
@@ -117,9 +117,9 @@
 
                     <text font-size="14" text-anchor="start" dx="0em" dy="1em" cursor="pointer"
                         @mouseenter="selectFile(item.class_name)" @mouseout="cancelFile(item.class_name)"
-                        @click="clickFile(i, item.class_name)">{{
-                            filename[dataSelect][i].smooth + '/Sk-' + filename[dataSelect][i].skip
-                        }}</text>
+                        @click="clickFile(i, item.class_name)">
+                        {{ item.rawName }}
+                    </text>
                 </g>
                 <g id="legend_g" :opacity="legendTag == 1 ? 1 : 0"></g>
                 <g v-for="(item, i) in coverRect" :key="'heat_g' + i" :transform="translate(0, item.realH, 0)">
@@ -153,66 +153,7 @@ import * as vsup from 'vsup';
 import { drag } from 'd3-drag';
 
 import d_all from '../assets/allData/univariate_data/used_all_single_data.csv';
-
-import d0 from '../assets/allData/univariate_data/single27/rawdata_skip1_0.8.csv';
-import d1 from '../assets/allData/univariate_data/single27/rawdata_skip3_0.8.csv';
-import d2 from '../assets/allData/univariate_data/single27/rawdata_skip6_0.8.csv';
-import d3 from '../assets/allData/univariate_data/single27/rawdata_skip13_0.8.csv';
-import d4 from '../assets/allData/univariate_data/single27/rolling3_skip1_0.8.csv';
-import d5 from '../assets/allData/univariate_data/single27/rolling3_skip3_0.8.csv';
-import d6 from '../assets/allData/univariate_data/single27/rolling3_skip6_0.8.csv';
-import d7 from '../assets/allData/univariate_data/single27/rolling3_skip13_0.8.csv';
-import d8 from '../assets/allData/univariate_data/single27/rolling6_skip1_0.8.csv';
-import d9 from '../assets/allData/univariate_data/single27/rolling6_skip3_0.8.csv';
-import d10 from '../assets/allData/univariate_data/single27/rolling6_skip6_0.8.csv';
-import d11 from '../assets/allData/univariate_data/single27/rolling6_skip13_0.8.csv';
-import d12 from '../assets/allData/univariate_data/single27/rolling13_skip1_0.8.csv';
-import d13 from '../assets/allData/univariate_data/single27/rolling13_skip3_0.8.csv';
-import d14 from '../assets/allData/univariate_data/single27/rolling13_skip6_0.8.csv';
-import d15 from '../assets/allData/univariate_data/single27/rolling13_skip13_0.8.csv';
-import d16 from '../assets/allData/univariate_data/single27/weighted3_skip1_0.8.csv';
-import d17 from '../assets/allData/univariate_data/single27/weighted3_skip3_0.8.csv';
-import d18 from '../assets/allData/univariate_data/single27/weighted3_skip6_0.8.csv';
-import d19 from '../assets/allData/univariate_data/single27/weighted3_skip13_0.8.csv';
-import d20 from '../assets/allData/univariate_data/single27/weighted6_skip1_0.8.csv';
-import d21 from '../assets/allData/univariate_data/single27/weighted6_skip3_0.8.csv';
-import d22 from '../assets/allData/univariate_data/single27/weighted6_skip6_0.8.csv';
-import d23 from '../assets/allData/univariate_data/single27/weighted6_skip13_0.8.csv';
-import d24 from '../assets/allData/univariate_data/single27/weighted13_skip1_0.8.csv';
-import d25 from '../assets/allData/univariate_data/single27/weighted13_skip3_0.8.csv';
-import d26 from '../assets/allData/univariate_data/single27/weighted13_skip6_0.8.csv';
-import d27 from '../assets/allData/univariate_data/single27/weighted13_skip13_0.8.csv';
-
-// multivariate
-import m0 from '../assets/allData/multivariate_data/new_res_data/rawdata_skip1.csv';
-import m1 from '../assets/allData/multivariate_data/new_res_data/rawdata_skip6.csv';
-import m2 from '../assets/allData/multivariate_data/new_res_data/rawdata_skip12.csv';
-import m3 from '../assets/allData/multivariate_data/new_res_data/rawdata_skip24.csv';
-import m4 from '../assets/allData/multivariate_data/new_res_data/rolling6_skip1.csv';
-import m5 from '../assets/allData/multivariate_data/new_res_data/rolling6_skip6.csv';
-import m6 from '../assets/allData/multivariate_data/new_res_data/rolling6_skip12.csv';
-import m7 from '../assets/allData/multivariate_data/new_res_data/rolling6_skip24.csv';
-import m8 from '../assets/allData/multivariate_data/new_res_data/rolling12_skip1.csv';
-import m9 from '../assets/allData/multivariate_data/new_res_data/rolling12_skip6.csv';
-import m10 from '../assets/allData/multivariate_data/new_res_data/rolling12_skip12.csv';
-import m11 from '../assets/allData/multivariate_data/new_res_data/rolling12_skip24.csv';
-import m12 from '../assets/allData/multivariate_data/new_res_data/rolling24_skip1.csv';
-import m13 from '../assets/allData/multivariate_data/new_res_data/rolling24_skip6.csv';
-import m14 from '../assets/allData/multivariate_data/new_res_data/rolling24_skip12.csv';
-import m15 from '../assets/allData/multivariate_data/new_res_data/rolling24_skip24.csv';
-import m16 from '../assets/allData/multivariate_data/new_res_data/weighted6_skip1.csv';
-import m17 from '../assets/allData/multivariate_data/new_res_data/weighted6_skip6.csv';
-import m18 from '../assets/allData/multivariate_data/new_res_data/weighted6_skip12.csv';
-import m19 from '../assets/allData/multivariate_data/new_res_data/weighted6_skip24.csv';
-import m20 from '../assets/allData/multivariate_data/new_res_data/weighted12_skip1.csv';
-import m21 from '../assets/allData/multivariate_data/new_res_data/weighted12_skip6.csv';
-import m22 from '../assets/allData/multivariate_data/new_res_data/weighted12_skip12.csv';
-import m23 from '../assets/allData/multivariate_data/new_res_data/weighted12_skip24.csv';
-import m24 from '../assets/allData/multivariate_data/new_res_data/weighted24_skip1.csv';
-import m25 from '../assets/allData/multivariate_data/new_res_data/weighted24_skip6.csv';
-import m26 from '../assets/allData/multivariate_data/new_res_data/weighted24_skip12.csv';
-import m27 from '../assets/allData/multivariate_data/new_res_data/weighted24_skip24.csv';
-
+import m_all from '../assets/allData/multivariate_data/used_all_multi_data.csv';
 
 export default {
     name: 'DataTransformationView',
@@ -230,7 +171,7 @@ export default {
             heatRectData: [],
             smoothSelect: {},
             skipSelect: {},
-            stripNum: 1,
+            stripeNum: 1,
             selectFileName: [],
             filename: {
                 'sunspots': [{ smooth: 'RAW', skip: '1' },
@@ -292,39 +233,6 @@ export default {
                 { smooth: 'WMA-24', skip: '24' }
                 ]
             },
-            fileIndex: {
-                'sunspots': {
-                'raw_1': 0,
-                'raw_3': 1,
-                'raw_6': 2,
-                'raw_13': 3,
-                'rolling3_1': 4,
-                'rolling3_3': 5,
-                'rolling3_6': 6,
-                'rolling3_13': 7,
-                'rolling6_1': 8,
-                'rolling6_3': 9,
-                'rolling6_6': 10,
-                'rolling6_13': 11,
-                'rolling13_1': 12,
-                'rolling13_3': 13,
-                'rolling13_6': 14,
-                'rolling13_13': 15,
-                
-                'weighted3_1': 16,
-                'weighted3_3': 17,
-                'weighted3_6': 18,
-                'weighted3_13': 19,
-                'weighted6_1': 20,
-                'weighted6_3': 21,
-                'weighted6_6': 22,
-                'weighted6_13': 23,
-                'weighted13_1': 24,
-                'weighted13_3': 25,
-                'weighted13_6': 26,
-                'weighted13_13': 27,
-                
-            }},
             coverRect: [],
             dataSelect: 'pm',
             allTimeScale: {
@@ -338,30 +246,19 @@ export default {
                 }
             },
             selectRepresentationRow: {
-                'sunspots': {
-                    tag: 0,
-                    status: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-                },
-                'pm': {
-                    tag: 0,
-                    status: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-                }
+                tag: 0,
+                status: []
             },
             cid_index: {},
-            legendTag: 0
+            legendTag: 0,
+            dataSet: []
         }
     },
     methods: {
         refresh () {
             this.selectRepresentationRow = {
-                'sunspots': {
-                    tag: 0,
-                    status: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-                },
-                'pm': {
-                    tag: 0,
-                    status: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-                }
+                tag: 0,
+                status: new Array(this.stripeNum).fill(0)
             };
             this.coverRect = [];
             const dataStore = useDataStore();
@@ -375,9 +272,9 @@ export default {
             })
         },
         checkSelectStatus: function (num) {
-            if (this.selectRepresentationRow[this.dataSelect].tag == 0)
+            if (this.selectRepresentationRow.tag == 0)
                 return 0;
-            if (this.selectRepresentationRow[this.dataSelect].status[num]) {
+            if (this.selectRepresentationRow.status[num]) {
                 return 1;
             } else {
                 return 2;
@@ -395,8 +292,8 @@ export default {
             this.clickFileTag = 1;
             // console.log(class_name );
             selectAll('.' + 'black_select_row').attr('stroke-width', 0)
-            this.selectRepresentationRow[this.dataSelect].status[num] = 1;
-            this.selectRepresentationRow[this.dataSelect].tag = 1;
+            this.selectRepresentationRow.status[num] = 1;
+            this.selectRepresentationRow.tag = 1;
             selectAll('.corr_cir').attr('opacity', (d, i) => {
 
                 if (d.class_name == class_name) {
@@ -542,6 +439,7 @@ export default {
                 let tp = [];
                 for (let j in data[i]) {
                     tp.push({
+                        name: data[i][j].Moving + '/' + data[i][j].SK,
                         id: i,
                         skip: parseInt(data[i][j]['skip']),
                         time: j * parseInt(data[i][j]['skip']) + startPos,
@@ -561,10 +459,10 @@ export default {
                 }
                 lineData.push(tp);
             }
-            let HeatSumData = [];
-            for (let i = 0; i < lineData.length; ++i) {
-                HeatSumData.push(lineData[i]);
-            }
+            let HeatSumData = lineData;
+            // for (let i = 0; i < lineData.length; ++i) {
+            //     HeatSumData.push(lineData[i]);
+            // }
 
             let rmseScale = scaleLinear([minRmse, maxRmse], [0, 1]);
             let corrScale = scaleLinear([minCorr, maxCorr], [0, 1]);
@@ -605,7 +503,8 @@ export default {
                 res_data.push({
                     class_name: HeatSumData[i][0].cid,
                     h: line_height,
-                    heat: HeatSumData[i]
+                    heat: HeatSumData[i],
+                    rawName: HeatSumData[i][0].name
                 })
                 this.cid_index[HeatSumData[i][0].cid] = {
                     cnt: res_data.length - 1,
@@ -625,23 +524,39 @@ export default {
         },
         dataDivide (data) {
             let res_data = {};
-            let max_index = -1;
             for (let i in data) {
-                let index_name = data[i].smooth + '_' + data[i].skip;
-                if (typeof this.fileIndex[this.dataSelect][index_name] == 'undefined')
-                    continue;
-                if (typeof res_data[this.fileIndex[this.dataSelect][index_name]] == "undefined") {
-                    res_data[this.fileIndex[this.dataSelect][index_name]] = [];
-                }
-                // console.log(this.fileIndex[this.dataSelect][index_name], index_name, max_index)
-                max_index = Math.max(max_index, this.fileIndex[this.dataSelect][index_name]);
-                res_data[this.fileIndex[this.dataSelect][index_name]].push(data[i]);
+                if (typeof res_data[parseInt(data[i].rank)] == 'undefined')
+                    res_data[parseInt(data[i].rank)] = [];
+                res_data[parseInt(data[i].rank)].push(data[i]);
+
             }
+            // console.log(res_data)
             let result = [];
-            for (let i = 0; i <= max_index; ++i) {
-                result.push(res_data[i]);
+            for (let i in res_data) {
+                result.push({
+                    data: res_data[i],
+                    smooth: res_data[i][0]['Moving'],
+                    skip: res_data[i][0]['skip']
+                });
             }
             return result;
+        },
+        dataConvert (data) {
+            let featureSet = [];
+            for (let i in data) {
+                featureSet.push(i);
+            }
+            // console.log(data[featureSet[0]]);
+            let res_data = [];
+            for (let i in data[featureSet[0]]) {
+                let tp = {};
+                for (let j in featureSet) {
+                    tp[featureSet[j]] = data[featureSet[j]][i];
+                }
+                // console.log(tp);
+                res_data.push(tp);
+            }
+            return res_data;
         }
     },
     created () { },
@@ -652,21 +567,45 @@ export default {
         this.tlWidth = this.$refs.RepresentationTimeAxis.offsetWidth;
 
         const dataStore = useDataStore();
-        let dataSet = [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d27];
-        this.stripNum = dataSet.length;
 
-        let dataSet2 = [m0, m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15, m16, m17, m18, m19, m20, m21, m22, m23, m24, m25, m26, m27];
+        // this.dataSelect = 'pm';
+        // let all_data = this.dataDivide(m_all);
+        // // console.log(d_all);
+        // let selectDataSet = [];
+        // for (let i in all_data) {
+        //     selectDataSet.push(all_data[i].data)
+        // }
+        // this.stripeNum = selectDataSet.length;
+        // this.selectRepresentationRow.status =  new Array(this.stripeNum).fill(0);
+        // // console.log(all_data);
+        // this.paintTimeScale(this.allTimeScale[this.dataSelect])
 
-        this.dataSelect= 'sunspots';
-        let all_data = this.dataDivide(d_all);
-        // console.log(all_data);
-//         let selectDataSet = all_data;
-//         this.paintTimeScale(this.allTimeScale[this.dataSelect])
-
-// this.heatRectData = this.calcRMSEHeatMultiVariable(selectDataSet, this.elWidth, this.elHeight);
+        // this.heatRectData = this.calcRMSEHeatMultiVariable(selectDataSet, this.elWidth, this.elHeight);
 
 
         dataStore.$subscribe((mutations, state) => {
+            if (mutations.events.key == 'system_data') {
+                this.smoothSelect = dataStore.smooth;
+                this.skipSelect = dataStore.skip;
+                this.dataSelect = dataStore.system_data.file_name;
+                // let variable_num = parseInt(dataStore.profileData.variable_num);
+                // console.log(111111);
+                let result_data = JSON.parse(dataStore.system_data.result_data);
+                // console.log(temporal_data)
+                let res_data = this.dataDivide(this.dataConvert(result_data));
+                let selectDataSet = [];
+                for (let i in res_data) {
+
+                    if (this.smoothSelect[res_data[i].smooth] == 1 && this.skipSelect[res_data[i].skip] == 1) {
+                        selectDataSet.push(res_data[i].data);
+                    }
+                }
+                // console.log(selectDataSet);
+                this.stripeNum = selectDataSet.length;
+                this.paintTimeScale(this.allTimeScale[this.dataSelect])
+
+                this.heatRectData = this.calcRMSEHeatMultiVariable(selectDataSet, this.elWidth, this.elHeight);
+            }
             if (mutations.events.key == 'dataSelect') {
 
                 if (dataStore.dataSelect == 'sunspots') {
@@ -713,7 +652,6 @@ export default {
 </script>
 
 <style>
-
 .el-input__inner {
     font-family: Avenir, Helvetica, Arial, sans-serif;
 }
@@ -743,4 +681,5 @@ export default {
 
 .tick {
     font-size: 14px;
-}</style>
+}
+</style>
