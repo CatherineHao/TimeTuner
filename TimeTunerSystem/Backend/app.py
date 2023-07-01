@@ -2,13 +2,14 @@
 Description: 
 Author: Qing Shi
 Date: 2022-11-20 19:14:42
-LastEditTime: 2023-06-29 15:05:37
+LastEditTime: 2023-07-01 22:49:36
 '''
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import json
 import os
 import pandas as pd
+from utils import fft_periods, dataset_information, return_all_smoothed, overview_performance, predictions_info
 
 FILE_ABS_PATH = os.path.dirname(__file__)
 
@@ -51,7 +52,7 @@ def fetchData():
     file_select = 'sunspots'
     select_attr = 'RAW'
     if (params['filename'] != "Sunspots.csv"):
-        file_name = 'Pm2.5'
+        file_name = 'Pm25'
         file_select = 'pm'
         select_attr = 'pm25'
     file_path = '{}/data/{}/'.format(FILE_ABS_PATH, file_name)
@@ -65,7 +66,29 @@ def fetchData():
         "file_name": file_select,
         "select_attr": select_attr
     })
+    
+@app.route('api/text/profile/', methods = ['POST'])
+def DatasetProfile():
+    # the file path is passed in the request body
+    file_path = '{}/rawdata/{}'.format(FILE_ABS_PATH)                                         
+    dataset_info = dataset_information(file_path)
+    return jsonify(dataset_info)
+
+@app.route('api/text/freshdata/', methods = ['POST'])
+def FreshData():
+    file_path = '{}/rawdata/'.format(FILE_ABS_PATH) 
+    file_name = os.listdir(file_path)
+    model_path = '/model/{}.m5'.format(file_name)
+    smooth_data = return_all_smoothed(file_path, fft_periods)
+    overview_profile = overview_performance(file_path)
+    prediction_result = predictions_info(file_path, model_path, fft_periods, file_name)
+    return jsonify({
+                "model_result": overview_profile,
+                "temporal_data": smooth_data,
+                "result_data": prediction_result
+                })
 
 if __name__ == '__main__':
     app.run(debug=True)
     
+
