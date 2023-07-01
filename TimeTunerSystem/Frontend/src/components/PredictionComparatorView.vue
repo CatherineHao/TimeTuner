@@ -168,13 +168,6 @@ export default {
             lassoTag: 0,
             tbHeight: 0,
             tbWidth: 0,
-            tagStatus: {
-                selectRepresentationTag: 0,
-            },
-            selectRepresentation: {
-                tag: 0,
-                data: [],
-            },
             dtSelect: "sunspots",
             selectRowClass: "",
             localRowClass: "",
@@ -213,7 +206,6 @@ export default {
             }
         },
         selectPredict (row) {
-            // console.log(row);
             let td = row;
             this.localRowClass = td.uid;
             const dataStore = useDataStore();
