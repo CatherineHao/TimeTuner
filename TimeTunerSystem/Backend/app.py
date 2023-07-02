@@ -2,7 +2,7 @@
 Description: 
 Author: Qing Shi
 Date: 2022-11-20 19:14:42
-LastEditTime: 2023-07-01 22:49:36
+LastEditTime: 2023-07-02 13:51:45
 '''
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -31,8 +31,6 @@ def read_json(add):
 def hello_resp():
     params = request.json
     return "hello VUE"
-
-global gl_file_name
 
 @app.route('/api/test/upload/', methods=['POST'])
 def upload():
