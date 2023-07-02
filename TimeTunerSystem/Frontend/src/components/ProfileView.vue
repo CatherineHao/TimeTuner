@@ -1,8 +1,9 @@
 <!--
  * @Description: Profile View
  * @Author: Qing Shi
- * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-06-29 10:19:04
+ * @Date: 2023-06-29 10:17:17
+ * @LastEditors: Qing Shi
+ * @LastEditTime: 2023-07-01 22:08:08
 -->
 <template>
     <div class="frameworkTitle">
@@ -285,6 +286,11 @@ export default {
         }
     },
     methods: {
+        /**
+         * @description: upload a csv file to the backend
+         * @param {*} param csv file
+         * @return {*}
+         */
         uploadFile (param) {
             let fileObj = param.file
             let form = new FormData()
@@ -295,6 +301,10 @@ export default {
                 filename: form.get("fileToUpload").name
             });
         },
+        /**
+         * @description: run the system after selecting the transformation methods and parameters
+         * @return {*}
+         */
         run () {
             const loading = ElLoading.service({
                 lock: true,
@@ -322,17 +332,35 @@ export default {
                 });
             },  1000)
         },
+        /**
+         * @description: set the table cell style
+         * @param {*} row
+         * @param {*} column
+         * @param {*} rowIndex
+         * @param {*} columnIndex
+         * @return {*}
+         */        
         cellClassName ({ row, column, rowIndex, columnIndex }) {
             if (columnIndex == 0) {
                 return { 'padding': '0px' }
             }
         },
+        /**
+         * @description: set the table row style
+         * @param {*} data
+         * @return {*}
+         */        
         selectRowStyle (data) {
             if (data.row.class_name == this.selectRowClass)
                 return 'warning-row';
             return '';
         },
-        rowClick (row, event, column) {
+        /**
+         * @description: click a row in the table
+         * @param {*} row the selected row
+         * @return {*}
+         */
+        rowClick (row) {
             let tdata = [];
             let class_name = (row['dataset_name'] == 'rawdata' ? 'raw' : row['dataset_name']) + '_' + row['skip']
             this.selectRowClass = class_name;
@@ -400,22 +428,21 @@ export default {
                         .attr('fill', dd => dd.fill)
                 })
         },
-        formatNum (num) {
-            let v = Math.round(parseFloat(num) * 100) / 100;
-            let arrayNum = v.toString().split(".");
-            if (arrayNum.length == 1) {
-                return v.toString() + ".00";
-            }
-            if (arrayNum.length > 1) {
-                if (arrayNum[1].length < 2) {
-                    return v.toString() + "0";
-                }
-                return v;
-            }
-        },
+        /**
+         * @description: set the transformation
+         * @param {float} x translate x px
+         * @param {float} y translate y px
+         * @param {float} deg rotate degrees
+         * @return {string} the transformation string
+         */
         translate (x, y, deg) {
             return `translate(${x}, ${y}) rotate(${deg})`;
         },
+        /**
+         * @description: calculate the table data
+         * @param {Object} data overview data of model results
+         * @return {*}
+         */
         calcTable (data) {
             let tmpData = [];
             let max_train = 0,
@@ -494,6 +521,10 @@ export default {
         }
     },
     watch: {
+        /**
+         * @description: watch selections of methods
+         * @return {*}
+         */
         methodSelect () {
             for (let i in this.methodSelect) {
                 if (this.methodSelect[i] == 'Smoothing') {
@@ -517,6 +548,10 @@ export default {
         this.elHeight = this.$refs.ControlPanel.offsetHeight;
         this.elWidth = this.$refs.ControlPanel.offsetWidth;
         const dataStore = useDataStore()
+        /**
+         * @description: watch the data changes in the store
+         * @return {*}
+         */
         dataStore.$subscribe((mutations, state) => {
             // console.log(mutations)
             if (mutations.events.key == 'system_data') {

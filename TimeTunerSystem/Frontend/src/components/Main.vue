@@ -1,10 +1,11 @@
 <!--
- * @Description: 
+ * @Description: Main Interface
  * @Author: Qing Shi
- * @Date: 2022-11-20 23:25:35
- * @LastEditTime: 2023-06-16 13:23:24
+ * @Date: 2023-06-29 10:17:17
+ * @LastEditors: Qing Shi
+ * @LastEditTime: 2023-07-01 21:42:28
 -->
-<template>
+<template> 
     <div id="navBar">
         <img src="../assets/logo/logo.png" width="35" alt="" style="margin-top: 5px;">
         <span style="font-weight: 800; padding-left: 10px; margin-bottom: 100px; position: absolute;">TimeTuner</span>
@@ -58,49 +59,26 @@ export default {
 </script>
 <style>
 .framework {
-    /* margin: 5px; */
     border: 0px solid rgb(105, 119, 122);
     background-color: white;
     border-radius: 5px;
-
-    /* border-color: rgb(237, 237, 238); */
-    /* border-color: ; */
-
-    /* -webkit-box-shadow: 0px 3px 3px 2px #bdbaba;
-    -moz-box-shadow: 0px 3px 3px 2px #bdbaba;
-    box-shadow: 0px 3px 3px 2px #bdbaba; */
-
-    /* height: calc(50% - 30px);
-    width: calc(50% - 40px); */
-    /* margin-top: 10px; */
-    /* margin-left: 30px; */
 }
 
 .framework .frameworkTitle {
-    /* background-color: rgb(151, 196, 208); */
     height: 40px;
-    /* width: 100%; */
 }
 
 .framework .frameworkBody {
-    /* background-color: #000; */
     height: calc(100% - 50px);
-    /* width: 100%; */
-    /* background-color: #4C87EC; */
     padding: 10px 10px 5px 10px;
 }
 
 .framework .frameworkTitle .title {
-    /* position: absolute; */
-    /* border-radius: 5px; */
     float: left;
     width: fit-content;
 
     background-color: rgb(105, 119, 122);
-    /* margin-top: 7px;
-    margin-left: 10px; */
     height: 35px;
-    /* widows: auto; */
 
     font-weight: 600;
     font-size: 24px;
@@ -112,9 +90,6 @@ export default {
 }
 
 .framework .frameworkTitle .titleTriangle {
-    /* position: absolute;
-    left: 180px; */
-    /* display: inline; */
     float: left;
     width: 0;
     height: 0;
@@ -124,11 +99,7 @@ export default {
 }
 
 #navBar {
-    /* background-color: rgba(83, 79, 79); */
     background-color: #4d4d4d;
-    /* background-color: rgba(0, 0, 0, 0.8); */
-    /* padding-left: 36%; */
-    /* text-algin: center; */
     text-align: left;
     font-weight: bold;
     color: white;
@@ -137,7 +108,6 @@ export default {
     padding-top: 0.2%;
     padding-bottom: 0.5%;
     padding-left: 10px;
-    /* font-family: STHeiti; */
     font-family: 'KoHo', 'Avenir', Helvetica, Arial, sans-serif;
 }
 </style>

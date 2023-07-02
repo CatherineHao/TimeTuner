@@ -1,34 +1,9 @@
 <!--
- *                        _oo0oo_
- *                       o8888888o
- *                       88" . "88
- *                       (| -_- |)
- *                       0\  =  /0
- *                     ___/`---'\___
- *                   .' \\|     |// '.
- *                  / \\|||  :  |||// \
- *                 / _||||| -:- |||||- \
- *                |   | \\\  - /// |   |
- *                | \_|  ''\---/''  |_/ |
- *                \  .-\__  '-'  ___/-. /
- *              ___'. .'  /--.--\  `. .'___
- *           ."" '<  `.___\_<|>_/___.' >' "".
- *          | | :  `- \`.;`\ _ /`;.`/ - ` : | |
- *          \  \ `_.   \_ __\ /__ _/   .-` /  /
- *      =====`-.____`.___ \_____/___.-`___.-'=====
- *                        `=---='
- * 
- * 
- *      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- * 
- *            佛祖保佑     永不宕机     永无BUG
- -->
-
-<!--
  * @Description: Temporal View
  * @Author: Qing Shi
- * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-03-27 04:48:50
+ * @Date: 2023-06-29 10:17:17
+ * @LastEditors: Qing Shi
+ * @LastEditTime: 2023-07-02 13:15:57
 -->
 <template>
     <div class="frameworkTitle" style="padding-right: 10px;">
@@ -189,6 +164,10 @@ export default {
         }
     },
     methods: {
+        /**
+         * @description: refresh the temporal view. clear all selections
+         * @return {*}
+         */
         refresh () {
             this.showLineLegend = 0;
             this.overLinePath = [];
@@ -198,12 +177,23 @@ export default {
             this.brushTempMove = this.brushMoveData[this.datasetSelect];
             this.showDetail(this.selectAttribute, '#time_line_legend' + this.selectAttribute)
         },
+        /**
+         * @description: select (click) a row
+         * @param {*} num row index
+         * @return {*}
+         */
         clickAttribute (num) {
             this.selectAttribute = num;
             this.showDetail(this.selectAttribute, '#time_line_legend' + num)
         },
-        timeFormat: function (time, type) {
-            if (!isNaN(Number(time,10)))
+        /**
+         * @description: format the time
+         * @param {*} time
+         * @param {*} type file name
+         * @return {Date} the formatted time
+         */
+        timeFormat (time, type) {
+            if (!isNaN(Number(time, 10)))
                 time = time.toString();
             let timeFormatRes = '';
             if (type == 'sunspots') {
@@ -220,7 +210,13 @@ export default {
             }
             return new Date(timeFormatRes);
         },
-        calcTimeScale: function (data, type) {
+        /**
+         * @description: calculate the time scale
+         * @param {*} data all smoothed data
+         * @param {*} type file name
+         * @return {*} all time
+         */
+        calcTimeScale (data, type) {
             let margin = ({ top: 30, right: 15, bottom: 50, left: 50 });
             let raw_time_data = [];
             let timeData = [];
@@ -236,6 +232,12 @@ export default {
                 .call(axisBottom(timeScale).ticks((this.elWidth - margin.left - margin.right) / 80).tickSizeOuter(0))
             return raw_time_data;
         },
+        /**
+         * @description: show the corresponding line chart for the selected row
+         * @param {*} cnt row index
+         * @param {*} id row id
+         * @return {*}
+         */
         showDetail (cnt, id) {
             this.brushDyMoveData = this.brushTempMove;
             if (this.datasetSelect == 'sunspots')
@@ -254,10 +256,26 @@ export default {
             this.calcTimeLine(this.dataSet[this.featureSet[cnt]], this.tlHeight - this.featureSet.length * 30 - 50, this.tlWidth, id);
             this.setupBrush(this.dataSet[this.featureSet[cnt]], '#brush_area' + cnt, this.tlWidth, this.tlHeight - this.featureSet.length * 30 - 20, cnt);
         },
+        /**
+         * @description: set the transformation
+         * @param {float} x translate x px
+         * @param {float} y translate y px
+         * @param {float} deg rotate degrees
+         * @return {string} the transformation string
+         */
         translate (x, y, deg) {
             return `translate(${x}, ${y}) rotate(${deg})`;
         },
-        setupBrush: function (data, id, width, height, cnt) {
+        /**
+         * @description: set up the brush tool
+         * @param {*} data all smoothed data
+         * @param {*} id row index
+         * @param {*} width the width of the row
+         * @param {*} height the height of the row
+         * @param {*} cnt row index
+         * @return {*}
+         */
+        setupBrush (data, id, width, height, cnt) {
             let focusHeight = 30;
             let margin = ({ top: -20, right: 15, bottom: 50, left: 50 });
             const timeBrush = brushX()
@@ -292,7 +310,7 @@ export default {
                 .attr("transform", s === null ? null : (d, i) => `translate(${s[i]},${radius + margin.top})`)
 
             function brushStart () {
-                
+
             }
 
             function brushEnd ({ selection }) {
@@ -300,7 +318,7 @@ export default {
                 _this.brushTempMove = timeStep;
 
                 _this.xScale.domain(timeStep);
-                
+
                 let marginX = ({ top: 30, right: 15, bottom: 40, left: 50 });
                 selectAll('#axsg').remove();
                 select('#time_line_legend' + cnt).append('g').attr('id', 'axsg').attr("transform", `translate(0, ${height - marginX.bottom})`).call(axisBottom(_this.xScale).ticks((_this.elWidth - marginX.left - marginX.right) / 80).tickSizeOuter(0));
@@ -331,7 +349,7 @@ export default {
                     .y(d => _this.yScale(d.value));
 
                 select('#time_path_raw' + cnt).attr('d', lineGenerate(_this.lineData));
-            
+
                 if (_this.showLineLegend) {
                     for (let i in _this.overLine) {
                         select('#plid' + i).attr('d', lineGenerate(_this.overLine[i]));
@@ -347,13 +365,21 @@ export default {
             this.timeBrush_g = select(id).append('g').call(timeBrush)
                 .call(timeBrush.move, [x(new Date(_this.brushDyMoveData[0])), x(new Date(_this.brushDyMoveData[1]))]);
         },
+        /**
+         * @description: calculate the line chart data for the selected row
+         * @param {*} data data of the selected row
+         * @param {*} height height of the selected row
+         * @param {*} width width of the selected row
+         * @param {*} id row id
+         * @return {*}
+         */
         calcTimeLine (data, height, width, id) {
             let margin = ({ top: 25, right: 15, bottom: 10, left: 50 });
 
             let y = scaleLinear()
                 .domain([min(data, d => parseFloat(d.value)), max(data, d => parseFloat(d.value))])
                 .range([height - margin.bottom, margin.top])
-            
+
             let x = scaleUtc().domain(extent(data, d => this.timeFormat(d.date, this.datasetSelect))).range([margin.left, width - margin.right]);
             const rx = scaleLinear()
                 .domain([margin.left, width - margin.right])
@@ -362,7 +388,7 @@ export default {
             this.xScale = x;
             this.yScale = y;
             this.rxScale = rx;
-            
+
             let lineGenerate = line()
                 .x((d, i) => {
                     return x(this.timeFormat(d.date, this.datasetSelect))
@@ -387,21 +413,13 @@ export default {
             this.timeLinePath = lineGenerate(data);
             this.lineData = data;
         },
-        calcMonth (startTime, endTime) {
-            let year = parseInt(endTime / 100) - parseInt(startTime / 100);
-            let month = endTime % 100 - startTime % 100 + 1;
-            let sumMonth = year * 12 + month;
-            return sumMonth;
-        },
-        calcFeatureLine (data, width, height) {
-            let margin = { left: 0, right: 0, top: 0, bottom: 0 };
-            let xScale = scaleLinear([0, data.length - 1], [margin.left, width - margin.right]);
-            let vRange = extent(data, d => parseFloat(d.value));
-            let yScale = scaleLinear(vRange, [height - margin.bottom, margin.top]);
-            let lineGenerate = line().x((d, i) => xScale(i)).y(d => yScale(parseFloat(d.value)));
-            let line_data = lineGenerate(data);
-            return line_data;
-        },
+        /**
+         * @description: calculate the horizon graph data of one row
+         * @param {*} data data of the row
+         * @param {*} width width of the row
+         * @param {*} height height of the row
+         * @return {*} horizon data
+         */
         calcFeatureArea (data, width, height) {
             let margin = { left: 50, right: 15, top: 0, bottom: 0 };
 
@@ -412,6 +430,12 @@ export default {
             let area_data = areaGenerate(data);
             return area_data;
         },
+        /**
+         * @description: calculate all horizon graph data
+         * @param {*} data all smoothed data
+         * @param {*} filter_name set of the names of the filtered rows
+         * @return {*} all horizon graph data
+         */
         calcOverviewTimeLine (data, filter_name) {
             let featureSet = [];
             let all_feature = [];
@@ -428,7 +452,7 @@ export default {
                 featureSet.push(i);
                 allData[i] = [];
             }
-            
+
             for (let i in data) {
                 for (const j of featureSet) {
                     let v = parseFloat(data[i][j]);
@@ -462,6 +486,11 @@ export default {
             }
             return [result_data, featureSet, allData, featureSet, allData];
         },
+        /**
+         * @description: data processing
+         * @param {*} data
+         * @return {*}
+         */
         dataConvert (data) {
             let featureSet = [];
             for (let i in data) {
@@ -482,8 +511,12 @@ export default {
     mounted () {
         this.tlHeight = this.$refs.timeline.offsetHeight * 1;
         this.tlWidth = this.$refs.timeline.offsetWidth;
-        
+
         const dataStore = useDataStore();
+        /**
+         * @description: watch the data changes in the store
+         * @return {*}
+         */        
         dataStore.$subscribe((mutations, state) => {
             if (mutations.events.key == 'system_data') {
                 this.smoothSelect = dataStore.smooth;
@@ -497,45 +530,48 @@ export default {
                 this.timeMap = this.calcTimeScale(res_data, this.datasetSelect);
             }
 
-                if (dataStore.selectSmooth.length > 0 && dataStore.rowSelectTag == 1) {
-                    this.selectSmoothObj = {};
-                    this.selectSmoothObj[dataStore.selectSmooth[0]] = 1;
-                    this.selectSmoothObj[dataStore.selectSmooth[1]] = 1;
-                    if (this.variable_num == 1) {
-                        this.selectSmooth = dataStore.selectSmooth;
-                        this.overLine = [this.dataSet[this.selectSmooth[0]], this.dataSet[this.selectSmooth[1]]];
-                        this.overLinePath = [this.lineGenerateFunc(this.overLine[0]), this.lineGenerateFunc(this.overLine[1])];
-                        this.nameLine[1] = this.selectSmooth[0] + ':';
-                        this.nameLine[2] = this.selectSmooth[1] + ':';
-                        this.showLineLegend = 1;
-                    }
-                }
-                if (dataStore.rowSelectTag == 2) {
-                    let st = dataStore.selectResRow.time_index;
-                    let pre_data = dataStore.selectResRow.prediction_data;
-                    let et = st + pre_data.length - 1;
-                    console.log(this.timeMap, st, et);
-                    this.brushTempMove = [this.timeFormat(this.timeMap[st], this.datasetSelect), this.timeFormat(this.timeMap[et], this.datasetSelect)];
-                    let pre_line = []
-                    for (let i = st; i <= et; ++i) {
-                        pre_line.push({
-                            date: this.timeMap[i],
-                            value: pre_data[i - st]
-                        })
-                    }
-                    let columnName = dataStore.selectResRow.smooth_name;
-                    if (this.variable_num > 1)
-                        columnName = this.openFeature;
-                    this.overLine = [this.allData[columnName], pre_line];
-                    this.overLinePath = [this.lineGenerateFunc(this.overLine[0]), , this.lineGenerateFunc(pre_line)];
-                    this.nameLine[1] = dataStore.selectResRow.smooth + ':';
-                    this.nameLine[2] = 'Predict:';
+            if (dataStore.selectSmooth.length > 0 && dataStore.rowSelectTag == 1) {
+                this.selectSmoothObj = {};
+                this.selectSmoothObj[dataStore.selectSmooth[0]] = 1;
+                this.selectSmoothObj[dataStore.selectSmooth[1]] = 1;
+                if (this.variable_num == 1) {
+                    this.selectSmooth = dataStore.selectSmooth;
+                    this.overLine = [this.dataSet[this.selectSmooth[0]], this.dataSet[this.selectSmooth[1]]];
+                    this.overLinePath = [this.lineGenerateFunc(this.overLine[0]), this.lineGenerateFunc(this.overLine[1])];
+                    this.nameLine[1] = this.selectSmooth[0] + ':';
+                    this.nameLine[2] = this.selectSmooth[1] + ':';
                     this.showLineLegend = 1;
                 }
-            
+            }
+            if (dataStore.rowSelectTag == 2) {
+                let st = dataStore.selectResRow.time_index;
+                let pre_data = dataStore.selectResRow.prediction_data;
+                let et = st + pre_data.length - 1;
+                this.brushTempMove = [this.timeFormat(this.timeMap[st], this.datasetSelect), this.timeFormat(this.timeMap[et], this.datasetSelect)];
+                let pre_line = []
+                for (let i = st; i <= et; ++i) {
+                    pre_line.push({
+                        date: this.timeMap[i],
+                        value: pre_data[i - st]
+                    })
+                }
+                let columnName = dataStore.selectResRow.smooth_name;
+                if (this.variable_num > 1)
+                    columnName = this.openFeature;
+                this.overLine = [this.allData[columnName], pre_line];
+                this.overLinePath = [this.lineGenerateFunc(this.overLine[0]), , this.lineGenerateFunc(pre_line)];
+                this.nameLine[1] = dataStore.selectResRow.smooth + ':';
+                this.nameLine[2] = 'Predict:';
+                this.showLineLegend = 1;
+            }
+
         })
     },
     updated () {
+        /**
+         * @description: the detail line chart of the first row is displayed by default
+         * @return {*}
+         */
         this.showDetail(this.selectAttribute, '#time_line_legend' + this.selectAttribute)
 
     }

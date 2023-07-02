@@ -1,59 +1,9 @@
 <!--
- *                        _oo0oo_
- *                       o8888888o
- *                       88" . "88
- *                       (| -_- |)
- *                       0\  =  /0
- *                     ___/`---'\___
- *                   .' \\|     |// '.
- *                  / \\|||  :  |||// \
- *                 / _||||| -:- |||||- \
- *                |   | \\\  - /// |   |
- *                | \_|  ''\---/''  |_/ |
- *                \  .-\__  '-'  ___/-. /
- *              ___'. .'  /--.--\  `. .'___
- *           ."" '<  `.___\_<|>_/___.' >' "".
- *          | | :  `- \`.;`\ _ /`;.`/ - ` : | |
- *          \  \ `_.   \_ __\ /__ _/   .-` /  /
- *      =====`-.____`.___ \_____/___.-`___.-'=====
- *                        `=---='
- * 
- * 
- *      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- * 
- *            佛祖保佑     永不宕机     永无BUG
- -->
-
-<!--
- *                        _oo0oo_
- *                       o8888888o
- *                       88" . "88
- *                       (| -_- |)
- *                       0\  =  /0
- *                     ___/`---'\___
- *                   .' \\|     |// '.
- *                  / \\|||  :  |||// \
- *                 / _||||| -:- |||||- \
- *                |   | \\\  - /// |   |
- *                | \_|  ''\---/''  |_/ |
- *                \  .-\__  '-'  ___/-. /
- *              ___'. .'  /--.--\  `. .'___
- *           ."" '<  `.___\_<|>_/___.' >' "".
- *          | | :  `- \`.;`\ _ /`;.`/ - ` : | |
- *          \  \ `_.   \_ __\ /__ _/   .-` /  /
- *      =====`-.____`.___ \_____/___.-`___.-'=====
- *                        `=---='
- * 
- * 
- *      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- * 
- *            佛祖保佑     永不宕机     永无BUG
- -->
-<!--
  * @Description: Representation View
  * @Author: Qing Shi
- * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-03-13 11:47:05
+ * @Date: 2023-06-29 10:17:17
+ * @LastEditors: Qing Shi
+ * @LastEditTime: 2023-07-01 22:45:59
 -->
 <template>
     <div class="frameworkTitle" style="padding-right: 10px;">
@@ -108,8 +58,8 @@
                         </rect>
     
                         <text font-size="14" text-anchor="start" dx="0em" dy="1em" cursor="pointer"
-                            @mouseenter="selectFile(item.class_name)" @mouseout="cancelFile(item.class_name)"
-                            @click="clickFile(i, item.class_name)">
+                            @mouseenter="mouseoverRepresentation(item.class_name)" @mouseout="mouseoutRepresentation()"
+                            @click="selectRepresentation(i, item.class_name)">
                             {{ item.rawName }}
                         </text>
                     </g>
@@ -145,7 +95,7 @@ export default {
             tlWidth: 100,
             heatHeight: 0,
             heatTag: 3,
-            clickFileTag: 0,
+            selectRepresentationTag: 0,
             heatOptions: [{ label: 'RMSE + CORR.', value: 3 }, { label: 'RMSE', value: 4 }, { label: 'CORR.', value: 5 }],
             heatRectData: [],
             smoothSelect: {},
@@ -171,6 +121,10 @@ export default {
         }
     },
     methods: {
+        /**
+         * @description: refresh the Representation View. clear all selections
+         * @return {*}
+         */
         refresh() {
             this.selectRepresentationRow = {
                 tag: 0,
@@ -185,6 +139,11 @@ export default {
                 return d.fill;
             })
         },
+        /**
+         * @description: check the status of representations
+         * @param {int} num Representation Index
+         * @return {*} representation status
+         */
         checkSelectStatus: function(num) {
             if (this.selectRepresentationRow.tag == 0)
                 return 0;
@@ -194,16 +153,36 @@ export default {
                 return 2;
             }
         },
-        selectFile(class_name) {
-            if (this.clickFileTag) return;
+        /**
+         * @description: mouseover a representation
+         * @param {*} class_name representation name
+         * @return {*}
+         */
+        mouseoverRepresentation(class_name) {
+            if (this.selectRepresentationTag) return;
             select('#' + class_name).attr('stroke-width', 3)
             selectAll('.p_x').attr('opacity', (d, i) => {
                 return d.id == num ? 1 : 0;
             })
         },
-        clickFile(num, class_name) {
+        /**
+         * @description: mouseout a representation
+         * @return {*}
+         */
+        mouseoutRepresentation() {
+            if (this.selectRepresentationTag) return;
+            selectAll('.' + 'black_select_row').attr('stroke-width', 0)
+            selectAll('.p_x').attr('opacity', 1);
+        },
+        /**
+         * @description: select (click) a representation
+         * @param {*} num Representation Index
+         * @param {*} class_name representation name
+         * @return {*}
+         */
+        selectRepresentation(num, class_name) {
             let tdata = []
-            this.clickFileTag = 1;
+            this.selectRepresentationTag = 1;
             // console.log(class_name );
             selectAll('.' + 'black_select_row').attr('stroke-width', 0)
             this.selectRepresentationRow.status[num] = 1;
@@ -267,6 +246,10 @@ export default {
                         .attr('fill', dd => dd.fill)
                 })
         },
+        /**
+         * @description: determine whether to show or hide the legend
+         * @return {*}
+         */
         legendStatus() {
             if (this.legendTag == 0) {
                 this.legendTag = 1;
@@ -274,17 +257,29 @@ export default {
                 this.legendTag = 0;
             }
         },
-        cancelFile(class_name) {
-            if (this.clickFileTag) return;
-            selectAll('.' + 'black_select_row').attr('stroke-width', 0)
-            selectAll('.p_x').attr('opacity', 1);
-        },
+        /**
+         * @description: set the transformation
+         * @param {float} x translate x px
+         * @param {float} y translate y px
+         * @param {float} deg rotate degrees
+         * @return {string} the transformation string
+         */
         translate(x, y, deg) {
             return `translate(${x}, ${y}) rotate(${deg})`;
         },
+        /**
+         * @description: set the transformation
+         * @param {float} x translate x px
+         * @param {float} y translate y px
+         * @return {string} the transformation string
+         */
         translateF(x, y) {
             return `translate(${x}, ${y})`;
         },
+        /**
+         * @description: set up the drag tool
+         * @return {*}
+         */
         setupDrag() {
             let _this = this;
             for (let i in this.cid_index) {
@@ -335,7 +330,14 @@ export default {
                 select('.heat_g' + i).call(drag_func);
             }
         },
-        calcRMSEHeatMultiVariable(data, width, height) {
+        /**
+         * @description: calculate the representation results
+         * @param {*} data all raw representation data
+         * @param {*} width svg width
+         * @param {*} height svg height
+         * @return {*} representation results
+         */
+        calcRepresentation(data, width, height) {
             let margin = ({ top: 20, right: 10, bottom: 30, left: 50 });
             let line_height = height / 28;
             let maxRmse = -999999;
@@ -397,8 +399,6 @@ export default {
                     HeatSumData[i][j].v = rmseScale(HeatSumData[i][j].rmse);
                     HeatSumData[i][j].id_cnt = HeatSumData[i][j].id_cnt;
                     HeatSumData[i][j].h = line_height - 3;
-                    HeatSumData[i][j].allH = line_height;
-                    HeatSumData[i][j].realH = line_height * i;
                     HeatSumData[i][j].y = parseInt(HeatSumData[i][j].id) * line_height;
                     HeatSumData[i][j].rmseColor = heatColor(HeatSumData[i][j].v);
                     HeatSumData[i][j].corrColor = heatColor(corrScale(HeatSumData[i][j].corr));
@@ -418,7 +418,12 @@ export default {
             }
             return res_data;
         },
-        paintTimeScale: function(timestamp) {
+        /**
+         * @description: paint the time scale
+         * @param {*} timestamp time range of the data
+         * @return {*}
+         */        
+        paintTimeScale(timestamp) {
             let margin = ({ top: 20, right: 10, bottom: 30, left: 50 });
             let timeData = [];
             timeData = [new Date(timestamp.start), new Date(timestamp.end)]
@@ -426,6 +431,11 @@ export default {
             selectAll('#representationTime_g').remove();
             select('#representationTime').append('g').attr('id', 'representationTime_g').attr('transform', 'translate(0, 1)').call(axisBottom(timeScale).ticks((this.tlWidth - margin.left - margin.right) / 80).tickSizeOuter(0))
         },
+        /**
+         * @description: data processing
+         * @param {*} data
+         * @return {*}
+         */
         dataDivide(data) {
             let res_data = {};
             for (let i in data) {
@@ -443,6 +453,11 @@ export default {
             }
             return result;
         },
+        /**
+         * @description: data processing
+         * @param {*} data
+         * @return {*}
+         */
         dataConvert(data) {
             let featureSet = [];
             for (let i in data) {
@@ -468,6 +483,10 @@ export default {
 
         const dataStore = useDataStore();
 
+        /**
+         * @description: watch the data changes in the store
+         * @return {*}
+         */        
         dataStore.$subscribe((mutations, state) => {
             if (mutations.events.key == 'system_data') {
                 this.smoothSelect = dataStore.smooth;
@@ -484,7 +503,7 @@ export default {
                 this.stripeNum = selectDataSet.length;
                 this.paintTimeScale(this.allTimeScale[this.dataSelect])
 
-                this.heatRectData = this.calcRMSEHeatMultiVariable(selectDataSet, this.elWidth, this.elHeight);
+                this.heatRectData = this.calcRepresentation(selectDataSet, this.elWidth, this.elHeight);
             }
         })
 

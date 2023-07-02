@@ -1,8 +1,35 @@
 <!--
- * @Description: 
+ *                        _oo0oo_
+ *                       o8888888o
+ *                       88" . "88
+ *                       (| -_- |)
+ *                       0\  =  /0
+ *                     ___/`---'\___
+ *                   .' \\|     |// '.
+ *                  / \\|||  :  |||// \
+ *                 / _||||| -:- |||||- \
+ *                |   | \\\  - /// |   |
+ *                | \_|  ''\---/''  |_/ |
+ *                \  .-\__  '-'  ___/-. /
+ *              ___'. .'  /--.--\  `. .'___
+ *           ."" '<  `.___\_<|>_/___.' >' "".
+ *          | | :  `- \`.;`\ _ /`;.`/ - ` : | |
+ *          \  \ `_.   \_ __\ /__ _/   .-` /  /
+ *      =====`-.____`.___ \_____/___.-`___.-'=====
+ *                        `=---='
+ * 
+ * 
+ *      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * 
+ *            佛祖保佑     永不宕机     永无BUG
+ -->
+
+<!--
+ * @Description: Variable Inspector View
  * @Author: Qing Shi
- * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-06-21 09:38:19
+ * @Date: 2023-06-29 10:17:17
+ * @LastEditors: Qing Shi
+ * @LastEditTime: 2023-07-01 23:34:07
 -->
 <template>
     <div class="frameworkTitle">
@@ -29,20 +56,19 @@
                             :transform="translate(40 + (elWidth - 40) / show_name.length / 2 + (elWidth - 40) / show_name.length * i, (elHeight - 30) + 25, 0)"
                             font-weight="100" text-anchor="middle">{{ o }}</text>
                     </g>
-                    <g v-for="(o, i) in F_sparkBoxData" :key="'fsb' + i" :transform="translate(o.tx, o.ty, 0)">
+                    <g v-for="(o, i) in matrixData" :key="'fsb' + i" :transform="translate(o.tx, o.ty, 0)">
                         <g :transform="translate(40, 2, 0)">
                             <rect v-for="(oo, r_i) in o.boxData" :key="'fsbr' + r_i" :x="oo.x" :y="oo.y" :width="oo.w"
                                 :height="oo.h" :fill="oo.fillColor" :opacity="oo.fill" stroke="white"></rect>
                         </g>
                         <rect :x="o.rx" :y="o.ry" :width="o.w" :height="o.h" :class="'unitRect'" :id="'unit' + i"
                             fill="black" stroke="#304051" fill-opacity="0" stroke-width="0.7"
-                            @mouseenter="mouseoverFeature(o.boxData, o.nameX, o.nameY, o.nameXr, o.nameYr, i)"
-                            @mouseout="mouseoutFeature()" @click="clickFeature(o.nameXr, o.nameYr)"></rect>
+                            @mouseenter="mouseoverFeature(o.boxData, o.nameX, o.nameY, i)" @mouseout="mouseoutFeature()"
+                            @click="clickFeature(o.nameX, o.nameY)"></rect>
                     </g>
                 </g>
                 <g>
-                    <g :transform="translate(elWidth * 2 / 3 - 25, 15, 0)" id="mouseRect"
-                        :opacity="selectTag == 1 ? 1 : 0">
+                    <g :transform="translate(elWidth * 2 / 3 - 25, 15, 0)" id="mouseRect" :opacity="selectTag == 1 ? 1 : 0">
 
                         <rect v-for="(oo, r_i) in selectRect.data" :key="'fsbr' + r_i" :x="oo.mouseX" :y="oo.mouseY"
                             :width="oo.mouseW" :height="oo.mouseH" :fill="oo.fillColor" :opacity="oo.fill" stroke="white">
@@ -50,9 +76,11 @@
 
                         <rect :x="0" :y="0" :width="elWidth / 3 + 20" :height="elWidth / 3 + 20" :fill="'none'"
                             stroke="black"></rect>
-                        <text font-size="14" :x="(elWidth / 3 + 20) / 2" :y="elWidth / 3 + 20 + 40" text-anchor="middle">{{ selectRect.nameX }}</text>
+                        <text font-size="14" :x="(elWidth / 3 + 20) / 2" :y="elWidth / 3 + 20 + 40"
+                            text-anchor="middle">{{ selectRect.nameX }}</text>
 
-                        <text font-size="14" :transform="translate(-20, (elWidth / 3 + 20) / 2, -60)" text-anchor="end">{{ selectRect.nameY }}</text>
+                        <text font-size="14" :transform="translate(-20, (elWidth / 3 + 20) / 2, -60)"
+                            text-anchor="end">{{ selectRect.nameY }}</text>
                     </g>
                 </g>
             </svg>
@@ -74,7 +102,7 @@ export default {
         return {
             elHeight: 0,
             elWidth: 0,
-            F_sparkBoxData: [],
+            matrixData: [],
             show_name: [],
             dataName: '',
             valueRange: [],
@@ -85,10 +113,25 @@ export default {
         }
     },
     methods: {
+        /**
+         * @description: set the transformation
+         * @param {float} x translate x px
+         * @param {float} y translate y px
+         * @param {float} deg rotate degrees
+         * @return {string} the transformation string
+         */
         translate (x, y, deg) {
             return `translate(${x}, ${y}) rotate(${deg})`;
         },
-        mouseoverFeature (data, nameX, nameY, nameXr, nameYr, num) {
+        /**
+         * @description: mouseover a matrix block
+         * @param {*} data the data of this piece
+         * @param {*} nameX characteristic name of the column
+         * @param {*} nameY characteristic name of the row
+         * @param {*} num the index of the matrix block
+         * @return {*}
+         */
+        mouseoverFeature (data, nameX, nameY, num) {
             selectAll('.unitRect').attr('stroke-width', 1);
             select('#unit' + num).attr('stroke-width', 3);
             this.selectTag = 1;
@@ -108,21 +151,39 @@ export default {
             this.selectRect = {
                 data: data,
                 nameX: nameX,
-                nameY: nameY,
-                nameXr: nameXr,
-                nameYr: nameYr
+                nameY: nameY
             };
         },
-        mouseoutFeature: function () {
+        /**
+         * @description: mouse out the matrix block
+         * @return {*}
+         */
+        mouseoutFeature () {
             this.selectTag = 0;
-
             selectAll('.unitRect').attr('stroke-width', 1);
         },
-        clickFeature: function (nameXr, nameYr) {
+        /**
+         * @description: select (click) a matrix block
+         * @param {*} nameX characteristic name of the column
+         * @param {*} nameY characteristic name of the row
+         * @return {*}
+         */
+        clickFeature (nameX, nameY) {
             const dataStore = useDataStore();
             dataStore.rowSelectTag = 1;
-            dataStore.selectSmooth = [nameXr, nameYr];
+            dataStore.selectSmooth = [nameX, nameY];
         },
+        /**
+         * @description: calculate the data of the selected matrix block
+         * @param {*} data all smoothed data
+         * @param {*} height height of a matrix block
+         * @param {*} width width of a matrix block
+         * @param {*} box_num the number of divisions within the matrix block
+         * @param {*} F1_name characteristic name of the row
+         * @param {*} F2_name characteristic name of the column
+         * @param {*} Val_name observed indicator
+         * @return {*} the data of the selected matrix block
+         */
         calcDisSparkBox (data, height, width, box_num, F1_name, F2_name, Val_name) {
             let margin = ({ top: 0, right: 0, bottom: 0, left: 0 });
 
@@ -189,8 +250,15 @@ export default {
             }
             return sparkBoxData;
         },
+        /**
+         * @description: main processing function
+         * @param {*} data all smoothed data
+         * @param {*} val_name observed indicator
+         * @param {*} variable_num data variable number
+         * @return {*} [matrix data, matrix name, legend name]
+         */
         mainData (data, val_name, variable_num) {
-            let F_sparkBoxData = []
+            let matrixData = []
             let margin = { top: 2, left: 40, right: 5, bottom: 20 }
             let file_name = [];
             for (let i in data[0]) {
@@ -201,10 +269,9 @@ export default {
                     continue
                 file_name.push(i);
             }
-            console.log(file_name);
             for (let i = 0; i < file_name.length; ++i) {
                 for (let j = 0; j < i + 1; ++j) {
-                    F_sparkBoxData.push({
+                    matrixData.push({
                         x: j,
                         y: i,
                         tx: (this.elWidth - margin.left - margin.right) / file_name.length * j,
@@ -214,10 +281,8 @@ export default {
                         ry: margin.top,
                         h: (this.elHeight - margin.bottom - margin.top) / file_name.length,
                         boxData: this.calcDisSparkBox(data, (this.elHeight - margin.bottom - margin.top) / file_name.length, (this.elWidth - margin.left - margin.right) / file_name.length, 8, file_name[i], file_name[j], val_name),
-                        nameX: file_name[i],
-                        nameY: file_name[i],
-                        nameXr: file_name[j],
-                        nameYr: file_name[i]
+                        nameX: file_name[j],
+                        nameY: file_name[i]
                     })
                 }
             }
@@ -229,9 +294,14 @@ export default {
             if (this.dataSelect != 'sunspots') {
                 dateName = 'PM 2.5'
             }
-            return [F_sparkBoxData, show_name, dateName];
+            return [matrixData, show_name, dateName];
         },
-        dataConvert(data) {
+        /**
+         * @description: data processing
+         * @param {*} data
+         * @return {*}
+         */
+        dataConvert (data) {
             let featureSet = [];
             for (let i in data) {
                 featureSet.push(i);
@@ -254,6 +324,10 @@ export default {
         this.elWidth = this.$refs.DistributionView.offsetWidth;
         const dataStore = useDataStore();
 
+        /**
+         * @description: watch the data changes in the store
+         * @return {*}
+         */
         dataStore.$subscribe((mutations, state) => {
             if (mutations.events.key == 'system_data') {
                 this.smoothSelect = dataStore.smooth;
@@ -261,12 +335,11 @@ export default {
                 let variable_num = parseInt(dataStore.profileData.variable_num);
                 let temporal_data = JSON.parse(dataStore.system_data.temporal_data);
                 let res_data = this.dataConvert(temporal_data);
-                [this.F_sparkBoxData, this.show_name, this.dataName] = this.mainData(res_data, dataStore.system_data.select_attr, variable_num);
+                [this.matrixData, this.show_name, this.dataName] = this.mainData(res_data, dataStore.system_data.select_attr, variable_num);
             }
         })
     },
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

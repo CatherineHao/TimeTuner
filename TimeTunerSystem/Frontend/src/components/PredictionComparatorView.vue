@@ -1,36 +1,11 @@
 <!--
- *                        _oo0oo_
- *                       o8888888o
- *                       88" . "88
- *                       (| -_- |)
- *                       0\  =  /0
- *                     ___/`---'\___
- *                   .' \\|     |// '.
- *                  / \\|||  :  |||// \
- *                 / _||||| -:- |||||- \
- *                |   | \\\  - /// |   |
- *                | \_|  ''\---/''  |_/ |
- *                \  .-\__  '-'  ___/-. /
- *              ___'. .'  /--.--\  `. .'___
- *           ."" '<  `.___\_<|>_/___.' >' "".
- *          | | :  `- \`.;`\ _ /`;.`/ - ` : | |
- *          \  \ `_.   \_ __\ /__ _/   .-` /  /
- *      =====`-.____`.___ \_____/___.-`___.-'=====
- *                        `=---='
- * 
- * 
- *      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- * 
- *            佛祖保佑     永不宕机     永无BUG
- -->
-
-<!--
  * @Description: Prediction Comparator View
  * @Author: Qing Shi
- * @Date: 2023-01-10 21:20:01
- * @LastEditTime: 2023-03-30 18:52:30
+ * @Date: 2023-06-29 10:17:17
+ * @LastEditors: Qing Shi
+ * @LastEditTime: 2023-07-01 22:38:10
 -->
-<template>
+<template>  
     <div class="frameworkTitle" style="padding-right: 10px">
         <div class="title">Prediction Comparator View</div>
         <p class="titleTriangle"></p>
@@ -176,6 +151,10 @@ export default {
         };
     },
     methods: {
+        /**
+         * @description: refresh the table & scatter. clear all selections
+         * @return {*}
+         */
         refresh () {
             selectAll(".lasso").remove();
             selectAll(".corr_cir_out").remove();
@@ -197,6 +176,10 @@ export default {
             const dataStore = useDataStore();
             dataStore.selectRowClass = 1;
         },
+        /**
+         * @description: determine whether to show or hide the legend
+         * @return {*}
+         */
         legendStatus () {
             if (this.legendTag == 0) {
                 this.legendTag = 1;
@@ -204,6 +187,11 @@ export default {
                 this.legendTag = 0;
             }
         },
+        /**
+         * @description: select a prediction
+         * @param {*} row a row in the table
+         * @return {*}
+         */
         selectPredict (row) {
             let td = row;
             this.localRowClass = td.uid;
@@ -259,12 +247,19 @@ export default {
                 .attr("stroke-width", 2)
                 .attr("fill", (d) => d.fill);
         },
-
+        /**
+         * @description: set the style of the selected row
+         * @param {*} data
+         * @return {*}
+         */
         selectRowStyle (data) {
             if (data.row.uid == this.localRowClass) return "warning-row";
             return "";
         },
-
+        /**
+         * @description: setup the lasso tool
+         * @return {*}
+         */
         setupLasso () {
             let _this = this;
             let lasso_g = select("#scatter").append("g").attr("class", "lasso");
@@ -395,9 +390,22 @@ export default {
                 .on("end", dragEnded);
             select("#modelExplainer").call(dragL);
         },
+        /**
+         * @description: set the transformation
+         * @param {float} x translate x px
+         * @param {float} y translate y px
+         * @param {float} deg rotate degrees
+         * @return {string} the transformation string
+         */
         translate (x, y, deg) {
             return `translate(${x}, ${y}) rotate(${deg})`;
         },
+        /**
+         * @description: calculate the table data
+         * @param {*} data prediction information
+         * @param {*} select_dot
+         * @return {*}
+         */
         calcTableData (data, select_dot) {
             let sdata = [];
             let id_cnt = 0;
@@ -504,6 +512,12 @@ export default {
             }
             return sdata;
         },
+        /**
+         * @description: calculate the scatter data
+         * @param {*} data prediction information
+         * @param {*} xAxisData Selected X-axis properties
+         * @return {*} scatter data
+         */
         calcScatter (data, xAxisData) {
             let sdata = [];
             let maxRmse = -999999;
@@ -552,7 +566,6 @@ export default {
                     maxShap = Math.max(maxShap, parseFloat(data[i][j]["shap"]));
                     id_cnt++;
                 }
-                // lineData.push(tp);
             }
             let quantization2 = vsup
                 .quantization()
@@ -571,8 +584,7 @@ export default {
             var legend = vsup.legend.arcmapLegend();
 
             selectAll("#vsup_legend_g_s").remove();
-            legend
-                .scale(heatScale)
+            legend.scale(heatScale)
                 .size(140)
                 .x(70)
                 .y(40)
@@ -587,10 +599,7 @@ export default {
             let yAxis = axisLeft(rmseScale).ticks(10);
 
             for (let i in sdata) {
-                sdata[i].x =
-                    xAxisData == 1 ?
-                        shapScale(sdata[i].shap) :
-                        normScale(sdata[i].norm_corr);
+                sdata[i].x = xAxisData == 1 ? shapScale(sdata[i].shap) : normScale(sdata[i].norm_corr);
                 sdata[i].y = rmseScale(sdata[i].rmse);
                 sdata[i].fill = heatScale(sdata[i].rmse, sdata[i].norm_corr);
             }
@@ -611,7 +620,6 @@ export default {
                 .attr("id", (d) => "corr_c" + d.uid)
                 .attr("class", "corr_cir")
                 .attr("r", 2)
-                // .attr('stroke', '#bbb')
                 .attr("fill", (d) => d.fill)
                 .attr("opacity", (d) => d.isShow)
                 .attr("cursor", "pointer")
@@ -663,6 +671,11 @@ export default {
 
             return sdata;
         },
+        /**
+         * @description: data processing
+         * @param {*} data
+         * @return {*}
+         */
         dataDivide (data) {
             let res_data = {};
             for (let i in data) {
@@ -680,6 +693,11 @@ export default {
             }
             return result;
         },
+        /**
+         * @description: data processing
+         * @param {*} data
+         * @return {*}
+         */
         dataDivide (data) {
             let res_data = {};
             for (let i in data) {
@@ -723,7 +741,12 @@ export default {
         const dataStore = useDataStore();
         let _this = this;
 
+        /**
+         * @description: watch the data changes in the store
+         * @return {*}
+         */        
         dataStore.$subscribe((mutations) => {
+            // init the view
             if (mutations.events.key == 'system_data') {
                 this.smoothSelect = dataStore.smooth;
                 this.skipSelect = dataStore.skip;
