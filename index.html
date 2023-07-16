@@ -1,0 +1,157 @@
+<!--
+ * @Description: 
+ * @Author: Qing Shi
+ * @Date: 2023-07-16 12:35:35
+ * @LastEditors: Qing Shi
+ * @LastEditTime: 2023-07-16 15:05:46
+-->
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" /><!--屏幕自适应-->
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato" />
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <!--  <link rel="stylesheet" href="jquery-ui-1.12.1/jquery-ui.css">-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!--  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+    <!--  <script src="https://use.fontawesome.com/986cdf5935.js"></script>-->
+    <link href="https://fonts.googleapis.com/css?family=Bree+Serif" rel="stylesheet">
+    <!--  <script src="//cdn.bootcss.com/video.js/7.0.0-alpha.1/video.min.js"></script>-->
+    <!--  <link href="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.3.0/video-js.min.css" rel="stylesheet">-->
+    <header>
+        <title>TimeTuner: Diagnosing Time Representations for Time-Series Forecasting with Counterfactual Explanations</title>
+
+        <style type="text/css">
+            body {
+                font-family: Arial, Verdana, Helvetica, sans-serif
+            }
+
+            p {
+                float: left;
+                display: block;
+                font-size: 16px;
+                text-align: justify;
+            }
+            .interface {
+                width: 90%;
+            }
+
+            .container {
+                width: 960px;
+                margin: 0 auto;
+                text-align: left;
+                padding: 1em 2em 2em 2em;
+            }
+        </style>
+    </header>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row row-1">
+            <div class="text-center">
+                <span class="title-mv">TimeTuner: Diagnosing Time Representations for
+                    Time-Series <br>Forecasting with Counterfactual Explanations<br></span>
+                </br>
+                <span class="journal-mv"> IEEE Transactions on Visualization and Computer Graphics (Proc. Vis 2023)
+                    </br> </span>
+                </br>
+                <span class="authors-mv">
+                    <a href="https://catherinehao.github.io/">Jianing Hao</a><sup>1</sup>,
+                    <a href="https://sqsssq.github.io/webpage/">Qing Shi</a><sup>1</sup>,
+                    Yilin Ye<sup>1, 2</sup>,
+                    <a href="https://zeng-wei.com"> Wei Zeng</a><sup>1, 2</sup>,
+                    </br>
+                    <sup>1</sup>HKUST (GZ) &nbsp;&nbsp;&nbsp;&nbsp;
+                    <sup>2</sup>HKUST 
+                </span>
+
+                </br></br>
+                <div id="learn-more">
+                    <p style="text-align: center;">
+                        <img class="interface" src="interface.png" alt="Interface">
+                    </p>
+                    <p class="sub-title-mv">Abstract:</p>
+                    <p class="content">
+                        Deep learning (DL) approaches are being increasingly used for time-series forecasting, with many
+                        efforts devoted to
+                        designing complex DL models. Recent studies have shown that the DL success is often attributed
+                        to effective data representations,
+                        fostering the fields of feature engineering and representation learning. However, automated
+                        approaches for feature learning are
+                        typically limited with respect to incorporating prior knowledge, identifying interactions among
+                        variables, and choosing evaluation metrics
+                        to ensure that the models are reliable. To improve on these limitations, this paper contributes
+                        a novel visual analytics framework,
+                        namely TimeTuner, designed to help analysts understand how model behaviors are associated with
+                        localized correlations, stationarity,
+                        and granularity of time-series representations. The system mainly consists of the following
+                        two-stage technique: We first leverage
+                        counterfactual explanations to connect the relationships among time-series representations,
+                        multivariate features and model predictions.
+                        Next, we design multiple coordinated views including a partition-based correlation matrix and
+                        juxtaposed bivariate stripes, and provide
+                        a set of interactions that allow users to step into the transformation selection process,
+                        navigate through the feature space, and reason
+                        the model performance. We instantiate TimeTuner with two transformation methods of smoothing and
+                        sampling, and demonstrate its
+                        applicability on real-world time-series forecasting of univariate sunspots and multivariate air
+                        pollutants. Feedback from domain experts
+                        indicates that our system can help characterize time-series representations and guide the
+                        feature engineering processes.
+                    </p>
+                </div>
+
+                <p class="learn-more">
+                    [<a href="#">Paper</a>]
+                    <!-- [<a href="material/supplementary_data.pdf">Supplementary</a>] -->
+                    [<a href="https://github.com/CatherineHao/TimeTuner">Code</a>]
+                </p>
+            </div>
+        </div>
+
+        <!-- <div class="row row-2">
+            <div class="col-sm-6 col-md-6 col-lg-6">
+                <p class="sub-title-mv"><a href="System/UnitVisualization/index.html"> Exploration mode</a></p>
+                <p class="content">Exploration mode enables faceted exploration of existing multiple visualizations. It
+                    mainly consists of Query Panel (a) that enables multi-faceted query, and Exploration View (b) that
+                    depicts the query results using unit-based visualization.</p>
+            </div>
+
+            <div class="col-sm-6 col-md-6 col-lg-6">
+                <img src="image/1.png" alt="KeyFeatures" class="key-features">
+            </div>
+        </div>
+
+        <div class="row row-3">
+            <div class="col-sm-6 col-md-6 col-lg-6">
+                <img src="image/2.png" alt="City" class="city">
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-6">
+                <p class="sub-title-mv"><a href="System/recommend%20system/index.html">Design mode</a></p>
+                <p class="content">Design mode searches through the database of MV designs to recommend the closest
+                    existing designs. It incorporates a set of operations to support interactive design: to add view
+                    through drag-and-drop (a1), or icon selection (a2); to adjust view size (b1) or position (b2), or
+                    align multiple views together (b3); to recommend design based on configuration and composition
+                    proximity with existing designs (c).</p>
+            </div>
+        </div> -->
+
+        <div class="row row-2">
+            <div style="width: 100%;height: 35px">
+                <p class="sub-title-mv" style="color:#337AB7; font-size: 28px">Video</p>
+            </div>
+            <video id="example_video_1" controls preload="none" width="750" height="422" poster="file/cover.jpg">
+                <source src="file/vis23a-sub1321-i7.mp4" type="video/mp4">
+            </video>
+        </div>
+
+
+    </div>
+
+</body>
