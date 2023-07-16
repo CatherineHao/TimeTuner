@@ -113,7 +113,7 @@ Make sure to have Python 3.8 or higher version installed before proceeding with 
 
 
 
-![interface](interface.png "The interface of TimeTuner. It consists of five main views: Profile View, Variable Inspector View, Temporal View, Representation View and Prediction Comparator View")
+![interface](file/interface.png "The interface of TimeTuner. It consists of five main views: Profile View, Variable Inspector View, Temporal View, Representation View and Prediction Comparator View")
 <!-- ABOUT THE PROJECT -->
 ## Abstract
 
