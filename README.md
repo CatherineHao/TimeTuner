@@ -77,7 +77,7 @@ Make sure to have Python 3.8 or higher version installed before proceeding with 
     <!-- <br /> -->
     <a href="https://catherinehao.github.io/TimeTuner/">Homepage</a>
     ·
-    <a href="#">Paper</a>
+    <a href="https://arxiv.org/abs/2307.09916">Paper</a>
     ·
     <a href="https://github.com/CatherineHao/TimeTuner">Code</a>
   </p>
