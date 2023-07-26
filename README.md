@@ -299,11 +299,11 @@ Use this space to list resources you find helpful and would like to give credit 
 [JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
 [JQuery-url]: https://jquery.com -->
 ## Cite
-'''
+```
 @article{hao2023timetuner,
   title={TimeTuner: Diagnosing Time Representations for Time-Series Forecasting with Counterfactual Explanations},
   author={Hao, Jianing and Shi, Qing and Ye, Yilin and Zeng, Wei},
   journal={arXiv preprint arXiv:2307.09916},
   year={2023}
 }
-'''
+```
